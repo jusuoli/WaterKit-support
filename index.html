@@ -96,66 +96,63 @@
     }
     footer .meta { margin-bottom: 6px; }
 
-    /* language visibility */
-    [data-lang] { display: none; }
-    html[data-lang="zh"] [data-lang="zh"] { display: block; }
-    html[data-lang="zh"] [data-lang="zh"].inline { display: inline; }
-    html[data-lang="en"] [data-lang="en"] { display: block; }
-    html[data-lang="en"] [data-lang="en"].inline { display: inline; }
+    /* Language: EN is hidden by default (class), ZH is always visible.
+       JS toggles the class — no CSS attribute selectors on <html>/<body>. */
+    .hide-en { display: none !important; }
   </style>
 </head>
-<body data-lang="zh">
+<body>
   <div class="hero">
     <div class="container">
       <div class="icon-wrap"><img src="assets/app-icon.png" alt="WaterKit app icon" /></div>
-      <h1 data-lang="zh">WaterKit 喝水熊猫</h1>
-      <h1 data-lang="en" style="display:none">WaterKit · Drinking Panda</h1>
-      <p class="tagline" data-lang="zh">温柔提醒你喝水的国风养成 App</p>
-      <p class="tagline" data-lang="en" style="display:none">A gentle hydration companion with a panda to grow</p>
+      <h1>WaterKit 喝水熊猫</h1>
+      <h1 class="hide-en">WaterKit · Drinking Panda</h1>
+      <p class="tagline">温柔提醒你喝水的国风养成 App</p>
+      <p class="tagline hide-en">A gentle hydration companion with a panda to grow</p>
       <div class="lang-switch">
-        <button id="btn-zh" class="active" onclick="setLang('zh')">中文</button>
-        <button id="btn-en" onclick="setLang('en')">English</button>
+        <button id="btn-zh" class="active" onclick="switchLang('zh')">中文</button>
+        <button id="btn-en" onclick="switchLang('en')">English</button>
       </div>
     </div>
   </div>
 
   <section>
     <div class="container">
-      <h2><span class="num">01</span><span data-lang="zh">关于 WaterKit</span><span data-lang="en" style="display:none">About WaterKit</span></h2>
-      <p data-lang="zh">WaterKit（喝水熊猫）是一款帮助你养成科学饮水习惯的 App。它把每日补水目标、多维度数据可视化、iCloud 多设备同步、HealthKit 联动、Apple Watch 表盘与成就养成结合在一起，用一只会成长的熊猫陪你坚持。支持 iPhone / iPad / Mac / Apple Watch，并提供 24 种语言。</p>
-      <p data-lang="en" style="display:none">WaterKit (Drinking Panda) helps you build healthy hydration habits. It brings together daily goals, multi-dimensional charts, iCloud sync across devices, HealthKit integration, Apple Watch complications and an achievement system — all wrapped around a panda that grows with you. Available on iPhone / iPad / Mac / Apple Watch in 24 languages.</p>
+      <h2><span class="num">01</span><span>关于 WaterKit</span><span class="hide-en">About WaterKit</span></h2>
+      <p>WaterKit（喝水熊猫）是一款帮助你养成科学饮水习惯的 App。它把每日补水目标、多维度数据可视化、iCloud 多设备同步、HealthKit 联动、Apple Watch 表盘与成就养成结合在一起，用一只会成长的熊猫陪你坚持。支持 iPhone / iPad / Mac / Apple Watch，并提供 24 种语言。</p>
+      <p class="hide-en">WaterKit (Drinking Panda) helps you build healthy hydration habits. It brings together daily goals, multi-dimensional charts, iCloud sync across devices, HealthKit integration, Apple Watch complications and an achievement system — all wrapped around a panda that grows with you. Available on iPhone / iPad / Mac / Apple Watch in 24 languages.</p>
       <div class="features" style="margin-top:22px">
-        <div class="card"><h3 data-lang="zh">💧 智能追踪</h3><h3 data-lang="en" style="display:none">💧 Smart Tracking</h3><p data-lang="zh">23+ 种饮品类型，自定义与快捷量输入。</p><p data-lang="en" style="display:none">23+ drink types with quick and custom amounts.</p></div>
-        <div class="card"><h3 data-lang="zh">📊 多维数据</h3><h3 data-lang="en" style="display:none">📊 Rich Charts</h3><p data-lang="zh">天 / 周 / 月 / 年趋势图与目标达成线。</p><p data-lang="en" style="display:none">Day / week / month / year trends with goal lines.</p></div>
-        <div class="card"><h3 data-lang="zh">☁️ iCloud 同步</h3><h3 data-lang="en" style="display:none">☁️ iCloud Sync</h3><p data-lang="zh">多设备实时同步，数据自动合并。</p><p data-lang="en" style="display:none">Real-time sync across devices with auto-merge.</p></div>
-        <div class="card"><h3 data-lang="zh">⌚ Apple Watch</h3><h3 data-lang="en" style="display:none">⌚ Apple Watch</h3><p data-lang="zh">独立表盘与复杂功能，抬手即记录。</p><p data-lang="en" style="display:none">Standalone app and complications, log from your wrist.</p></div>
+        <div class="card"><h3>💧 智能追踪</h3><h3 class="hide-en">💧 Smart Tracking</h3><p>23+ 种饮品类型，自定义与快捷量输入。</p><p class="hide-en">23+ drink types with quick and custom amounts.</p></div>
+        <div class="card"><h3>📊 多维数据</h3><h3 class="hide-en">📊 Rich Charts</h3><p>天 / 周 / 月 / 年趋势图与目标达成线。</p><p class="hide-en">Day / week / month / year trends with goal lines.</p></div>
+        <div class="card"><h3>☁️ iCloud 同步</h3><h3 class="hide-en">☁️ iCloud Sync</h3><p>多设备实时同步，数据自动合并。</p><p class="hide-en">Real-time sync across devices with auto-merge.</p></div>
+        <div class="card"><h3>⌚ Apple Watch</h3><h3 class="hide-en">⌚ Apple Watch</h3><p>独立表盘与复杂功能，抬手即记录。</p><p class="hide-en">Standalone app and complications, log from your wrist.</p></div>
       </div>
     </div>
   </section>
 
   <section>
     <div class="container">
-      <h2><span class="num">02</span><span data-lang="zh">联系我们</span><span data-lang="en" style="display:none">Contact Us</span></h2>
+      <h2><span class="num">02</span><span>联系我们</span><span class="hide-en">Contact Us</span></h2>
       <div class="contact-grid">
         <div class="card contact-card">
           <span class="emoji">✉️</span>
           <div>
-            <h3 data-lang="zh">邮件支持</h3><h3 data-lang="en" style="display:none">Email Support</h3>
+            <h3>邮件支持</h3><h3 class="hide-en">Email Support</h3>
             <p><a href="mailto:jusuoli@163.com">jusuoli@163.com</a></p>
           </div>
         </div>
         <div class="card contact-card">
           <span class="emoji">⏱️</span>
           <div>
-            <h3 data-lang="zh">响应时间</h3><h3 data-lang="en" style="display:none">Response Time</h3>
-            <p data-lang="zh">工作日 24 小时内回复</p><p data-lang="en" style="display:none">Within 24 hours on weekdays</p>
+            <h3>响应时间</h3><h3 class="hide-en">Response Time</h3>
+            <p>工作日 24 小时内回复</p><p class="hide-en">Within 24 hours on weekdays</p>
           </div>
         </div>
         <div class="card contact-card">
           <span class="emoji">🌐</span>
           <div>
-            <h3 data-lang="zh">反馈渠道</h3><h3 data-lang="en" style="display:none">Feedback Channel</h3>
-            <p data-lang="zh">App 内「设置 → 反馈」也可直接发送建议。</p><p data-lang="en" style="display:none">Or send suggestions via in-app Settings → Feedback.</p>
+            <h3>反馈渠道</h3><h3 class="hide-en">Feedback Channel</h3>
+            <p>App 内「设置 → 反馈」也可直接发送建议。</p><p class="hide-en">Or send suggestions via in-app Settings → Feedback.</p>
           </div>
         </div>
       </div>
@@ -164,60 +161,55 @@
 
   <section>
     <div class="container">
-      <h2><span class="num">03</span><span data-lang="zh">常见问题</span><span data-lang="en" style="display:none">FAQ</span></h2>
+      <h2><span class="num">03</span><span>常见问题</span><span class="hide-en">FAQ</span></h2>
 
       <details class="faq">
-        <summary data-lang="zh">数据能在多台设备间同步吗？</summary>
-        <summary data-lang="en" style="display:none">Does my data sync across devices?</summary>
-        <div class="answer" data-lang="zh">可以。WaterKit 使用 iCloud 私有数据库（CloudKit）同步你的饮水记录。请确保设备已登录同一个 Apple ID 并在「设置 → Apple ID → iCloud」中允许 WaterKit 使用 iCloud。</div>
-        <div class="answer" data-lang="en" style="display:none">Yes. WaterKit syncs your drink records via iCloud (CloudKit private database). Make sure you're signed in to the same Apple ID and have allowed WaterKit to use iCloud under Settings → Apple ID → iCloud.</div>
+        <summary>数据能在多台设备间同步吗？</summary><summary class="hide-en">Does my data sync across devices?</summary>
+        <div class="answer">可以。WaterKit 使用 iCloud 私有数据库（CloudKit）同步你的饮水记录。请确保设备已登录同一个 Apple ID 并在「设置 → Apple ID → iCloud」中允许 WaterKit 使用 iCloud。</div>
+        <div class="answer hide-en">Yes. WaterKit syncs your drink records via iCloud (CloudKit private database). Make sure you're signed in to the same Apple ID and have allowed WaterKit to use iCloud under Settings → Apple ID → iCloud.</div>
       </details>
 
       <details class="faq">
-        <summary data-lang="zh">如何把数据导入 Apple「健康」？</summary>
-        <summary data-lang="en" style="display:none">How do I send data to Apple Health?</summary>
-        <div class="answer" data-lang="zh">首次授权后，WaterKit 会自动把饮水记录写入健康 App 的「水」类别。你也可以在「设置 → HealthKit」中手动重新授权或从健康 App 反向导入历史数据。</div>
-        <div class="answer" data-lang="en" style="display:none">After the first authorization, WaterKit automatically writes drink records to Apple Health under the "Water" category. You can also re-authorize or import historical data from Health in Settings → HealthKit.</div>
+        <summary>如何把数据导入 Apple「健康」？</summary><summary class="hide-en">How do I send data to Apple Health?</summary>
+        <div class="answer">首次授权后，WaterKit 会自动把饮水记录写入健康 App 的「水」类别。你也可以在「设置 → HealthKit」中手动重新授权或从健康 App 反向导入历史数据。</div>
+        <div class="answer hide-en">After the first authorization, WaterKit automatically writes drink records to Apple Health under the "Water" category. You can also re-authorize or import historical data from Health in Settings → HealthKit.</div>
       </details>
 
       <details class="faq">
-        <summary data-lang="zh">订阅怎么取消 / 退款？</summary>
-        <summary data-lang="en" style="display:none">How do I cancel a subscription or request a refund?</summary>
-        <div class="answer" data-lang="zh">订阅管理由 Apple 负责：前往「设置 → Apple ID → 订阅」即可取消。退款请通过 <a href="https://reportaproblem.apple.com" target="_blank" rel="noopener">reportaproblem.apple.com</a> 申请。WaterKit 提供 3 天免费试用，试用期内取消不收费。</div>
-        <div class="answer" data-lang="en" style="display:none">Subscriptions are managed by Apple: cancel at Settings → Apple ID → Subscriptions. For refunds, use <a href="https://reportaproblem.apple.com" target="_blank" rel="noopener">reportaproblem.apple.com</a>. WaterKit offers a 3-day free trial; canceling during the trial incurs no charge.</div>
+        <summary>订阅怎么取消 / 退款？</summary><summary class="hide-en">How do I cancel a subscription or request a refund?</summary>
+        <div class="answer">订阅管理由 Apple 负责：前往「设置 → Apple ID → 订阅」即可取消。退款请通过 <a href="https://reportaproblem.apple.com" target="_blank" rel="noopener">reportaproblem.apple.com</a> 申请。WaterKit 提供 3 天免费试用，试用期内取消不收费。</div>
+        <div class="answer hide-en">Subscriptions are managed by Apple: cancel at Settings → Apple ID → Subscriptions. For refunds, use <a href="https://reportaproblem.apple.com" target="_blank" rel="noopener">reportaproblem.apple.com</a>. WaterKit offers a 3-day free trial; canceling during the trial incurs no charge.</div>
       </details>
 
       <details class="faq">
-        <summary data-lang="zh">更换手机后数据还在吗？</summary>
-        <summary data-lang="en" style="display:none">Will my data stay after I change my phone?</summary>
-        <div class="answer" data-lang="zh">只要登录同一 Apple ID 并开启 iCloud 同步，在新设备上打开 WaterKit 即会自动恢复记录。卸载重装同理。</div>
-        <div class="answer" data-lang="en" style="display:none">As long as you sign in to the same Apple ID with iCloud sync enabled, opening WaterKit on a new device restores your records automatically. Same applies to reinstall.</div>
+        <summary>更换手机后数据还在吗？</summary><summary class="hide-en">Will my data stay after I change my phone?</summary>
+        <div class="answer">只要登录同一 Apple ID 并开启 iCloud 同步，在新设备上打开 WaterKit 即会自动恢复记录。卸载重装同理。</div>
+        <div class="answer hide-en">As long as you sign in to the same Apple ID with iCloud sync enabled, opening WaterKit on a new device restores your records automatically. Same applies to reinstall.</div>
       </details>
 
       <details class="faq">
-        <summary data-lang="zh">Widget 或 Watch 不更新怎么办？</summary>
-        <summary data-lang="en" style="display:none">What if the Widget or Watch isn't updating?</summary>
-        <div class="answer" data-lang="zh">请确认 App 处于后台运行状态且 iCloud 同步已开启。如仍不刷新，可在 App 内手动添加一条记录触发更新，或重启设备。Watch 端请确认已通过 Watch App 安装且 Complication 已添加到表盘。</div>
-        <div class="answer" data-lang="en" style="display:none">Make sure the app is allowed in the background and iCloud sync is on. If it still won't refresh, adding a record in the app forces an update, or try restarting the device. For Watch, confirm it's installed via the Watch app and the complication is added to the face.</div>
+        <summary>Widget 或 Watch 不更新怎么办？</summary><summary class="hide-en">What if the Widget or Watch isn't updating?</summary>
+        <div class="answer">请确认 App 处于后台运行状态且 iCloud 同步已开启。如仍不刷新，可在 App 内手动添加一条记录触发更新，或重启设备。Watch 端请确认已通过 Watch App 安装且 Complication 已添加到表盘。</div>
+        <div class="answer hide-en">Make sure the app is allowed in the background and iCloud sync is on. If it still won't refresh, adding a record in the app forces an update, or try restarting the device. For Watch, confirm it's installed via the Watch app and the complication is added to the face.</div>
       </details>
     </div>
   </section>
 
   <section>
     <div class="container">
-      <h2><span class="num">04</span><span data-lang="zh">隐私政策与服务条款</span><span data-lang="en" style="display:none">Privacy Policy & Terms</span></h2>
-      <p data-lang="zh">WaterKit 高度重视你的隐私。请查阅完整文档：</p>
-      <p data-lang="en" style="display:none">WaterKit takes your privacy seriously. Please review the full documents:</p>
+      <h2><span class="num">04</span><span>隐私政策与服务条款</span><span class="hide-en">Privacy Policy & Terms</span></h2>
+      <p>WaterKit 高度重视你的隐私。请查阅完整文档：</p>
+      <p class="hide-en">WaterKit takes your privacy seriously. Please review the full documents:</p>
       <div style="margin-top:14px; display:flex; gap:12px; flex-wrap:wrap">
         <a class="card" href="privacy-policy.html" style="display:inline-block; padding:12px 20px; flex:1; min-width:200px">
-          <strong data-lang="zh">🔒 隐私政策</strong><strong data-lang="en" style="display:none">🔒 Privacy Policy</strong>
-          <div style="color:var(--text-muted); font-size:0.88rem; margin-top:4px" data-lang="zh">我们如何收集、使用与保护你的数据</div>
-          <div style="color:var(--text-muted); font-size:0.88rem; margin-top:4px" data-lang="en" style="display:none">How we collect, use and protect your data</div>
+          <strong>🔒 隐私政策</strong><strong class="hide-en">🔒 Privacy Policy</strong>
+          <div style="color:var(--text-muted); font-size:0.88rem; margin-top:4px">我们如何收集、使用与保护你的数据</div>
+          <div style="color:var(--text-muted); font-size:0.88rem; margin-top:4px" class="hide-en">How we collect, use and protect your data</div>
         </a>
         <a class="card" href="terms.html" style="display:inline-block; padding:12px 20px; flex:1; min-width:200px">
-          <strong data-lang="zh">📄 服务条款</strong><strong data-lang="en" style="display:none">📄 Terms of Service</strong>
-          <div style="color:var(--text-muted); font-size:0.88rem; margin-top:4px" data-lang="zh">使用 WaterKit 的相关条款</div>
-          <div style="color:var(--text-muted); font-size:0.88rem; margin-top:4px" data-lang="en" style="display:none">Terms governing your use of WaterKit</div>
+          <strong>📄 服务条款</strong><strong class="hide-en">📄 Terms of Service</strong>
+          <div style="color:var(--text-muted); font-size:0.88rem; margin-top:4px">使用 WaterKit 的相关条款</div>
+          <div style="color:var(--text-muted); font-size:0.88rem; margin-top:4px" class="hide-en">Terms governing your use of WaterKit</div>
         </a>
       </div>
     </div>
@@ -225,22 +217,25 @@
 
   <footer>
     <div class="meta">© 2026 WaterKit · DrinkingPanda</div>
-    <div data-lang="zh">如本页未解决问题，欢迎邮件联系。</div>
-    <div data-lang="en" style="display:none">If this page didn't solve it, feel free to email us.</div>
+    <div>如本页未解决问题，欢迎邮件联系。</div>
+    <div class="hide-en">If this page didn't solve it, feel free to email us.</div>
   </footer>
 
   <script>
-    function setLang(lang) {
-      document.documentElement.setAttribute('data-lang', lang);
-      document.querySelectorAll('#btn-zh, #btn-en').forEach(b => b.classList.remove('active'));
-      document.getElementById('btn-' + lang).classList.add('active');
-      // toggle visibility of all lang-tagged elements (including inline like <h1>)
-      document.querySelectorAll('[data-lang]').forEach(el => {
-        if (el.tagName === 'HTML' || el.id) return;
-        el.style.display = el.getAttribute('data-lang') === lang ? '' : 'none';
-      });
+    function switchLang(lang) {
+      var ens = document.querySelectorAll('.hide-en');
+      var zhBtn = document.getElementById('btn-zh');
+      var enBtn = document.getElementById('btn-en');
+      if (lang === 'en') {
+        for (var i = 0; i < ens.length; i++) ens[i].classList.remove('hide-en');
+        enBtn.classList.add('active');
+        zhBtn.classList.remove('active');
+      } else {
+        for (var i = 0; i < ens.length; i++) ens[i].classList.add('hide-en');
+        zhBtn.classList.add('active');
+        enBtn.classList.remove('active');
+      }
     }
-    setLang('zh');
   </script>
 </body>
 </html>

@@ -20,25 +20,23 @@
     p { margin-bottom:12px; color:#d4dde4; }
     ul { margin:0 0 14px 22px; color:#d4dde4; }
     li { margin-bottom:6px; }
-    [data-lang] { display:none; }
-    html[data-lang="zh"] [data-lang="zh"] { display:block; }
-    html[data-lang="en"] [data-lang="en"] { display:block; }
+    .hide-en { display: none !important; }
     hr { border:none; border-top:1px solid var(--border); margin:32px 0; }
   </style>
 </head>
-<body data-lang="zh">
+<body>
   <div class="container">
-    <a href="index.html" class="back">← <span data-lang="zh">返回支持首页</span><span data-lang="en">Back to Support</span></a>
-    <h1 data-lang="zh">隐私政策</h1>
-    <h1 data-lang="en">Privacy Policy</h1>
-    <p class="updated" data-lang="zh">最后更新：2026 年 6 月</p>
-    <p class="updated" data-lang="en">Last updated: June 2026</p>
+    <a href="index.html" class="back">← <span>返回支持首页</span><span class="hide-en">Back to Support</span></a>
+    <h1>隐私政策</h1>
+    <h1 class="hide-en">Privacy Policy</h1>
+    <p class="updated">最后更新：2026 年 6 月</p>
+    <p class="updated hide-en">Last updated: June 2026</p>
     <div class="lang-switch">
-      <button id="btn-zh" class="active" onclick="setLang('zh')">中文</button>
-      <button id="btn-en" onclick="setLang('en')">English</button>
+      <button id="btn-zh" class="active" onclick="switchLang('zh')">中文</button>
+      <button id="btn-en" onclick="switchLang('en')">English</button>
     </div>
 
-    <div data-lang="zh">
+    <div>
       <p>WaterKit（以下简称「本应用」）由独立开发者开发运营。我们尊重并保护每一位用户的隐私。本政策说明我们如何处理你的数据。</p>
 
       <h2>1. 我们收集的数据</h2>
@@ -68,7 +66,7 @@
       <p>如有疑问，请邮件至 <a href="mailto:jusuoli@163.com">jusuoli@163.com</a>。</p>
     </div>
 
-    <div data-lang="en">
+    <div class="hide-en">
       <p>WaterKit (the "App") is developed and operated by an independent developer. We respect and protect every user's privacy. This policy explains how we handle your data.</p>
 
       <h2>1. Data We Collect</h2>
@@ -99,16 +97,23 @@
     </div>
 
     <hr />
-    <p style="color:var(--muted); font-size:0.85rem" data-lang="zh">© 2026 WaterKit · DrinkingPanda</p>
-    <p style="color:var(--muted); font-size:0.85rem" data-lang="en">© 2026 WaterKit · DrinkingPanda</p>
+    <p style="color:var(--muted); font-size:0.85rem">© 2026 WaterKit · DrinkingPanda</p>
   </div>
   <script>
-    function setLang(lang) {
-      document.documentElement.setAttribute('data-lang', lang);
-      document.querySelectorAll('#btn-zh, #btn-en').forEach(b => b.classList.remove('active'));
-      document.getElementById('btn-' + lang).classList.add('active');
+    function switchLang(lang) {
+      var ens = document.querySelectorAll('.hide-en');
+      var zhBtn = document.getElementById('btn-zh');
+      var enBtn = document.getElementById('btn-en');
+      if (lang === 'en') {
+        for (var i = 0; i < ens.length; i++) ens[i].classList.remove('hide-en');
+        enBtn.classList.add('active');
+        zhBtn.classList.remove('active');
+      } else {
+        for (var i = 0; i < ens.length; i++) ens[i].classList.add('hide-en');
+        zhBtn.classList.add('active');
+        enBtn.classList.remove('active');
+      }
     }
-    setLang('zh');
   </script>
 </body>
 </html>
