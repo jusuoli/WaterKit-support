@@ -5,58 +5,42 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>WaterKit · Terms of Service</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root { --bg:#f5f5f0; --white:#fff; --primary:#1a936f; --accent:#114b5f; --text:#1d1d1f; --text-2:#6e6e73; --border:#e5e5ea; }
-    body { font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif; background:var(--bg); color:var(--text); line-height:1.7; -webkit-font-smoothing:antialiased; }
-    a { color:var(--primary); }
-    .container { max-width:720px; margin:0 auto; padding:40px 24px 64px; }
-    .back { display:inline-block; font-size:14px; color:var(--text-2); margin-bottom:24px; }
-    h1 { font-size:24px; color:var(--accent); margin-bottom:6px; }
-    .updated { font-size:13px; color:var(--text-2); margin-bottom:28px; }
-    h2 { font-size:16px; color:var(--accent); margin:28px 0 10px; font-weight:600; }
-    p { font-size:15px; color:var(--text-2); margin-bottom:10px; }
-    .lang-links { font-size:13px; color:var(--text-2); margin-top:32px; padding-top:16px; border-top:1px solid var(--border); }
+    :root { --primary:#2A9D8F; --primary-dark:#1E7B70; --bg:#F0F4F8; --card:#fff; --text:#1A2B3C; --text-2:#5A6B7C; --border:#E0E8EF; --shadow-sm:0 2px 8px rgba(0,0,0,0.04); --radius:16px; }
+    body { font-family:'Inter',-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif; background:var(--bg); color:var(--text); line-height:1.8; -webkit-font-smoothing:antialiased; }
+    a { color:var(--primary); text-decoration:none; }
+    a:hover { color:var(--primary-dark); text-decoration:underline; }
+    .container { max-width:780px; margin:0 auto; padding:0 20px; }
+    .top { background:linear-gradient(135deg, #0F3448 0%, #134E5E 40%, #2A9D8F 100%); padding:48px 0 36px; text-align:center; position:relative; }
+    .top::after { content:''; position:absolute; bottom:-2px; left:0; right:0; height:60px; background:var(--bg); mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 80'%3E%3Cpath d='M0,40 C300,0 500,80 800,40 C1000,10 1100,50 1200,40 L1200,80 L0,80 Z'/%3E%3C/svg%3E"); mask-size:100% 100%; -webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 80'%3E%3Cpath d='M0,40 C300,0 500,80 800,40 C1000,10 1100,50 1200,40 L1200,80 L0,80 Z'/%3E%3C/svg%3E"); -webkit-mask-size:100% 100%; }
+    .top h1 { font-size:26px; font-weight:700; color:#fff; position:relative; z-index:1; text-shadow:0 2px 10px rgba(0,0,0,0.15); }
+    .top .back { display:inline-block; color:rgba(255,255,255,0.7); font-size:14px; margin-bottom:12px; position:relative; z-index:1; }
+    .top .back:hover { color:#fff; }
+    .content { padding:36px 0 56px; }
+    .updated { font-size:13px; color:var(--text-2); margin-bottom:24px; }
+    .card { background:var(--card); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow-sm); padding:28px 32px; margin-bottom:24px; }
+    .card h2 { font-size:18px; font-weight:700; color:var(--primary-dark); margin-bottom:12px; }
+    .card p { font-size:15px; color:var(--text-2); margin-bottom:8px; }
+    .lang-link { text-align:center; font-size:14px; color:var(--text-2); margin-top:8px; }
+    @media (max-width:520px) { .card { padding:20px; } }
   </style>
 </head>
 <body>
-  <div class="container">
-    <a href="index_en.html" class="back">← Back to Support</a>
-    <h1>Terms of Service</h1>
+  <div class="top"><div class="container"><a href="index_en.html" class="back">← Back to Support</a><h1>Terms of Service</h1></div></div>
+  <div class="container content">
     <p class="updated">Last Updated: June 2026</p>
-
-    <h2>1. Acceptance of Terms</h2>
-    <p>By downloading and using the WaterKit app ("App"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree to these Terms, please do not use the App.</p>
-
-    <h2>2. Description of Service</h2>
-    <p>WaterKit is a hydration tracking application that helps you monitor your daily water intake, set hydration goals, receive reminders, and track your drinking habits over time.</p>
-
-    <h2>3. User Accounts and Data</h2>
-    <p>You are responsible for maintaining the accuracy of your profile information, including weight, gender, and activity level, as these affect your recommended daily hydration goal. Your data is stored locally on your device and may be synced via iCloud if enabled.</p>
-
-    <h2>4. Health Data</h2>
-    <p>The App may integrate with Apple Health (HealthKit) to read and write hydration data. You must explicitly grant permission for the App to access your health data. The App does not share your health data with third parties.</p>
-
-    <h2>5. Subscriptions and In-App Purchases</h2>
-    <p>WaterKit offers premium features through auto-renewable subscriptions and one-time purchases. Payment will be charged to your Apple ID account at confirmation of purchase. Subscriptions automatically renew unless canceled at least 24 hours before the end of the current period. Your account will be charged for renewal within 24 hours prior to the end of the current period. You can manage and cancel your subscriptions in your Apple ID account settings after purchase.</p>
-
-    <h2>6. Free Trial</h2>
-    <p>If offered, any free trial will automatically convert to a paid subscription at the end of the trial period unless canceled at least 24 hours before the trial ends. No charge will be applied if you cancel before the trial period ends.</p>
-
-    <h2>7. Disclaimer</h2>
-    <p>The App provides general hydration recommendations based on commonly accepted guidelines. The App is not a medical device and should not be used as a substitute for professional medical advice. Always consult a healthcare professional for personalized hydration and health recommendations.</p>
-
-    <h2>8. Limitation of Liability</h2>
-    <p>To the maximum extent permitted by law, the App developer shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising out of or related to your use of the App.</p>
-
-    <h2>9. Changes to Terms</h2>
-    <p>We may update these Terms from time to time. We will notify you of any material changes by posting the new Terms on this page. Your continued use of the App after any changes constitutes your acceptance of the new Terms.</p>
-
-    <h2>10. Contact</h2>
-    <p>If you have any questions about these Terms, please contact us at <a href="mailto:jusuoli@163.com">jusuoli@163.com</a>.</p>
-
-    <div class="lang-links">
-      <a href="terms.html">中文（服务条款）</a>
-    </div>
+    <div class="card"><h2>1. Acceptance of Terms</h2><p>By downloading and using the WaterKit app ("App"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree to these Terms, please do not use the App.</p></div>
+    <div class="card"><h2>2. Description of Service</h2><p>WaterKit is a hydration tracking application that helps you monitor your daily water intake, set hydration goals, receive reminders, and track your drinking habits over time.</p></div>
+    <div class="card"><h2>3. User Accounts and Data</h2><p>You are responsible for maintaining the accuracy of your profile information, including weight, gender, and activity level, as these affect your recommended daily hydration goal. Your data is stored locally on your device and may be synced via iCloud if enabled.</p></div>
+    <div class="card"><h2>4. Health Data</h2><p>The App may integrate with Apple Health (HealthKit) to read and write hydration data. You must explicitly grant permission for the App to access your health data. The App does not share your health data with third parties.</p></div>
+    <div class="card"><h2>5. Subscriptions and In-App Purchases</h2><p>WaterKit offers premium features through auto-renewable subscriptions and one-time purchases. Payment will be charged to your Apple ID account at confirmation of purchase. Subscriptions automatically renew unless canceled at least 24 hours before the end of the current period. Your account will be charged for renewal within 24 hours prior to the end of the current period. You can manage and cancel your subscriptions in your Apple ID account settings after purchase.</p></div>
+    <div class="card"><h2>6. Free Trial</h2><p>If offered, any free trial will automatically convert to a paid subscription at the end of the trial period unless canceled at least 24 hours before the trial ends. No charge will be applied if you cancel before the trial period ends.</p></div>
+    <div class="card"><h2>7. Disclaimer</h2><p>The App provides general hydration recommendations based on commonly accepted guidelines. The App is not a medical device and should not be used as a substitute for professional medical advice. Always consult a healthcare professional for personalized hydration and health recommendations.</p></div>
+    <div class="card"><h2>8. Limitation of Liability</h2><p>To the maximum extent permitted by law, the App developer shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising out of or related to your use of the App.</p></div>
+    <div class="card"><h2>9. Changes to Terms</h2><p>We may update these Terms from time to time. We will notify you of any material changes by posting the new Terms on this page. Your continued use of the App after any changes constitutes your acceptance of the new Terms.</p></div>
+    <div class="card"><h2>10. Contact</h2><p>If you have any questions about these Terms, please contact us at <a href="mailto:jusuoli@163.com">jusuoli@163.com</a>.</p></div>
+    <div class="lang-link"><a href="terms.html">中文（服务条款）</a></div>
   </div>
 </body>
 </html>

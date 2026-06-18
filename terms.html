@@ -5,58 +5,42 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>WaterKit · 服务条款</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap');
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root { --bg:#f5f5f0; --white:#fff; --primary:#1a936f; --accent:#114b5f; --text:#1d1d1f; --text-2:#6e6e73; --border:#e5e5ea; }
-    body { font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang SC","Microsoft YaHei",sans-serif; background:var(--bg); color:var(--text); line-height:1.7; -webkit-font-smoothing:antialiased; }
-    a { color:var(--primary); }
-    .container { max-width:720px; margin:0 auto; padding:40px 24px 64px; }
-    .back { display:inline-block; font-size:14px; color:var(--text-2); margin-bottom:24px; }
-    h1 { font-size:24px; color:var(--accent); margin-bottom:6px; }
-    .updated { font-size:13px; color:var(--text-2); margin-bottom:28px; }
-    h2 { font-size:16px; color:var(--accent); margin:28px 0 10px; font-weight:600; }
-    p { font-size:15px; color:var(--text-2); margin-bottom:10px; }
-    .lang-links { font-size:13px; color:var(--text-2); margin-top:32px; padding-top:16px; border-top:1px solid var(--border); }
+    :root { --primary:#2A9D8F; --primary-dark:#1E7B70; --bg:#F0F4F8; --card:#fff; --text:#1A2B3C; --text-2:#5A6B7C; --border:#E0E8EF; --shadow-sm:0 2px 8px rgba(0,0,0,0.04); --radius:16px; }
+    body { font-family:'Noto Sans SC',-apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif; background:var(--bg); color:var(--text); line-height:1.8; -webkit-font-smoothing:antialiased; }
+    a { color:var(--primary); text-decoration:none; }
+    a:hover { color:var(--primary-dark); text-decoration:underline; }
+    .container { max-width:780px; margin:0 auto; padding:0 20px; }
+    .top { background:linear-gradient(135deg, #0F3448 0%, #134E5E 40%, #2A9D8F 100%); padding:48px 0 36px; text-align:center; position:relative; }
+    .top::after { content:''; position:absolute; bottom:-2px; left:0; right:0; height:60px; background:var(--bg); mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 80'%3E%3Cpath d='M0,40 C300,0 500,80 800,40 C1000,10 1100,50 1200,40 L1200,80 L0,80 Z'/%3E%3C/svg%3E"); mask-size:100% 100%; -webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 80'%3E%3Cpath d='M0,40 C300,0 500,80 800,40 C1000,10 1100,50 1200,40 L1200,80 L0,80 Z'/%3E%3C/svg%3E"); -webkit-mask-size:100% 100%; }
+    .top h1 { font-size:26px; font-weight:700; color:#fff; position:relative; z-index:1; text-shadow:0 2px 10px rgba(0,0,0,0.15); }
+    .top .back { display:inline-block; color:rgba(255,255,255,0.7); font-size:14px; margin-bottom:12px; position:relative; z-index:1; }
+    .top .back:hover { color:#fff; }
+    .content { padding:36px 0 56px; }
+    .updated { font-size:13px; color:var(--text-2); margin-bottom:24px; }
+    .card { background:var(--card); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow-sm); padding:28px 32px; margin-bottom:24px; }
+    .card h2 { font-size:18px; font-weight:700; color:var(--primary-dark); margin-bottom:12px; }
+    .card p { font-size:15px; color:var(--text-2); margin-bottom:8px; }
+    .lang-link { text-align:center; font-size:14px; color:var(--text-2); margin-top:8px; }
+    @media (max-width:520px) { .card { padding:20px; } }
   </style>
 </head>
 <body>
-  <div class="container">
-    <a href="index.html" class="back">← 返回支持首页</a>
-    <h1>服务条款</h1>
+  <div class="top"><div class="container"><a href="index.html" class="back">← 返回支持首页</a><h1>服务条款</h1></div></div>
+  <div class="container content">
     <p class="updated">最后更新：2026 年 6 月</p>
-
-    <h2>1. 条款接受</h2>
-    <p>下载并使用 WaterKit（以下简称「本应用」），即表示你同意受本服务条款的约束。如你不同意本条款，请勿使用本应用。</p>
-
-    <h2>2. 服务说明</h2>
-    <p>WaterKit 是一款饮水追踪应用，帮助你监控每日饮水量、设置补水目标、接收提醒并跟踪长期饮水习惯。</p>
-
-    <h2>3. 用户账户与数据</h2>
-    <p>你有责任保持个人档案信息（体重、性别、活动量等）的准确性，因为这些信息会影响你的推荐每日补水目标。数据存储在你的设备本地，如开启 iCloud 同步则可通过 iCloud 同步。</p>
-
-    <h2>4. 健康数据</h2>
-    <p>本应用可能通过 Apple「健康」（HealthKit）读写补水数据。你必须明确授权本应用访问你的健康数据。本应用不会与第三方共享你的健康数据。</p>
-
-    <h2>5. 订阅与内购</h2>
-    <p>WaterKit 通过自动续费订阅和一次性购买提供高级功能。付款将在确认购买时从你的 Apple ID 账户中扣除。订阅将自动续费，除非在当前计费周期结束前至少 24 小时取消。你的账户将在当前周期结束前 24 小时内被收取续费费用。购买后可在 Apple ID 账户设置中管理和取消订阅。</p>
-
-    <h2>6. 免费试用</h2>
-    <p>如提供免费试用，将在试用期结束后自动转为付费订阅，除非在试用期结束前至少 24 小时取消。如在试用期结束前取消，将不收取任何费用。</p>
-
-    <h2>7. 免责声明</h2>
-    <p>本应用基于常见公认的指南提供一般性的补水建议。本应用不是医疗设备，不应作为专业医疗建议的替代品。请始终咨询医疗专业人士以获取个性化的补水和健康建议。</p>
-
-    <h2>8. 责任限制</h2>
-    <p>在法律允许的最大范围内，应用开发者对因你使用本应用而产生的任何间接、附带、特殊、后果性或惩罚性损害不承担责任。</p>
-
-    <h2>9. 条款变更</h2>
-    <p>我们可能会不时更新本条款。如有重大变更，我们将在本页面发布新条款来通知你。你在任何变更后继续使用本应用即构成对新条款的接受。</p>
-
-    <h2>10. 联系方式</h2>
-    <p>如有关于本条款的任何问题，请邮件至 <a href="mailto:jusuoli@163.com">jusuoli@163.com</a>。</p>
-
-    <div class="lang-links">
-      <a href="terms_en.html">English (Terms of Service)</a>
-    </div>
+    <div class="card"><h2>1. 条款接受</h2><p>下载并使用 WaterKit（以下简称「本应用」），即表示你同意受本服务条款的约束。如你不同意本条款，请勿使用本应用。</p></div>
+    <div class="card"><h2>2. 服务说明</h2><p>WaterKit 是一款饮水追踪应用，帮助你监控每日饮水量、设置补水目标、接收提醒并跟踪长期饮水习惯。</p></div>
+    <div class="card"><h2>3. 用户账户与数据</h2><p>你有责任保持个人档案信息（体重、性别、活动量等）的准确性，因为这些信息会影响你的推荐每日补水目标。数据存储在你的设备本地，如开启 iCloud 同步则可通过 iCloud 同步。</p></div>
+    <div class="card"><h2>4. 健康数据</h2><p>本应用可能通过 Apple「健康」（HealthKit）读写补水数据。你必须明确授权本应用访问你的健康数据。本应用不会与第三方共享你的健康数据。</p></div>
+    <div class="card"><h2>5. 订阅与内购</h2><p>WaterKit 通过自动续费订阅和一次性购买提供高级功能。付款将在确认购买时从你的 Apple ID 账户中扣除。订阅将自动续费，除非在当前计费周期结束前至少 24 小时取消。你的账户将在当前周期结束前 24 小时内被收取续费费用。购买后可在 Apple ID 账户设置中管理和取消订阅。</p></div>
+    <div class="card"><h2>6. 免费试用</h2><p>如提供免费试用，将在试用期结束后自动转为付费订阅，除非在试用期结束前至少 24 小时取消。如在试用期结束前取消，将不收取任何费用。</p></div>
+    <div class="card"><h2>7. 免责声明</h2><p>本应用基于常见公认的指南提供一般性的补水建议。本应用不是医疗设备，不应作为专业医疗建议的替代品。请始终咨询医疗专业人士以获取个性化的补水和健康建议。</p></div>
+    <div class="card"><h2>8. 责任限制</h2><p>在法律允许的最大范围内，应用开发者对因你使用本应用而产生的任何间接、附带、特殊、后果性或惩罚性损害不承担责任。</p></div>
+    <div class="card"><h2>9. 条款变更</h2><p>我们可能会不时更新本条款。如有重大变更，我们将在本页面发布新条款来通知你。你在任何变更后继续使用本应用即构成对新条款的接受。</p></div>
+    <div class="card"><h2>10. 联系方式</h2><p>如有关于本条款的任何问题，请邮件至 <a href="mailto:jusuoli@163.com">jusuoli@163.com</a>。</p></div>
+    <div class="lang-link"><a href="terms_en.html">English (Terms of Service)</a></div>
   </div>
 </body>
 </html>

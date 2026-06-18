@@ -6,200 +6,250 @@
   <title>WaterKit · 技术支持</title>
   <meta name="description" content="WaterKit 喝水熊猫 — 技术支持、常见问题、隐私政策与联系方式。" />
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap');
+
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:       #f5f5f0;
-      --white:    #ffffff;
-      --primary:  #1a936f;
-      --primary-light: #e0f2ef;
-      --accent:   #114b5f;
-      --text:     #1d1d1f;
-      --text-2:   #6e6e73;
-      --text-3:   #aeaeb2;
-      --border:   #e5e5ea;
-      --shadow:   0 2px 12px rgba(0,0,0,0.06);
-      --shadow-2: 0 8px 30px rgba(0,0,0,0.08);
-      --radius:   16px;
+      --primary: #2A9D8F;
+      --primary-dark: #1E7B70;
+      --primary-light: #E8F5F3;
+      --accent: #E67E22;
+      --accent-light: #FEF5EC;
+      --bg: #F0F4F8;
+      --card: #FFFFFF;
+      --text: #1A2B3C;
+      --text-2: #5A6B7C;
+      --text-3: #8A9BAB;
+      --border: #E0E8EF;
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
+      --shadow-md: 0 8px 32px rgba(0,0,0,0.06);
+      --shadow-lg: 0 16px 48px rgba(0,0,0,0.08);
+      --radius: 20px;
+      --radius-sm: 12px;
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
-        "PingFang SC", "Helvetica Neue", "Microsoft YaHei", sans-serif;
+      font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", sans-serif;
       background: var(--bg);
       color: var(--text);
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
     }
+    a { color: var(--primary); text-decoration: none; transition: color 0.2s; }
+    a:hover { color: var(--primary-dark); text-decoration: underline; }
+    .container { max-width: 800px; margin: 0 auto; padding: 0 24px; }
 
-    a { color: var(--primary); text-decoration: none; }
-    a:hover { text-decoration: underline; }
-
-    .container { max-width: 720px; margin: 0 auto; padding: 0 24px; }
-
-    /* ── Lang Switch ─────────────────────────────── */
-    .lang-bar {
-      position: fixed; top: 16px; right: 16px; z-index: 10;
-      display: flex; gap: 0;
-      background: var(--white); border-radius: 999px;
-      box-shadow: var(--shadow); overflow: hidden; border: 1px solid var(--border);
-    }
-    .lang-bar a {
-      padding: 7px 16px; font-size: 13px; font-weight: 500;
-      color: var(--text-2); text-decoration: none;
-      transition: background 0.15s, color 0.15s;
-    }
-    .lang-bar a:hover { background: #f0f0f0; text-decoration: none; }
-    .lang-bar a.active { background: var(--primary); color: #fff; }
-
-    /* ── Hero ─────────────────────────────────────── */
+    /* ── Hero ──────────────────────────────────────── */
     .hero {
+      position: relative;
+      background: linear-gradient(135deg, #0F3448 0%, #134E5E 40%, #2A9D8F 100%);
+      padding: 72px 0 56px;
       text-align: center;
-      padding: 72px 0 48px;
-    }
-    .hero-icon {
-      width: 96px; height: 96px;
-      margin: 0 auto 20px;
-      border-radius: 22px;
-      box-shadow: var(--shadow-2);
       overflow: hidden;
-      border: 3px solid var(--white);
     }
-    .hero-icon img { width: 100%; height: 100%; display: block; }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 20% 50%, rgba(42,157,143,0.3) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 50%, rgba(230,126,34,0.15) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -2px; left: 0; right: 0;
+      height: 80px;
+      background: var(--bg);
+      mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 80'%3E%3Cpath d='M0,40 C300,0 500,80 800,40 C1000,10 1100,50 1200,40 L1200,80 L0,80 Z' fill='%23F0F4F8'/%3E%3C/svg%3E");
+      mask-size: 100% 100%;
+      -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 80'%3E%3Cpath d='M0,40 C300,0 500,80 800,40 C1000,10 1100,50 1200,40 L1200,80 L0,80 Z' fill='%23F0F4F8'/%3E%3C/svg%3E");
+      -webkit-mask-size: 100% 100%;
+    }
 
+    .hero-inner { position: relative; z-index: 1; }
+    .hero-icon {
+      width: 88px; height: 88px; margin: 0 auto 20px;
+      border-radius: 22px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+      border: 3px solid rgba(255,255,255,0.2);
+      overflow: hidden;
+      transition: transform 0.3s;
+    }
+    .hero-icon:hover { transform: scale(1.05); }
+    .hero-icon img { width: 100%; height: 100%; display: block; }
     .hero h1 {
-      font-size: 28px; font-weight: 700;
-      letter-spacing: -0.3px;
-      color: var(--accent);
+      font-size: 32px; font-weight: 700;
+      color: #fff; letter-spacing: -0.5px;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.15);
     }
     .hero p {
       margin-top: 8px;
-      font-size: 17px;
-      color: var(--text-2);
+      font-size: 17px; font-weight: 400;
+      color: rgba(255,255,255,0.75);
+      text-shadow: 0 1px 4px rgba(0,0,0,0.1);
     }
 
-    /* ── Section ──────────────────────────────────── */
-    .section {
-      padding: 32px 0;
+    /* Language Switch */
+    .lang-bar {
+      position: fixed; top: 20px; right: 24px; z-index: 50;
+      backdrop-filter: blur(12px);
+      background: rgba(255,255,255,0.85);
+      border-radius: 999px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      border: 1px solid rgba(255,255,255,0.5);
+      display: flex; gap: 0; overflow: hidden;
     }
-    .section + .section {
-      border-top: 1px solid var(--border);
+    .lang-bar a {
+      padding: 8px 18px; font-size: 13px; font-weight: 600;
+      color: var(--text-2); text-decoration: none !important;
+      transition: all 0.2s;
     }
-    .section-title {
-      font-size: 13px; font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: var(--text-3);
+    .lang-bar a:hover { background: rgba(42,157,143,0.08); text-decoration: none; }
+    .lang-bar a.active { background: var(--primary); color: #fff; }
+
+    /* ── Section ───────────────────────────────────── */
+    .section-wrap {
+      padding: 40px 0;
+    }
+    .section-wrap + .section-wrap { border-top: 1px solid var(--border); }
+    .section-label {
+      font-size: 12px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 1.5px;
+      color: var(--primary);
       margin-bottom: 20px;
     }
 
-    /* ── Contact Cards ───────────────────────────── */
+    /* ── Contact ───────────────────────────────────── */
     .contact-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 12px;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 16px;
     }
     .contact-card {
-      background: var(--white);
+      background: var(--card);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      padding: 20px;
-      transition: box-shadow 0.2s;
+      padding: 24px;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: var(--shadow-sm);
     }
-    .contact-card:hover { box-shadow: var(--shadow); }
-    .contact-card .icon { font-size: 24px; margin-bottom: 10px; }
-    .contact-card h3 { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+    .contact-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--primary);
+    }
+    .contact-card .icon { font-size: 28px; margin-bottom: 12px; display: block; }
+    .contact-card h3 { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
     .contact-card p { font-size: 14px; color: var(--text-2); }
 
-    /* ── FAQ ──────────────────────────────────────── */
+    /* ── FAQ ───────────────────────────────────────── */
+    .faq-list { display: flex; flex-direction: column; gap: 8px; }
     .faq-item {
-      background: var(--white);
+      background: var(--card);
       border: 1px solid var(--border);
-      border-radius: var(--radius);
+      border-radius: var(--radius-sm);
       overflow: hidden;
-      margin-bottom: 8px;
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow 0.2s;
     }
+    .faq-item:hover { box-shadow: var(--shadow-sm); border-color: #d0dce6; }
     .faq-q {
-      padding: 16px 20px;
-      font-weight: 600;
-      font-size: 15px;
+      width: 100%;
+      padding: 18px 20px;
+      font-size: 15px; font-weight: 600;
+      display: flex; justify-content: space-between; align-items: center;
       cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      user-select: none;
+      background: transparent;
+      border: none;
+      color: var(--text);
+      text-align: left;
+      font-family: inherit;
       transition: background 0.15s;
     }
-    .faq-q:hover { background: #fafafa; }
+    .faq-q:hover { background: #F8FAFC; }
     .faq-q::after {
-      content: "";
+      content: '';
       width: 8px; height: 8px;
       border-right: 2px solid var(--text-3);
       border-bottom: 2px solid var(--text-3);
-      transform: rotate(-135deg);
-      transition: transform 0.2s;
+      transform: rotate(45deg);
+      transition: transform 0.25s ease;
       flex-shrink: 0;
       margin-left: 12px;
     }
-    .faq-item.open .faq-q::after { transform: rotate(45deg); }
+    .faq-item.open .faq-q::after { transform: rotate(-135deg); }
     .faq-a {
       max-height: 0;
       overflow: hidden;
       transition: max-height 0.3s ease;
     }
     .faq-a-inner {
-      padding: 0 20px 16px;
+      padding: 0 20px 18px;
       font-size: 14px;
       color: var(--text-2);
       line-height: 1.7;
     }
 
-    /* ── Links ────────────────────────────────────── */
-    .link-row {
-      display: flex; gap: 12px;
-      flex-wrap: wrap;
+    /* ── Doc Links ─────────────────────────────────── */
+    .doc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
     }
-    .link-card {
-      flex: 1;
-      min-width: 200px;
-      background: var(--white);
+    .doc-card {
+      background: var(--card);
       border: 1px solid var(--border);
-      border-radius: var(--radius);
+      border-radius: var(--radius-sm);
       padding: 20px;
       display: flex;
       align-items: center;
       gap: 14px;
-      transition: box-shadow 0.2s, transform 0.15s;
+      transition: all 0.2s;
+      box-shadow: var(--shadow-sm);
     }
-    .link-card:hover {
-      box-shadow: var(--shadow);
-      transform: translateY(-1px);
+    .doc-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--primary);
       text-decoration: none;
     }
-    .link-card .icon { font-size: 28px; }
-    .link-card h3 { font-size: 15px; font-weight: 600; }
-    .link-card span { font-size: 13px; color: var(--text-3); }
+    .doc-card .icon { font-size: 24px; line-height: 1; }
+    .doc-card .info h3 { font-size: 14px; font-weight: 600; }
+    .doc-card .info span { font-size: 12px; color: var(--text-3); }
 
-    /* ── Footer ──────────────────────────────────── */
+    /* ── Footer ────────────────────────────────────── */
     .footer {
       text-align: center;
-      padding: 32px 24px 48px;
+      padding: 40px 24px 48px;
       font-size: 13px;
       color: var(--text-3);
+      border-top: 1px solid var(--border);
+      margin-top: 16px;
     }
 
-    /* ── Responsive ──────────────────────────────── */
-    @media (max-width: 480px) {
-      .hero { padding: 56px 0 36px; }
-      .hero h1 { font-size: 24px; }
-      .lang-bar { top: auto; bottom: 16px; right: 16px; left: 16px; justify-content: center; }
+    /* ── Scroll Animations ─────────────────────────── */
+    .fade-up {
+      opacity: 0; transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── Responsive ────────────────────────────────── */
+    @media (max-width: 520px) {
+      .hero { padding: 52px 0 44px; }
+      .hero h1 { font-size: 26px; }
+      .hero-icon { width: 72px; height: 72px; }
+      .lang-bar { top: auto; bottom: 20px; right: 20px; left: 20px; justify-content: center; }
       .contact-grid { grid-template-columns: 1fr; }
+      .doc-grid { grid-template-columns: 1fr 1fr; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Language Switch -->
   <nav class="lang-bar">
     <a href="index.html" class="active">中文</a>
     <a href="index_en.html">EN</a>
@@ -207,7 +257,7 @@
 
   <!-- Hero -->
   <div class="hero">
-    <div class="container">
+    <div class="container hero-inner">
       <div class="hero-icon"><img src="assets/app-icon.png" alt="WaterKit" /></div>
       <h1>WaterKit 喝水熊猫</h1>
       <p>温柔提醒你喝水的国风养成 App</p>
@@ -217,21 +267,21 @@
   <div class="container">
 
     <!-- Contact -->
-    <div class="section">
-      <div class="section-title">联系我们</div>
+    <div class="section-wrap">
+      <div class="section-label">联系我们</div>
       <div class="contact-grid">
-        <div class="contact-card">
-          <div class="icon">✉️</div>
+        <div class="contact-card fade-up">
+          <span class="icon">✉️</span>
           <h3>邮件支持</h3>
           <p><a href="mailto:jusuoli@163.com">jusuoli@163.com</a></p>
         </div>
-        <div class="contact-card">
-          <div class="icon">⏱️</div>
+        <div class="contact-card fade-up" style="transition-delay:0.1s">
+          <span class="icon">⏱️</span>
           <h3>响应时间</h3>
           <p>工作日 24 小时内回复</p>
         </div>
-        <div class="contact-card">
-          <div class="icon">💬</div>
+        <div class="contact-card fade-up" style="transition-delay:0.2s">
+          <span class="icon">💬</span>
           <h3>反馈渠道</h3>
           <p>App 内「设置 → 反馈」</p>
         </div>
@@ -239,57 +289,61 @@
     </div>
 
     <!-- FAQ -->
-    <div class="section">
-      <div class="section-title">常见问题</div>
+    <div class="section-wrap">
+      <div class="section-label">常见问题</div>
+      <div class="faq-list">
 
-      <div class="faq-item">
-        <div class="faq-q" onclick="toggle(this)">数据能在多台设备间同步吗？</div>
-        <div class="faq-a"><div class="faq-a-inner">可以。WaterKit 使用 iCloud 私有数据库（CloudKit）同步你的饮水记录。请确保设备已登录同一个 Apple ID，并在「设置 → Apple ID → iCloud」中允许 WaterKit 使用 iCloud。</div></div>
+        <div class="faq-item fade-up">
+          <button class="faq-q" onclick="toggle(this)">数据能在多台设备间同步吗？</button>
+          <div class="faq-a"><div class="faq-a-inner">可以。WaterKit 使用 iCloud 私有数据库（CloudKit）同步你的饮水记录。请确保设备已登录同一个 Apple ID，并在「设置 → Apple ID → iCloud」中允许 WaterKit 使用 iCloud。</div></div>
+        </div>
+
+        <div class="faq-item fade-up" style="transition-delay:0.05s">
+          <button class="faq-q" onclick="toggle(this)">如何把数据导入 Apple「健康」？</button>
+          <div class="faq-a"><div class="faq-a-inner">首次授权后，WaterKit 会自动把饮水记录写入健康 App 的「水」类别。你也可以在「设置 → HealthKit」中手动重新授权或从健康 App 反向导入历史数据。</div></div>
+        </div>
+
+        <div class="faq-item fade-up" style="transition-delay:0.1s">
+          <button class="faq-q" onclick="toggle(this)">订阅怎么取消或退款？</button>
+          <div class="faq-a"><div class="faq-a-inner">订阅管理由 Apple 负责：前往「设置 → Apple ID → 订阅」即可取消。退款请通过 <a href="https://reportaproblem.apple.com" target="_blank" rel="noopener">reportaproblem.apple.com</a> 申请。WaterKit 提供 3 天免费试用，试用期内取消不收费。</div></div>
+        </div>
+
+        <div class="faq-item fade-up" style="transition-delay:0.15s">
+          <button class="faq-q" onclick="toggle(this)">更换手机后数据还在吗？</button>
+          <div class="faq-a"><div class="faq-a-inner">只要登录同一 Apple ID 并开启 iCloud 同步，在新设备上打开 WaterKit 即会自动恢复记录。卸载重装同理。</div></div>
+        </div>
+
+        <div class="faq-item fade-up" style="transition-delay:0.2s">
+          <button class="faq-q" onclick="toggle(this)">Widget 或 Watch 不更新怎么办？</button>
+          <div class="faq-a"><div class="faq-a-inner">请确认 App 处于后台运行状态且 iCloud 同步已开启。如仍不刷新，可在 App 内手动添加一条记录触发更新，或重启设备。Watch 端请确认已通过 Watch App 安装且 Complication 已添加到表盘。</div></div>
+        </div>
+
       </div>
+    </div>
 
-      <div class="faq-item">
-        <div class="faq-q" onclick="toggle(this)">如何把数据导入 Apple「健康」？</div>
-        <div class="faq-a"><div class="faq-a-inner">首次授权后，WaterKit 会自动把饮水记录写入健康 App 的「水」类别。你也可以在「设置 → HealthKit」中手动重新授权或从健康 App 反向导入历史数据。</div></div>
-      </div>
-
-      <div class="faq-item">
-        <div class="faq-q" onclick="toggle(this)">订阅怎么取消或退款？</div>
-        <div class="faq-a"><div class="faq-a-inner">订阅管理由 Apple 负责：前往「设置 → Apple ID → 订阅」即可取消。退款请通过 <a href="https://reportaproblem.apple.com" target="_blank" rel="noopener">reportaproblem.apple.com</a> 申请。WaterKit 提供 3 天免费试用，试用期内取消不收费。</div></div>
-      </div>
-
-      <div class="faq-item">
-        <div class="faq-q" onclick="toggle(this)">更换手机后数据还在吗？</div>
-        <div class="faq-a"><div class="faq-a-inner">只要登录同一 Apple ID 并开启 iCloud 同步，在新设备上打开 WaterKit 即会自动恢复记录。卸载重装同理。</div></div>
-      </div>
-
-      <div class="faq-item">
-        <div class="faq-q" onclick="toggle(this)">Widget 或 Watch 不更新怎么办？</div>
-        <div class="faq-a"><div class="faq-a-inner">请确认 App 处于后台运行状态且 iCloud 同步已开启。如仍不刷新，可在 App 内手动添加一条记录触发更新，或重启设备。Watch 端请确认已通过 Watch App 安装且 Complication 已添加到表盘。</div></div>
+    <!-- Docs & Legal -->
+    <div class="section-wrap">
+      <div class="section-label">文档与法律</div>
+      <div class="doc-grid">
+        <a class="doc-card fade-up" href="manual.html">
+          <span class="icon">📖</span>
+          <div class="info"><h3>操作手册</h3><span>Manual</span></div>
+        </a>
+        <a class="doc-card fade-up" style="transition-delay:0.07s" href="faq.html">
+          <span class="icon">❓</span>
+          <div class="info"><h3>常见问题</h3><span>FAQ</span></div>
+        </a>
+        <a class="doc-card fade-up" style="transition-delay:0.14s" href="privacy-policy.html">
+          <span class="icon">🔒</span>
+          <div class="info"><h3>隐私政策</h3><span>Privacy Policy</span></div>
+        </a>
+        <a class="doc-card fade-up" style="transition-delay:0.21s" href="terms.html">
+          <span class="icon">📄</span>
+          <div class="info"><h3>服务条款</h3><span>Terms of Service</span></div>
+        </a>
       </div>
     </div>
 
-    <!-- Links -->
-    <div class="section">
-      <div class="section-title">文档与法律</div>
-      <div class="link-row">
-        <a class="link-card" href="manual.html">
-          <div class="icon">📖</div>
-          <div><h3>操作手册</h3><span>Manual</span></div>
-        </a>
-        <a class="link-card" href="faq.html">
-          <div class="icon">❓</div>
-          <div><h3>常见问题</h3><span>FAQ</span></div>
-        </a>
-        <a class="link-card" href="privacy-policy.html">
-          <div class="icon">🔒</div>
-          <div><h3>隐私政策</h3><span>Privacy Policy</span></div>
-        </a>
-        <a class="link-card" href="terms.html">
-          <div class="icon">📄</div>
-          <div><h3>服务条款</h3><span>Terms of Service</span></div>
-        </a>
-      </div>
-    </div>
   </div>
 
   <div class="footer">© 2026 WaterKit · DrinkingPanda</div>
@@ -306,6 +360,13 @@
         item.classList.add('open');
       }
     }
+    // fade-in on scroll
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) e.target.classList.add('visible');
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-up').forEach(function(el) { observer.observe(el); });
   </script>
 </body>
 </html>
