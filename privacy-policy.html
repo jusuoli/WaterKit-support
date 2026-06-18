@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WaterKit · 隐私政策 | Privacy Policy</title>
+  <style>
+    :root { --bg:#0f1923; --card:#182634; --primary:#2EA8E0; --text:#e8eef3; --muted:#93a4b3; --border:#2a3d4f; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang SC","Microsoft YaHei",Arial,sans-serif; background:var(--bg); color:var(--text); line-height:1.7; -webkit-font-smoothing:antialiased; }
+    a { color:var(--primary); }
+    .container { max-width:760px; margin:0 auto; padding:48px 20px 64px; }
+    .back { color:var(--muted); font-size:0.9rem; margin-bottom:24px; display:inline-block; }
+    h1 { font-size:2rem; margin-bottom:8px; }
+    .updated { color:var(--muted); font-size:0.88rem; margin-bottom:32px; }
+    .lang-switch { display:inline-flex; gap:4px; background:var(--card); padding:4px; border-radius:999px; border:1px solid var(--border); margin-bottom:32px; }
+    .lang-switch button { background:transparent; color:var(--muted); border:none; padding:6px 16px; border-radius:999px; cursor:pointer; font-size:0.88rem; }
+    .lang-switch button.active { background:var(--primary); color:#fff; }
+    h2 { font-size:1.25rem; margin:28px 0 12px; }
+    p { margin-bottom:12px; color:#d4dde4; }
+    ul { margin:0 0 14px 22px; color:#d4dde4; }
+    li { margin-bottom:6px; }
+    [data-lang] { display:none; }
+    html[data-lang="zh"] [data-lang="zh"] { display:block; }
+    html[data-lang="en"] [data-lang="en"] { display:block; }
+    hr { border:none; border-top:1px solid var(--border); margin:32px 0; }
+  </style>
+</head>
+<body data-lang="zh">
+  <div class="container">
+    <a href="index.html" class="back">← <span data-lang="zh">返回支持首页</span><span data-lang="en">Back to Support</span></a>
+    <h1 data-lang="zh">隐私政策</h1>
+    <h1 data-lang="en">Privacy Policy</h1>
+    <p class="updated" data-lang="zh">最后更新：2026 年 6 月</p>
+    <p class="updated" data-lang="en">Last updated: June 2026</p>
+    <div class="lang-switch">
+      <button id="btn-zh" class="active" onclick="setLang('zh')">中文</button>
+      <button id="btn-en" onclick="setLang('en')">English</button>
+    </div>
+
+    <div data-lang="zh">
+      <p>WaterKit（以下简称「本应用」）由独立开发者开发运营。我们尊重并保护每一位用户的隐私。本政策说明我们如何处理你的数据。</p>
+
+      <h2>1. 我们收集的数据</h2>
+      <ul>
+        <li><strong>饮水记录</strong>：你主动输入的饮水量、饮品类型与时间。这些数据完全由你创建，仅用于应用功能展示与统计。</li>
+        <li><strong>健康数据（HealthKit）</strong>：在你明确授权后，本应用会读写 Apple「健康」中的「水」类别数据，用于同步和去重。健康数据不会离开你的设备与你的 iCloud。</li>
+        <li><strong>iCloud 数据</strong>：用于在多设备间同步记录。数据存储于你个人 Apple ID 对应的 CloudKit 私有数据库。</li>
+        <li><strong>本地偏好</strong>：如语言、单位、目标等设置，保存在设备本地 / App Group。</li>
+      </ul>
+
+      <h2>2. 我们不收集的数据</h2>
+      <p>本应用<strong>不进行任何用户跟踪</strong>，不包含第三方广告 SDK，不收集设备标识符用于广告追踪，也不收集你的位置、通讯录或浏览历史。我们没有任何服务器来存储你的个人数据。</p>
+
+      <h2>3. 数据如何使用</h2>
+      <p>所有数据仅用于实现应用本身的功能（记录、统计、同步、Widget、Apple Watch），不会出售、共享或用于其他目的。</p>
+
+      <h2>4. 内购与订阅</h2>
+      <p>订阅与付款由 Apple 处理，本应用不会收到你的支付卡信息。订单与退款请通过 Apple 管理。</p>
+
+      <h2>5. 数据的删除</h2>
+      <p>你可以随时在应用内删除任意记录或全部数据；卸载应用会清除本地数据；在「系统设置 → Apple ID → iCloud → 管理账户存储」中可清除 iCloud 同步数据。</p>
+
+      <h2>6. 儿童隐私</h2>
+      <p>本应用不面向 13 岁以下儿童，也不会有意收集儿童个人信息。</p>
+
+      <h2>7. 联系方式</h2>
+      <p>如有疑问，请邮件至 <a href="mailto:jusuoli@163.com">jusuoli@163.com</a>。</p>
+    </div>
+
+    <div data-lang="en">
+      <p>WaterKit (the "App") is developed and operated by an independent developer. We respect and protect every user's privacy. This policy explains how we handle your data.</p>
+
+      <h2>1. Data We Collect</h2>
+      <ul>
+        <li><strong>Drink records</strong>: Amounts, drink types and timestamps you enter yourself. Created solely by you and used only for app features and statistics.</li>
+        <li><strong>Health data (HealthKit)</strong>: After your explicit permission, the App reads/writes the "Water" category in Apple Health for sync and de-duplication. Health data never leaves your device and your iCloud.</li>
+        <li><strong>iCloud data</strong>: Used to sync records across your devices. Stored in the CloudKit private database of your own Apple ID.</li>
+        <li><strong>Local preferences</strong>: Settings such as language, units and goals, kept on-device / App Group.</li>
+      </ul>
+
+      <h2>2. Data We Do Not Collect</h2>
+      <p>The App performs <strong>no user tracking</strong>, contains no third-party ad SDKs, does not collect device identifiers for ad tracking, and does not collect your location, contacts or browsing history. We operate no servers that store your personal data.</p>
+
+      <h2>3. How Data Is Used</h2>
+      <p>All data is used only to power the app's own features (logging, charts, sync, Widget, Apple Watch). It is never sold, shared or repurposed.</p>
+
+      <h2>4. In-App Purchases & Subscriptions</h2>
+      <p>Payments and subscriptions are processed by Apple. The App never receives your card details. Manage orders and refunds through Apple.</p>
+
+      <h2>5. Deleting Your Data</h2>
+      <p>You can delete any record or all data from within the app at any time. Uninstalling clears local data; iCloud-synced data can be cleared under Settings → Apple ID → iCloud → Manage Account Storage.</p>
+
+      <h2>6. Children's Privacy</h2>
+      <p>The App is not directed at children under 13 and we do not knowingly collect personal information from children.</p>
+
+      <h2>7. Contact</h2>
+      <p>For questions, email <a href="mailto:jusuoli@163.com">jusuoli@163.com</a>.</p>
+    </div>
+
+    <hr />
+    <p style="color:var(--muted); font-size:0.85rem" data-lang="zh">© 2026 WaterKit · DrinkingPanda</p>
+    <p style="color:var(--muted); font-size:0.85rem" data-lang="en">© 2026 WaterKit · DrinkingPanda</p>
+  </div>
+  <script>
+    function setLang(lang) {
+      document.documentElement.setAttribute('data-lang', lang);
+      document.querySelectorAll('#btn-zh, #btn-en').forEach(b => b.classList.remove('active'));
+      document.getElementById('btn-' + lang).classList.add('active');
+    }
+    setLang('zh');
+  </script>
+</body>
+</html>
