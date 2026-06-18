@@ -220,6 +220,63 @@
       line-height: 1.7;
     }
 
+    /* ── About Section ──────────────────────────── */
+    .about-card {
+      background: var(--card);
+      backdrop-filter: blur(24px) saturate(1.1);
+      -webkit-backdrop-filter: blur(24px) saturate(1.1);
+      border: 1px solid var(--glass-bd);
+      border-top: 1px solid var(--glass-hi);
+      border-radius: var(--radius-sm);
+      padding: 22px 24px;
+      margin-bottom: 14px;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .about-card:hover {
+      border-color: rgba(62,207,159,0.15);
+    }
+    .about-card p {
+      font-size: 14px;
+      color: var(--text-2);
+      line-height: 1.7;
+      margin-bottom: 8px;
+    }
+    .about-card p:last-child { margin-bottom: 0; }
+    .about-subtitle {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--pri);
+      margin-bottom: 10px;
+      letter-spacing: 0.3px;
+    }
+    .about-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .about-list li {
+      font-size: 14px;
+      color: var(--text-2);
+      padding: 5px 0 5px 20px;
+      position: relative;
+      line-height: 1.6;
+    }
+    .about-list li::before {
+      content: '';
+      position: absolute;
+      left: 4px;
+      top: 12px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--pri);
+      opacity: 0.6;
+    }
+    .about-card.danger {
+      border-left: 3px solid #F0A040;
+    }
+    .about-card.danger p { color: #d4a76a; }
+
     /* ── Doc Glass Cards ──────────────────────────── */
     .doc-grid {
       display: grid;
@@ -308,6 +365,48 @@
 
   <div class="container">
 
+    <!-- About -->
+    <div class="section-wrap">
+      <div class="section-label">关于 WaterKit</div>
+      <div class="about-card fade-up">
+        <p>水对人体至关重要，大家却常常忘记喝水，长期缺少足够的水分会导致健康问题。</p>
+        <p>WaterKit 让您用最简单的方法跟踪您的喝水情况，通过提醒您按时喝水来养成新的健康习惯。</p>
+      </div>
+
+      <div class="about-card fade-up" style="transition-delay:0.07s">
+        <div class="about-subtitle">特点</div>
+        <ul class="about-list">
+          <li>方便快捷地定制喝水提醒</li>
+          <li>随时随地检查身体的饮水情况</li>
+          <li>多种可爱角色身体随饮水进度动态填充水波动画</li>
+          <li>分析你的饮水习惯</li>
+          <li>简单直观的个人统计数据和图表</li>
+        </ul>
+      </div>
+
+      <div class="about-card fade-up" style="transition-delay:0.14s">
+        <div class="about-subtitle">注意</div>
+        <p>WaterKit 与 Apple Health 集成，以读取您的体重，性别和水记录，并写入您的水和咖啡因数据。</p>
+        <p>我们使用体重和性别来计算您每日推荐的喝水目标。我们记录您的水和咖啡因摄入量以方便您查看。您可以根据需要在 Apple Health 中打开或关闭这些权限。</p>
+      </div>
+
+      <div class="about-card fade-up danger" style="transition-delay:0.21s">
+        <p>WaterKit 不是一款医疗应用。如果您想将此应用用于医疗目的或者获取特定的水分需求，请咨询您的医生。</p>
+      </div>
+
+      <div class="about-card fade-up" style="transition-delay:0.28s">
+        <div class="about-subtitle">订阅</div>
+        <ul class="about-list">
+          <li>您可以在订阅期内无限制访问 WaterKit 的全部功能。</li>
+          <li>订阅周期：月、年、永久。</li>
+          <li>价格：具体价格请见 App 内部付费页面。</li>
+          <li>付款：通过用户的 Apple ID 账户扣款，用户确认购买后即付款。</li>
+          <li>续订：苹果 Apple ID 账户会在到期前 24 小时内扣费，扣费成功后订阅周期根据所选会员周期顺延。</li>
+          <li>取消续订：如需取消续订，请在当前订阅周期到期前 24 小时内，手动在 Apple ID 设置管理中关闭自动续订功能。</li>
+        </ul>
+      </div>
+    </div>
+
     <!-- Contact -->
     <div class="section-wrap">
       <div class="section-label">联系我们</div>
@@ -318,9 +417,9 @@
           <p><a href="mailto:jusuoli2006@163.com">jusuoli2006@163.com</a></p>
         </div>
         <div class="contact-card fade-up" style="transition-delay:0.1s">
-          <span class="icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
-          <h3>响应时间</h3>
-          <p>工作日 24 小时内回复</p>
+          <span class="icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></span>
+          <h3>交流群</h3>
+          <p>QQ 群：710641131</p>
         </div>
         <div class="contact-card fade-up" style="transition-delay:0.2s">
           <span class="icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></span>
