@@ -8,38 +8,21 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --pri: #3ECF9F;
-      --pri-dim: #2A9D8F;
-      --text: #E6EDF3;
-      --text-2: #94A3B0;
-      --text-3: #5A6673;
-      --card: rgba(22, 27, 34, 0.65);
-      --card-hov: rgba(28, 35, 46, 0.75);
-      --glass-bd: rgba(255, 255, 255, 0.06);
-      --glass-hi: rgba(255, 255, 255, 0.08);
-      --radius: 20px;
-      --radius-sm: 12px;
+      --pri: #3ECF9F; --pri-dim: #2A9D8F; --text: #E6EDF3; --text-2: #94A3B0; --text-3: #5A6673;
+      --card: rgba(22, 27, 34, 0.65); --card-hov: rgba(28, 35, 46, 0.75);
+      --glass-bd: rgba(255, 255, 255, 0.06); --glass-hi: rgba(255, 255, 255, 0.08);
+      --radius: 20px; --radius-sm: 12px;
     }
     body { font-family:'Inter',-apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",Arial,sans-serif; background:#0a0c10; color:var(--text); line-height:1.6; -webkit-font-smoothing:antialiased; min-height:100vh; overflow-x:hidden; }
-
     .bg-orbs { position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden; }
     .bg-orbs span { position:absolute; border-radius:50%; filter:blur(80px); opacity:0.3; animation:orbFloat 20s ease-in-out infinite alternate; }
     .bg-orbs .o1 { width:500px; height:500px; background:#2A9D8F; top:-10%; left:-10%; animation-duration:25s; opacity:0.12; }
     .bg-orbs .o2 { width:400px; height:400px; background:#3ECF9F; top:40%; right:-8%; animation-duration:20s; animation-delay:-5s; opacity:0.08; }
     .bg-orbs .o3 { width:350px; height:350px; background:#E67E22; bottom:-5%; left:30%; animation-duration:22s; animation-delay:-10s; opacity:0.06; }
-    @keyframes orbFloat {
-      0%   { transform:translate(0,0) scale(1); }
-      33%  { transform:translate(40px,-30px) scale(1.1); }
-      66%  { transform:translate(-20px,20px) scale(0.9); }
-      100% { transform:translate(30px,-10px) scale(1.05); }
-    }
-
+    @keyframes orbFloat { 0%{transform:translate(0,0) scale(1)} 33%{transform:translate(40px,-30px) scale(1.1)} 66%{transform:translate(-20px,20px) scale(0.9)} 100%{transform:translate(30px,-10px) scale(1.05)} }
     .container { max-width:800px; margin:0 auto; padding:0 24px; position:relative; z-index:1; }
     a { color:var(--pri); text-decoration:none; transition:color 0.2s; }
     a:hover { color:#6CE0B5; text-decoration:underline; }
-
-    .glass { background:var(--card); backdrop-filter:blur(24px) saturate(1.1); -webkit-backdrop-filter:blur(24px) saturate(1.1); border:1px solid var(--glass-bd); border-top:1px solid var(--glass-hi); box-shadow:0 8px 32px rgba(0,0,0,0.3); }
-
     .hero { position:relative; padding:80px 0 56px; text-align:center; overflow:hidden; z-index:1; }
     .hero::after { content:''; position:absolute; bottom:-2px; left:0; right:0; height:80px; background:#0a0c10; mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 80'%3E%3Cpath d='M0,40 C300,0 500,80 800,40 C1000,10 1100,50 1200,40 L1200,80 L0,80 Z'/%3E%3C/svg%3E"); mask-size:100% 100%; -webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 80'%3E%3Cpath d='M0,40 C300,0 500,80 800,40 C1000,10 1100,50 1200,40 L1200,80 L0,80 Z'/%3E%3C/svg%3E"); -webkit-mask-size:100% 100%; }
     .hero-icon { width:88px; height:88px; margin:0 auto 24px; border-radius:24px; overflow:hidden; box-shadow:0 0 0 2px rgba(62,207,159,0.2),0 16px 48px rgba(0,0,0,0.5); transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1); }
@@ -47,16 +30,13 @@
     .hero-icon img { width:100%; height:100%; display:block; }
     .hero h1 { font-size:32px; font-weight:700; color:#fff; letter-spacing:-0.5px; text-shadow:0 2px 20px rgba(0,0,0,0.3); }
     .hero p { margin-top:8px; font-size:17px; font-weight:400; color:rgba(255,255,255,0.5); }
-
     .lang-bar { position:fixed; top:20px; right:24px; z-index:50; background:rgba(15,18,23,0.7); backdrop-filter:blur(24px) saturate(1.2); -webkit-backdrop-filter:blur(24px) saturate(1.2); border:1px solid rgba(255,255,255,0.08); border-top:1px solid rgba(255,255,255,0.12); border-radius:999px; box-shadow:0 4px 24px rgba(0,0,0,0.4); display:flex; gap:0; overflow:hidden; }
     .lang-bar a { padding:8px 18px; font-size:13px; font-weight:600; color:var(--text-2); text-decoration:none !important; transition:all 0.2s; }
     .lang-bar a:hover { background:rgba(62,207,159,0.1); text-decoration:none; }
     .lang-bar a.active { background:var(--pri-dim); color:#fff; }
-
     .section-wrap { padding:36px 0; }
     .section-wrap + .section-wrap { border-top:1px solid rgba(255,255,255,0.04); }
-    .section-label { font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; color:var(--pri); margin-bottom:18px; opacity:0.8; }
-
+    .section-label { font-size:15px; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; color:var(--pri); margin-bottom:18px; opacity:0.8; }
     .contact-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(210px,1fr)); gap:16px; }
     .contact-card { border-radius:var(--radius); padding:24px; background:var(--card); backdrop-filter:blur(24px) saturate(1.1); -webkit-backdrop-filter:blur(24px) saturate(1.1); border:1px solid var(--glass-bd); border-top:1px solid var(--glass-hi); box-shadow:0 8px 32px rgba(0,0,0,0.3); transition:all 0.3s cubic-bezier(0.4,0,0.2,1); }
     .contact-card:hover { transform:translateY(-6px); box-shadow:0 16px 48px rgba(0,0,0,0.4); border-color:rgba(62,207,159,0.2); background:var(--card-hov); }
@@ -64,17 +44,16 @@
     .contact-card .icon svg { display:block; color:var(--pri); }
     .contact-card h3 { font-size:16px; font-weight:600; margin-bottom:4px; }
     .contact-card p { font-size:14px; color:var(--text-2); }
-
-    .faq-list { display:flex; flex-direction:column; gap:10px; }
-    .faq-item { border-radius:var(--radius-sm); background:var(--card); backdrop-filter:blur(24px) saturate(1.1); -webkit-backdrop-filter:blur(24px) saturate(1.1); border:1px solid var(--glass-bd); border-top:1px solid var(--glass-hi); box-shadow:0 4px 20px rgba(0,0,0,0.2); overflow:hidden; transition:border-color 0.2s; }
-    .faq-item:hover { border-color:rgba(255,255,255,0.1); }
-    .faq-q { width:100%; padding:18px 20px; font-size:15px; font-weight:600; display:flex; justify-content:space-between; align-items:center; cursor:pointer; background:transparent; border:none; color:var(--text); text-align:left; font-family:inherit; transition:background 0.15s; }
-    .faq-q:hover { background:rgba(255,255,255,0.03); }
-    .faq-q::after { content:''; width:8px; height:8px; border-right:2px solid var(--text-3); border-bottom:2px solid var(--text-3); transform:rotate(45deg); transition:transform 0.3s ease; flex-shrink:0; margin-left:12px; }
-    .faq-item.open .faq-q::after { transform:rotate(-135deg); }
-    .faq-a { max-height:0; overflow:hidden; transition:max-height 0.35s ease; }
-    .faq-a-inner { padding:0 20px 18px; font-size:14px; color:var(--text-2); line-height:1.7; }
-
+    .about-card { background:var(--card); backdrop-filter:blur(24px) saturate(1.1); -webkit-backdrop-filter:blur(24px) saturate(1.1); border:1px solid var(--glass-bd); border-top:1px solid var(--glass-hi); border-radius:var(--radius-sm); padding:22px 24px; margin-bottom:14px; transition:all 0.25s cubic-bezier(0.4,0,0.2,1); }
+    .about-card:hover { border-color:rgba(62,207,159,0.15); }
+    .about-card p { font-size:14px; color:var(--text-2); line-height:1.7; margin-bottom:8px; }
+    .about-card p:last-child { margin-bottom:0; }
+    .about-subtitle { font-size:16px; font-weight:700; color:var(--pri); margin-bottom:10px; letter-spacing:0.3px; }
+    .about-list { margin:0; padding:0; list-style:none; }
+    .about-list li { font-size:14px; color:var(--text-2); padding:5px 0 5px 20px; position:relative; line-height:1.6; }
+    .about-list li::before { content:''; position:absolute; left:4px; top:12px; width:6px; height:6px; border-radius:50%; background:var(--pri); opacity:0.6; }
+    .about-card.danger { border-left:3px solid #F0A040; }
+    .about-card.danger p { color:#d4a76a; }
     .doc-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
     .doc-card { border-radius:var(--radius-sm); padding:20px; display:flex; align-items:center; gap:14px; background:var(--card); backdrop-filter:blur(24px) saturate(1.1); -webkit-backdrop-filter:blur(24px) saturate(1.1); border:1px solid var(--glass-bd); border-top:1px solid var(--glass-hi); box-shadow:0 4px 20px rgba(0,0,0,0.2); transition:all 0.25s cubic-bezier(0.4,0,0.2,1); }
     .doc-card:hover { transform:translateY(-3px); box-shadow:0 8px 32px rgba(0,0,0,0.35); border-color:rgba(62,207,159,0.2); background:var(--card-hov); text-decoration:none; }
@@ -82,12 +61,9 @@
     .doc-card .icon svg { color:var(--pri); }
     .doc-card .info h3 { font-size:14px; font-weight:600; }
     .doc-card .info span { font-size:12px; color:var(--text-3); }
-
     .footer { text-align:center; padding:40px 24px 48px; font-size:13px; color:var(--text-3); border-top:1px solid rgba(255,255,255,0.04); margin-top:16px; position:relative; z-index:1; }
-
     .fade-up { opacity:0; transform:translateY(24px); transition:opacity 0.6s ease,transform 0.6s ease; }
     .fade-up.visible { opacity:1; transform:translateY(0); }
-
     @media (max-width:520px) { .hero{ padding:52px 0 40px; } .hero h1{ font-size:26px; } .hero-icon{ width:72px; height:72px; } .lang-bar{ top:auto; bottom:20px; right:20px; left:20px; justify-content:center; } .contact-grid{ grid-template-columns:1fr; } .doc-grid{ grid-template-columns:repeat(4,1fr); gap:8px; } .doc-card{ padding:14px 10px; flex-direction:column; text-align:center; gap:8px; } .doc-card .icon svg{ width:20px; height:20px; } .doc-card .info span{ display:none; } }
   </style>
 </head>
@@ -96,24 +72,56 @@
   <nav class="lang-bar"><a href="index.html">中文</a><a href="index_en.html" class="active">EN</a></nav>
   <div class="hero"><div class="container"><div class="hero-icon"><img src="assets/app-icon.png" alt="WaterKit" /></div><h1>WaterKit</h1><p>A gentle hydration companion with a panda to grow</p></div></div>
   <div class="container">
+
+    <!-- Contact -->
     <div class="section-wrap">
       <div class="section-label">Contact</div>
       <div class="contact-grid">
         <div class="contact-card fade-up"><span class="icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4l-10 8L2 4"/></svg></span><h3>Email Support</h3><p><a href="mailto:jusuoli2006@163.com">jusuoli2006@163.com</a></p></div>
-        <div class="contact-card fade-up" style="transition-delay:0.1s"><span class="icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span><h3>Response Time</h3><p>Within 24 hours on weekdays</p></div>
+        <div class="contact-card fade-up" style="transition-delay:0.1s"><span class="icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></span><h3>QQ Group</h3><p>710641131</p></div>
         <div class="contact-card fade-up" style="transition-delay:0.2s"><span class="icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></span><h3>In-App Feedback</h3><p>Settings → Feedback</p></div>
       </div>
     </div>
+
+    <!-- About -->
     <div class="section-wrap">
-      <div class="section-label">FAQ</div>
-      <div class="faq-list">
-        <div class="faq-item fade-up"><button class="faq-q" onclick="toggle(this)">Does my data sync across devices?</button><div class="faq-a"><div class="faq-a-inner">Yes. WaterKit syncs your drink records via iCloud (CloudKit private database). Make sure you're signed in to the same Apple ID and have allowed WaterKit to use iCloud under Settings → Apple ID → iCloud.</div></div></div>
-        <div class="faq-item fade-up" style="transition-delay:0.05s"><button class="faq-q" onclick="toggle(this)">How do I send data to Apple Health?</button><div class="faq-a"><div class="faq-a-inner">After the first authorization, WaterKit automatically writes drink records to Apple Health under the "Water" category. You can also re-authorize or import historical data from Health in Settings → HealthKit.</div></div></div>
-        <div class="faq-item fade-up" style="transition-delay:0.1s"><button class="faq-q" onclick="toggle(this)">How do I cancel a subscription or get a refund?</button><div class="faq-a"><div class="faq-a-inner">Subscriptions are managed by Apple: cancel at Settings → Apple ID → Subscriptions. For refunds, use <a href="https://reportaproblem.apple.com" target="_blank" rel="noopener">reportaproblem.apple.com</a>. WaterKit offers a 3-day free trial; canceling during the trial incurs no charge.</div></div></div>
-        <div class="faq-item fade-up" style="transition-delay:0.15s"><button class="faq-q" onclick="toggle(this)">Will my data stay after I switch phones?</button><div class="faq-a"><div class="faq-a-inner">As long as you sign in to the same Apple ID with iCloud sync enabled, opening WaterKit on a new device restores your records automatically. Same applies to reinstall.</div></div></div>
-        <div class="faq-item fade-up" style="transition-delay:0.2s"><button class="faq-q" onclick="toggle(this)">Widget or Watch isn't updating?</button><div class="faq-a"><div class="faq-a-inner">Make sure the app is allowed in the background and iCloud sync is on. If it still won't refresh, adding a record in the app forces an update, or try restarting. For Watch, confirm it's installed via the Watch app and the complication is added to the face.</div></div></div>
+      <div class="section-label">About WaterKit</div>
+      <div class="about-card fade-up">
+        <p>Water is essential to human health, yet many people forget to drink enough water throughout the day. Chronic dehydration can lead to various health problems.</p>
+        <p>WaterKit helps you track your hydration in the simplest way, building healthy habits through timely reminders.</p>
+      </div>
+      <div class="about-card fade-up" style="transition-delay:0.07s">
+        <div class="about-subtitle">Features</div>
+        <ul class="about-list">
+          <li>Customizable hydration reminders</li>
+          <li>Check your hydration status anytime, anywhere</li>
+          <li>Multiple cute character bodies with dynamic water-fill animations</li>
+          <li>Analyze your drinking habits</li>
+          <li>Simple and intuitive statistics and charts</li>
+        </ul>
+      </div>
+      <div class="about-card fade-up" style="transition-delay:0.14s">
+        <div class="about-subtitle">Note</div>
+        <p>WaterKit integrates with Apple Health to read your weight, biological sex and water records, and write your water and caffeine data.</p>
+        <p>We use weight and biological sex to calculate your daily recommended hydration goal. We record your water and caffeine intake for your review. You can enable or disable these permissions in Apple Health at any time.</p>
+      </div>
+      <div class="about-card fade-up danger" style="transition-delay:0.21s">
+        <p>WaterKit is not a medical app. If you intend to use this app for medical purposes or need specific hydration requirements, please consult your doctor.</p>
+      </div>
+      <div class="about-card fade-up" style="transition-delay:0.28s">
+        <div class="about-subtitle">Subscription</div>
+        <ul class="about-list">
+          <li>Unlimited access to all WaterKit features during the subscription period</li>
+          <li>Subscription periods: Monthly, Yearly, Lifetime</li>
+          <li>Price: See in-app purchase page for details</li>
+          <li>Payment: Charged to your Apple ID account upon confirmation of purchase</li>
+          <li>Renewal: Apple ID account will be charged within 24 hours before the current period ends</li>
+          <li>Cancellation: Turn off auto-renewal in Apple ID settings at least 24 hours before expiry</li>
+        </ul>
       </div>
     </div>
+
+    <!-- Docs & Legal -->
     <div class="section-wrap">
       <div class="section-label">Docs &amp; Legal</div>
       <div class="doc-grid">
@@ -123,10 +131,10 @@
         <a class="doc-card fade-up" style="transition-delay:0.21s" href="terms_en.html"><span class="icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span><div class="info"><h3>Terms of Service</h3></div></a>
       </div>
     </div>
+
   </div>
   <div class="footer">© 2026 WaterKit · DrinkingPanda</div>
   <script>
-    function toggle(el){var item=el.parentElement;var answer=item.querySelector('.faq-a');if(item.classList.contains('open')){answer.style.maxHeight='0';item.classList.remove('open')}else{answer.style.maxHeight=answer.scrollHeight+'px';item.classList.add('open')}}
     new IntersectionObserver(function(e){e.forEach(function(e){if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:0.1}).observe(document.body);document.querySelectorAll('.fade-up').forEach(function(el){new IntersectionObserver(function(e){e.forEach(function(e){if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:0.1}).observe(el)});
   </script>
 </body>
