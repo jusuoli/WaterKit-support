@@ -134,7 +134,7 @@
     .section-wrap { padding: 36px 0; }
     .section-wrap + .section-wrap { border-top: 1px solid rgba(255,255,255,0.04); }
     .section-label {
-      font-size: 12px; font-weight: 700;
+      font-size: 15px; font-weight: 700;
       text-transform: uppercase; letter-spacing: 1.5px;
       color: var(--pri);
       margin-bottom: 18px;
@@ -243,7 +243,7 @@
     }
     .about-card p:last-child { margin-bottom: 0; }
     .about-subtitle {
-      font-size: 13px;
+      font-size: 16px;
       font-weight: 700;
       color: var(--pri);
       margin-bottom: 10px;
@@ -365,6 +365,28 @@
 
   <div class="container">
 
+    <!-- Contact -->
+    <div class="section-wrap">
+      <div class="section-label">联系我们</div>
+      <div class="contact-grid">
+        <div class="contact-card fade-up">
+          <span class="icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4l-10 8L2 4"/></svg></span>
+          <h3>邮件支持</h3>
+          <p><a href="mailto:jusuoli2006@163.com">jusuoli2006@163.com</a></p>
+        </div>
+        <div class="contact-card fade-up" style="transition-delay:0.1s">
+          <span class="icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></span>
+          <h3>交流群</h3>
+          <p>QQ 群：710641131</p>
+        </div>
+        <div class="contact-card fade-up" style="transition-delay:0.2s">
+          <span class="icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></span>
+          <h3>反馈渠道</h3>
+          <p>App 内「设置 → 反馈」</p>
+        </div>
+      </div>
+    </div>
+
     <!-- About -->
     <div class="section-wrap">
       <div class="section-label">关于 WaterKit</div>
@@ -404,61 +426,6 @@
           <li>续订：苹果 Apple ID 账户会在到期前 24 小时内扣费，扣费成功后订阅周期根据所选会员周期顺延。</li>
           <li>取消续订：如需取消续订，请在当前订阅周期到期前 24 小时内，手动在 Apple ID 设置管理中关闭自动续订功能。</li>
         </ul>
-      </div>
-    </div>
-
-    <!-- Contact -->
-    <div class="section-wrap">
-      <div class="section-label">联系我们</div>
-      <div class="contact-grid">
-        <div class="contact-card fade-up">
-          <span class="icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4l-10 8L2 4"/></svg></span>
-          <h3>邮件支持</h3>
-          <p><a href="mailto:jusuoli2006@163.com">jusuoli2006@163.com</a></p>
-        </div>
-        <div class="contact-card fade-up" style="transition-delay:0.1s">
-          <span class="icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></span>
-          <h3>交流群</h3>
-          <p>QQ 群：710641131</p>
-        </div>
-        <div class="contact-card fade-up" style="transition-delay:0.2s">
-          <span class="icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></span>
-          <h3>反馈渠道</h3>
-          <p>App 内「设置 → 反馈」</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- FAQ -->
-    <div class="section-wrap">
-      <div class="section-label">常见问题</div>
-      <div class="faq-list">
-
-        <div class="faq-item fade-up">
-          <button class="faq-q" onclick="toggle(this)">数据能在多台设备间同步吗？</button>
-          <div class="faq-a"><div class="faq-a-inner">可以。WaterKit 使用 iCloud 私有数据库（CloudKit）同步你的饮水记录。请确保设备已登录同一个 Apple ID，并在「设置 → Apple ID → iCloud」中允许 WaterKit 使用 iCloud。</div></div>
-        </div>
-
-        <div class="faq-item fade-up" style="transition-delay:0.05s">
-          <button class="faq-q" onclick="toggle(this)">如何把数据导入 Apple「健康」？</button>
-          <div class="faq-a"><div class="faq-a-inner">首次授权后，WaterKit 会自动把饮水记录写入健康 App 的「水」类别。你也可以在「设置 → HealthKit」中手动重新授权或从健康 App 反向导入历史数据。</div></div>
-        </div>
-
-        <div class="faq-item fade-up" style="transition-delay:0.1s">
-          <button class="faq-q" onclick="toggle(this)">订阅怎么取消或退款？</button>
-          <div class="faq-a"><div class="faq-a-inner">订阅管理由 Apple 负责：前往「设置 → Apple ID → 订阅」即可取消。退款请通过 <a href="https://reportaproblem.apple.com" target="_blank" rel="noopener">reportaproblem.apple.com</a> 申请。WaterKit 提供 3 天免费试用，试用期内取消不收费。</div></div>
-        </div>
-
-        <div class="faq-item fade-up" style="transition-delay:0.15s">
-          <button class="faq-q" onclick="toggle(this)">更换手机后数据还在吗？</button>
-          <div class="faq-a"><div class="faq-a-inner">只要登录同一 Apple ID 并开启 iCloud 同步，在新设备上打开 WaterKit 即会自动恢复记录。卸载重装同理。</div></div>
-        </div>
-
-        <div class="faq-item fade-up" style="transition-delay:0.2s">
-          <button class="faq-q" onclick="toggle(this)">Widget 或 Watch 不更新怎么办？</button>
-          <div class="faq-a"><div class="faq-a-inner">请确认 App 处于后台运行状态且 iCloud 同步已开启。如仍不刷新，可在 App 内手动添加一条记录触发更新，或重启设备。Watch 端请确认已通过 Watch App 安装且 Complication 已添加到表盘。</div></div>
-        </div>
-
       </div>
     </div>
 
