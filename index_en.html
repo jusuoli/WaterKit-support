@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>WaterKit · 技术支持</title>
-  <meta name="description" content="WaterKit 喝水熊猫 — 技术支持、常见问题、隐私政策与联系方式。" />
+  <title>WaterKit · Support</title>
+  <meta name="description" content="WaterKit Drinking Panda — support, FAQ, privacy policy and contact." />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -25,7 +25,7 @@
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
-        "PingFang SC", "Helvetica Neue", "Microsoft YaHei", sans-serif;
+        "Helvetica Neue", Arial, sans-serif;
       background: var(--bg);
       color: var(--text);
       line-height: 1.6;
@@ -37,7 +37,6 @@
 
     .container { max-width: 720px; margin: 0 auto; padding: 0 24px; }
 
-    /* ── Lang Switch ─────────────────────────────── */
     .lang-bar {
       position: fixed; top: 16px; right: 16px; z-index: 10;
       display: flex; gap: 0;
@@ -52,7 +51,6 @@
     .lang-bar a:hover { background: #f0f0f0; text-decoration: none; }
     .lang-bar a.active { background: var(--primary); color: #fff; }
 
-    /* ── Hero ─────────────────────────────────────── */
     .hero {
       text-align: center;
       padding: 72px 0 48px;
@@ -66,7 +64,6 @@
       border: 3px solid var(--white);
     }
     .hero-icon img { width: 100%; height: 100%; display: block; }
-
     .hero h1 {
       font-size: 28px; font-weight: 700;
       letter-spacing: -0.3px;
@@ -78,13 +75,8 @@
       color: var(--text-2);
     }
 
-    /* ── Section ──────────────────────────────────── */
-    .section {
-      padding: 32px 0;
-    }
-    .section + .section {
-      border-top: 1px solid var(--border);
-    }
+    .section { padding: 32px 0; }
+    .section + .section { border-top: 1px solid var(--border); }
     .section-title {
       font-size: 13px; font-weight: 600;
       text-transform: uppercase;
@@ -93,7 +85,6 @@
       margin-bottom: 20px;
     }
 
-    /* ── Contact Cards ───────────────────────────── */
     .contact-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -111,7 +102,6 @@
     .contact-card h3 { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
     .contact-card p { font-size: 14px; color: var(--text-2); }
 
-    /* ── FAQ ──────────────────────────────────────── */
     .faq-item {
       background: var(--white);
       border: 1px solid var(--border);
@@ -154,11 +144,7 @@
       line-height: 1.7;
     }
 
-    /* ── Links ────────────────────────────────────── */
-    .link-row {
-      display: flex; gap: 12px;
-      flex-wrap: wrap;
-    }
+    .link-row { display: flex; gap: 12px; flex-wrap: wrap; }
     .link-card {
       flex: 1;
       min-width: 200px;
@@ -180,7 +166,6 @@
     .link-card h3 { font-size: 15px; font-weight: 600; }
     .link-card span { font-size: 13px; color: var(--text-3); }
 
-    /* ── Footer ──────────────────────────────────── */
     .footer {
       text-align: center;
       padding: 32px 24px 48px;
@@ -188,7 +173,6 @@
       color: var(--text-3);
     }
 
-    /* ── Responsive ──────────────────────────────── */
     @media (max-width: 480px) {
       .hero { padding: 56px 0 36px; }
       .hero h1 { font-size: 24px; }
@@ -199,94 +183,89 @@
 </head>
 <body>
 
-  <!-- Language Switch -->
   <nav class="lang-bar">
-    <a href="index.html" class="active">中文</a>
-    <a href="index_en.html">EN</a>
+    <a href="index.html">中文</a>
+    <a href="index_en.html" class="active">EN</a>
   </nav>
 
-  <!-- Hero -->
   <div class="hero">
     <div class="container">
       <div class="hero-icon"><img src="assets/app-icon.png" alt="WaterKit" /></div>
-      <h1>WaterKit 喝水熊猫</h1>
-      <p>温柔提醒你喝水的国风养成 App</p>
+      <h1>WaterKit</h1>
+      <p>A gentle hydration companion with a panda to grow</p>
     </div>
   </div>
 
   <div class="container">
 
-    <!-- Contact -->
     <div class="section">
-      <div class="section-title">联系我们</div>
+      <div class="section-title">Contact</div>
       <div class="contact-grid">
         <div class="contact-card">
           <div class="icon">✉️</div>
-          <h3>邮件支持</h3>
+          <h3>Email Support</h3>
           <p><a href="mailto:jusuoli@163.com">jusuoli@163.com</a></p>
         </div>
         <div class="contact-card">
           <div class="icon">⏱️</div>
-          <h3>响应时间</h3>
-          <p>工作日 24 小时内回复</p>
+          <h3>Response Time</h3>
+          <p>Within 24 hours on weekdays</p>
         </div>
         <div class="contact-card">
           <div class="icon">💬</div>
-          <h3>反馈渠道</h3>
-          <p>App 内「设置 → 反馈」</p>
+          <h3>In-App Feedback</h3>
+          <p>Settings → Feedback</p>
         </div>
       </div>
     </div>
 
-    <!-- FAQ -->
     <div class="section">
-      <div class="section-title">常见问题</div>
+      <div class="section-title">FAQ</div>
 
       <div class="faq-item">
-        <div class="faq-q" onclick="toggle(this)">数据能在多台设备间同步吗？</div>
-        <div class="faq-a"><div class="faq-a-inner">可以。WaterKit 使用 iCloud 私有数据库（CloudKit）同步你的饮水记录。请确保设备已登录同一个 Apple ID，并在「设置 → Apple ID → iCloud」中允许 WaterKit 使用 iCloud。</div></div>
+        <div class="faq-q" onclick="toggle(this)">Does my data sync across devices?</div>
+        <div class="faq-a"><div class="faq-a-inner">Yes. WaterKit syncs your drink records via iCloud (CloudKit private database). Make sure you're signed in to the same Apple ID and have allowed WaterKit to use iCloud under Settings → Apple ID → iCloud.</div></div>
       </div>
 
       <div class="faq-item">
-        <div class="faq-q" onclick="toggle(this)">如何把数据导入 Apple「健康」？</div>
-        <div class="faq-a"><div class="faq-a-inner">首次授权后，WaterKit 会自动把饮水记录写入健康 App 的「水」类别。你也可以在「设置 → HealthKit」中手动重新授权或从健康 App 反向导入历史数据。</div></div>
+        <div class="faq-q" onclick="toggle(this)">How do I send data to Apple Health?</div>
+        <div class="faq-a"><div class="faq-a-inner">After the first authorization, WaterKit automatically writes drink records to Apple Health under the "Water" category. You can also re-authorize or import historical data from Health in Settings → HealthKit.</div></div>
       </div>
 
       <div class="faq-item">
-        <div class="faq-q" onclick="toggle(this)">订阅怎么取消或退款？</div>
-        <div class="faq-a"><div class="faq-a-inner">订阅管理由 Apple 负责：前往「设置 → Apple ID → 订阅」即可取消。退款请通过 <a href="https://reportaproblem.apple.com" target="_blank" rel="noopener">reportaproblem.apple.com</a> 申请。WaterKit 提供 3 天免费试用，试用期内取消不收费。</div></div>
+        <div class="faq-q" onclick="toggle(this)">How do I cancel a subscription or get a refund?</div>
+        <div class="faq-a"><div class="faq-a-inner">Subscriptions are managed by Apple: cancel at Settings → Apple ID → Subscriptions. For refunds, use <a href="https://reportaproblem.apple.com" target="_blank" rel="noopener">reportaproblem.apple.com</a>. WaterKit offers a 3-day free trial; canceling during the trial incurs no charge.</div></div>
       </div>
 
       <div class="faq-item">
-        <div class="faq-q" onclick="toggle(this)">更换手机后数据还在吗？</div>
-        <div class="faq-a"><div class="faq-a-inner">只要登录同一 Apple ID 并开启 iCloud 同步，在新设备上打开 WaterKit 即会自动恢复记录。卸载重装同理。</div></div>
+        <div class="faq-q" onclick="toggle(this)">Will my data stay after I switch phones?</div>
+        <div class="faq-a"><div class="faq-a-inner">As long as you sign in to the same Apple ID with iCloud sync enabled, opening WaterKit on a new device restores your records automatically. Same applies to reinstall.</div></div>
       </div>
 
       <div class="faq-item">
-        <div class="faq-q" onclick="toggle(this)">Widget 或 Watch 不更新怎么办？</div>
-        <div class="faq-a"><div class="faq-a-inner">请确认 App 处于后台运行状态且 iCloud 同步已开启。如仍不刷新，可在 App 内手动添加一条记录触发更新，或重启设备。Watch 端请确认已通过 Watch App 安装且 Complication 已添加到表盘。</div></div>
+        <div class="faq-q" onclick="toggle(this)">Widget or Watch isn't updating?</div>
+        <div class="faq-a"><div class="faq-a-inner">Make sure the app is allowed in the background and iCloud sync is on. If it still won't refresh, adding a record in the app forces an update, or try restarting. For Watch, confirm it's installed via the Watch app and the complication is added to the face.</div></div>
       </div>
     </div>
 
-    <!-- Links -->
     <div class="section">
-      <div class="section-title">文档与法律</div>
+      <div class="section-title">Docs &amp; Legal</div>
       <div class="link-row">
         <a class="link-card" href="manual.html">
           <div class="icon">📖</div>
-          <div><h3>操作手册</h3><span>Manual</span></div>
+          <div><h3>User Manual</h3><span>操作手册</span></div>
         </a>
         <a class="link-card" href="faq.html">
           <div class="icon">❓</div>
-          <div><h3>常见问题</h3><span>FAQ</span></div>
+          <div><h3>FAQ</h3><span>常见问题</span></div>
         </a>
-        <a class="link-card" href="privacy-policy.html">
+        <a class="link-card" href="privacy-policy_en.html">
           <div class="icon">🔒</div>
-          <div><h3>隐私政策</h3><span>Privacy Policy</span></div>
+          <div><h3>Privacy Policy</h3><span>隐私政策</span></div>
         </a>
-        <a class="link-card" href="terms.html">
+        <a class="link-card" href="terms_en.html">
           <div class="icon">📄</div>
-          <div><h3>服务条款</h3><span>Terms of Service</span></div>
+          <div><h3>Terms of Service</h3><span>服务条款</span></div>
         </a>
       </div>
     </div>

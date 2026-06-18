@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WaterKit FAQ</title>
+    <style>
+        :root {
+            --bg: #f5f7fa;
+            --card-bg: #ffffff;
+            --text-primary: #1a1a2e;
+            --text-secondary: #4a4a68;
+            --text-muted: #8a8ab3;
+            --border: #e0e0eb;
+            --accent: #4a6cf7;
+            --accent-light: #e8edff;
+            --shadow: 0 2px 12px rgba(0,0,0,0.06);
+            --radius: 12px;
+        }
+        [data-theme="dark"] {
+            --bg: #0f0f23;
+            --card-bg: #1a1a2e;
+            --text-primary: #f0f0f8;
+            --text-secondary: #b0b0d3;
+            --text-muted: #6a6a9a;
+            --border: #2a2a4e;
+            --accent: #6a8cff;
+            --accent-light: #1a1a3e;
+            --shadow: 0 4px 24px rgba(0,0,0,0.4);
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: var(--bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        .app {
+            display: flex;
+            max-width: 1200px;
+            margin: 0 auto;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 260px;
+            background: var(--card-bg);
+            border-right: 1px solid var(--border);
+            padding: 24px;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+            flex-shrink: 0;
+        }
+        .sidebar-brand {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--accent);
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .brand-icon { font-size: 1.6rem; }
+        .nav-section { margin-bottom: 24px; }
+        .nav-group-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            letter-spacing: 0.1em;
+            margin-bottom: 8px;
+        }
+        .nav-item {
+            display: block;
+            padding: 7px 12px;
+            border-radius: 8px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.15s;
+            cursor: pointer;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+            font-family: inherit;
+            line-height: 1.4;
+        }
+        .nav-item:hover {
+            background: var(--accent-light);
+            color: var(--accent);
+        }
+        .nav-item.active {
+            background: var(--accent);
+            color: white;
+        }
+
+        .main {
+            flex: 1;
+            padding: 40px;
+            max-width: calc(100% - 260px);
+            overflow-y: auto;
+        }
+
+        .faq-category {
+            margin-bottom: 40px;
+        }
+        .faq-category h2 {
+            font-size: 1.5rem;
+            margin-top: 0;
+            margin-bottom: 16px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .faq-category h2 .cat-icon {
+            font-size: 1.3rem;
+        }
+
+        .faq-item {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            margin-bottom: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: border-color 0.2s;
+        }
+        .faq-item:hover {
+            border-color: var(--accent);
+        }
+        .faq-question {
+            padding: 16px 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--text-primary);
+            user-select: none;
+        }
+        .faq-question .chevron {
+            flex-shrink: 0;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            transition: transform 0.25s;
+        }
+        .faq-item.open .faq-question .chevron {
+            transform: rotate(180deg);
+        }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+            padding: 0 20px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.7;
+        }
+        .faq-item.open .faq-answer {
+            max-height: 800px;
+            padding: 0 20px 16px;
+        }
+        .faq-answer p { margin: 0 0 8px; }
+        .faq-answer p:last-child { margin-bottom: 0; }
+        .faq-answer ol, .faq-answer ul {
+            margin: 8px 0;
+            padding-left: 20px;
+        }
+        .faq-answer li { margin-bottom: 6px; }
+
+        .table-wrap {
+            overflow-x: auto;
+            margin: 16px 0;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            background: var(--card-bg);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+        thead { background: var(--accent-light); }
+        th, td {
+            padding: 10px 14px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+            vertical-align: middle;
+        }
+        th { font-weight: 700; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+
+        .alert {
+            background: var(--accent-light);
+            border-left: 4px solid var(--accent);
+            padding: 16px;
+            border-radius: var(--radius);
+            margin: 16px 0;
+        }
+        .alert h4 { margin: 0 0 8px 0; color: var(--accent); }
+        .alert p { margin: 0; }
+        .alert-warning {
+            background: #fff7ed;
+            border-left-color: #f97316;
+        }
+        [data-theme="dark"] .alert-warning {
+            background: #2a1a0e;
+            border-left-color: #f97316;
+        }
+        .alert-warning h4 { color: #c2410c; }
+        [data-theme="dark"] .alert-warning h4 { color: #fb923c; }
+
+        .tag {
+            display: inline-block;
+            background: var(--accent-light);
+            color: var(--accent);
+            padding: 2px 8px;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: 6px;
+        }
+        .tag-pro {
+            background: #fff7ed;
+            color: #c2410c;
+        }
+        [data-theme="dark"] .tag-pro {
+            background: #2a1a0e;
+            color: #fb923c;
+        }
+
+        .sidebar-actions {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-left: auto;
+        }
+        .nav-action-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .nav-action-btn:hover { border-color: var(--accent); color: var(--accent); }
+        .mobile-nav-actions { display: none; }
+
+        .mobile-nav {
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            background: var(--card-bg);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 200;
+        }
+        .mobile-menu-btn {
+            border: none;
+            background: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-primary);
+        }
+        .overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.4);
+            z-index: 199;
+        }
+        .overlay.active { display: block; }
+
+        @media (max-width: 768px) {
+            .app { flex-direction: column; }
+            .sidebar {
+                position: fixed;
+                left: -260px;
+                top: 0;
+                z-index: 201;
+                transition: left 0.3s ease;
+                box-shadow: 2px 0 12px rgba(0,0,0,0.1);
+            }
+            .sidebar.open { left: 0; }
+            .main {
+                max-width: 100%;
+                padding: 20px;
+            }
+            .mobile-nav { display: flex; }
+            .mobile-nav-actions { display: flex; }
+            .sidebar-actions { display: none; }
+            .nav-item { font-size: 12px; padding: 6px 10px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="mobile-nav">
+        <button class="mobile-menu-btn" onclick="toggleSidebar()">☰</button>
+        <div class="sidebar-brand">
+            <span class="brand-icon">🐼</span>
+            <span id="brandTitle">WaterKit</span>
+        </div>
+        <div class="mobile-nav-actions">
+            <button class="nav-action-btn" id="languageToggle" onclick="toggleLanguage()">中</button>
+            <button class="nav-action-btn" id="themeToggle" onclick="toggleTheme()">🌙</button>
+        </div>
+    </div>
+    <div class="overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+    <div class="app">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-brand">
+                <span class="brand-icon">🐼</span>
+                <span>WaterKit</span>
+                <div class="sidebar-actions">
+                    <button class="nav-action-btn" id="languageToggleDesktop" onclick="toggleLanguage()">中</button>
+                    <button class="nav-action-btn" id="themeToggleDesktop" onclick="toggleTheme()">🌙</button>
+                </div>
+            </div>
+
+            <nav class="nav-section">
+                <div class="nav-group-title" id="navTitle">问题分类</div>
+                <button class="nav-item active" onclick="scrollToCategory('cat-notification')" id="navNotification">通知与提醒</button>
+                <button class="nav-item" onclick="scrollToCategory('cat-watch')" id="navWatch">Apple Watch</button>
+                <button class="nav-item" onclick="scrollToCategory('cat-widget')" id="navWidget">小组件</button>
+                <button class="nav-item" onclick="scrollToCategory('cat-usage')" id="navUsage">使用问题</button>
+                <button class="nav-item" onclick="scrollToCategory('cat-sync')" id="navSync">数据与同步</button>
+                <button class="nav-item" onclick="scrollToCategory('cat-purchase')" id="navPurchase">购买与会员</button>
+                <button class="nav-item" onclick="scrollToCategory('cat-other')" id="navOther">其他问题</button>
+            </nav>
+
+            <div style="margin-top: 32px; text-align: center;">
+                <button onclick="window.close()" style="width: 100%; padding: 8px 16px; border-radius: 8px; border: 1px solid var(--border); background: var(--card-bg); color: var(--text-secondary); cursor: pointer; font-weight: 600;" id="btnComplete">完成</button>
+            </div>
+        </aside>
+
+        <main class="main">
+            <h1 id="pageTitle" style="margin-top:0; margin-bottom:8px; font-size:2rem; letter-spacing:-0.02em;">常见问题 FAQ</h1>
+            <p id="pageSubtitle" style="color:var(--text-secondary); margin-top:0; margin-bottom:32px;">以下是用户最常遇到的问题及解答</p>
+
+            <div class="faq-category" id="cat-notification">
+                <h2><span class="cat-icon">🔔</span> <span id="catNotificationTitle">通知与提醒</span></h2>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span id="q1">iPhone 上无法收到喝水提醒</span>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p id="q1a1"><strong>没有开启系统权限</strong></p>
+                        <ol>
+                            <li id="q1s1">打开【设置】</li>
+                            <li id="q1s2">找到 App → WaterKit</li>
+                            <li id="q1s3">点击【通知】，确保允许通知已开启</li>
+                        </ol>
+                        <p id="q1a2"><strong>长时间未打开 App</strong></p>
+                        <p id="q1a3">喝水提醒是通过预埋通知的形式进行发送，iOS 系统每次允许预埋的数量有限，如果数天没有打开 App，将耗尽预埋数量，所以无法产生新的喝水提醒。重新打开 WaterKit 即可恢复。</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-category" id="cat-watch">
+                <h2><span class="cat-icon">⌚</span> <span id="catWatchTitle">Apple Watch</span></h2>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span id="q2">Apple Watch 无法进入 App</span>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p id="q2a1">请先检查 iPhone 与 Apple Watch 的系统版本，版本过低会导致 iPhone 与 Apple Watch 无法通信。系统要求：<strong>iOS 17.0</strong> 和 <strong>watchOS 10.0</strong> 或更高版本。</p>
+                        <p id="q2a2">如果系统符合要求，则是由于 iPhone 和 Apple Watch 两个设备上的 App 版本不一致，请更新到最新版本：</p>
+                        <ol>
+                            <li id="q2s1">删除 Apple Watch 上的 WaterKit App</li>
+                            <li id="q2s2">升级 iPhone 上的 WaterKit App 到最新版本</li>
+                            <li id="q2s3">重新下载 Apple Watch 上的 WaterKit App</li>
+                        </ol>
+                        <div class="alert" style="margin-top:12px;">
+                            <h4 id="q2noteTitle">📌 注意</h4>
+                            <p id="q2note1">如果以上方法仍无法解决，请检查系统版本是否匹配。由于 Apple 的系统要求，iPhone 与 Apple Watch 需要保持对应版本才能正常通过配对同步，例如：</p>
+                            <ul>
+                                <li>iOS 26 对应 watchOS 26</li>
+                                <li>iOS 18 对应 watchOS 11</li>
+                                <li>iOS 17 对应 watchOS 10</li>
+                            </ul>
+                            <p id="q2note2">如果系统版本不匹配，则只能通过 iCloud 进行数据同步。由于 iCloud 同步可能不够稳定，可能会出现同步延迟或不同步的情况。建议将设备系统升级到对应版本后再尝试。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span id="q3">Apple Watch 喝水提醒的声音、震动</span>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p id="q3a1">Apple Watch 上的喝水提醒的声音与震动是与系统设置一致的，您需要在 <strong>Apple Watch</strong> → <strong>设置</strong> → <strong>声效与触感反馈</strong> 中进行修改。</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span id="q4">Apple Watch 表盘刷新不及时</span>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p id="q4a1">小组件和复杂功能会在您打开 Apple Watch 上的 App 后立即同步数据。如果未打开 App，为节省电量，它们会每隔 10 至 60 分钟自动更新一次。这是由于系统限制，我们无法干预。</p>
+                        <p id="q4a2">如果长时间未刷新（如持续半天或一天），建议尝试重启 Apple Watch。</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span id="q4b">Apple Watch 端是否免费</span>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p id="q4ba1">是的，Apple Watch 端<strong>完全免费</strong>使用，无需 Pro 会员。所有功能包括饮品选择、快捷记录、Widget、7 天历史等均可免费使用。</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span id="q4c">Apple Watch 端的单位如何切换</span>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p id="q4ca1">Watch 端的单位设置<strong>自动从 iPhone 同步</strong>，无需在 Watch 上单独设置。请在 iPhone 端「设置 → 档案 → 单位」中切换公制（ml）或英制（oz），切换后 Watch 端会自动更新。</p>
+                        <p id="q4ca2">您也可以在 Watch 端「设置 → 档案」中查看当前同步的单位（只读显示）。</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span id="q4d">Apple Watch 端的昵称如何修改</span>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p id="q4da1">Watch 端的昵称<strong>自动从 iPhone 同步</strong>，无法在 Watch 上直接修改。请在 iPhone 端「设置 → 档案 → 用户名」中修改昵称，修改后会自动同步到 Watch 端。</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-category" id="cat-widget">
+                <h2><span class="cat-icon">📱</span> <span id="catWidgetTitle">小组件</span></h2>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span id="q5">小组件消失、空白、无法载入</span>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p id="q5a1"><strong>重启您的 iPhone</strong></p>
+                        <p id="q5a2">iOS 系统在小组件注册进程时遇到 Bug，重启 iPhone 基本上可以解决小组件空白的问题。</p>
+                        <p id="q5a3"><strong>重启您的 Apple Watch</strong></p>
+                        <p id="q5a4">基本可以解决 Apple Watch 上小组件消失的问题。</p>
+                        <p id="q5a5"><strong>重启无法解决？</strong></p>
+                        <p id="q5a6">移除有问题的小组件，重新添加。</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span id="q6">无法添加小组件</span>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p id="q6a1">如果在小组件列表里找不到 WaterKit 小组件，也无法添加小组件，可尝试以下操作，然后再次打开小组件列表，查看问题是否已解决：</p>
+                        <ul>
+                            <li id="q6s1">重新打开一次 WaterKit App</li>
+                            <li id="q6s2">重新启动 iPhone 或 iPad</li>
+                            <li id="q6s3">卸载 App 后重新安装</li>
+                            <li id="q6s4">升级到最新系统</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-category" id="cat-usage">
+                <h2><span class="cat-icon">💧</span> <span id="catUsageTitle">使用问题</span></h2>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span id="q7">如何知道每次喝了多少</span>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p id="q7a1"><strong>观察变化</strong></p>
+                        <p id="q7a2">您可以通过观察今日页面视图和今日记录的变化，来查看今天喝了多少。也可以通过习惯查看近 7 日的喝水记录。还可以通过历史页面的日周月年视图查看喝水情况和记录。</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span id="q8">各种饮品中的水分</span>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p id="q8a1">各种饮品含有水分，但这不在我们定义的"每日目标"范畴中，并且这类水分含量很少，所以我们没有提供这些饮品选项。您应该多多喝水，通过摄入<strong>饮用水</strong>来达成每日目标。</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span id="q8b">不同饮品的补水效果为什么不同</span>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p id="q8ba1">不同饮品对身体的补水效果不同，这是因为咖啡因、酒精、糖分等成分会影响水分的吸收和排出。WaterKit 根据营养学常见值，为每种饮品设置了<strong>补水系数</strong>，实际补水量 = 饮用量 × 补水系数。</p>
+                        <div class="table-wrap" style="margin:12px 0;">
+                            <table>
+                                <thead><tr><th id="thHydrationLevel">补水等级</th><th id="thHydrationDrink">饮品</th><th id="thHydrationFactor">补水系数</th></tr></thead>
+                                <tbody>
+                                    <tr><td rowspan="2" id="tdHydrationHigh">高补水</td><td id="tdHWater">💧 白水、🥥 椰子水、⚡️ 电解质水</td><td>1.0</td></tr>
+                                    <tr><td id="tdHMilk">🥛 牛奶、🥛 脱脂牛奶、🍫 巧克力牛奶</td><td>1.2</td></tr>
+                                    <tr><td rowspan="3" id="tdHydrationMedHigh">中高补水</td><td id="tdHSparkling">🫧 气泡水、🥤 碳酸饮料、🍵 茶、🧊 冰茶</td><td>0.95</td></tr>
+                                    <tr><td id="tdHJuice">🧃 果汁、🥕 蔬菜汁、🍋 柠檬水</td><td>0.9</td></tr>
+                                    <tr><td id="tdHSports">🏃 运动饮料</td><td>0.95</td></tr>
+                                    <tr><td rowspan="4" id="tdHydrationMed">中等补水</td><td id="tdHCoffee">☕️ 咖啡、🧋 热巧克力</td><td>0.9</td></tr>
+                                    <tr><td id="tdHProtein">🍹 蛋白奶昔</td><td>0.85</td></tr>
+                                    <tr><td id="tdHSoup">🍲 汤</td><td>0.9</td></tr>
+                                    <tr><td id="tdHSmoothie">🍓 奶昔</td><td>0.85</td></tr>
+                                    <tr><td rowspan="3" id="tdHydrationLow">低补水</td><td id="tdHEnergy">🔋 能量饮料、🍺 啤酒</td><td>0.8</td></tr>
+                                    <tr><td id="tdHWine">🍷 葡萄酒</td><td>0.75</td></tr>
+                                    <tr><td id="tdHLiquor">🥃 烈酒</td><td>0.7</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="alert" style="margin-top:12px;">
+                            <h4 id="q8bExampleTitle">💡 举例</h4>
+                            <p id="q8bExample">喝 200ml 白水 → 补水 200ml（200 × 1.0）；喝 200ml 咖啡 → 补水 180ml（200 × 0.9）；喝 200ml 烈酒 → 补水 140ml（200 × 0.7）。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-category" id="cat-sync">
+                <h2><span class="cat-icon">☁️</span> <span id="catSyncTitle">数据与同步</span></h2>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span id="q9">关于 iCloud 同步</span>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p id="q9a1">开启 iCloud 同步可以让您登录于同一 Apple ID 下的多个设备上的数据和设定保持同步，使用该功能需要链接网络，无法连接网络时，同步将在下一次成功连接到网络时自动进行。</p>
+                        <p id="q9a2">Apple ID 是 WaterKit 唯一使用的账号，所有数据都将跟随您的 Apple ID，您无需在 App 内进行登录或登出。</p>
+                        <p id="q9a3"><strong>iCloud 同步的工作原理</strong></p>
+                        <p id="q9a4">WaterKit 使用 SwiftData + CloudKit 自动同步技术，当您在任一设备上添加、修改或删除饮水记录时，数据会自动同步到 iCloud，并在同一 Apple ID 的其他设备上更新。您也可以在 iCloud 同步设置页面手动点击"同步全部数据"或"验证同步"来确认同步状态。</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span id="q9b">iCloud 同步显示"不可用"或"未登录"</span>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p id="q9ba1">iCloud 同步需要满足以下条件：</p>
+                        <ol>
+                            <li id="q9bs1">已登录 Apple ID（iPhone 设置 → 头像 → 确认已登录）</li>
+                            <li id="q9bs2">已开启 iCloud Drive（iPhone 设置 → 头像 → iCloud → iCloud Drive → 开启）</li>
+                            <li id="q9bs3">已连接网络（Wi-Fi 或蜂窝数据）</li>
+                            <li id="q9bs4">已开通 Pro 会员（iCloud 同步为 Pro 功能）</li>
+                        </ol>
+                        <p id="q9ba2">如果以上条件都满足但仍显示不可用，请尝试重启设备后重试。</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span id="q9c">Apple Health 授权后仍显示未授权</span>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p id="q9ca1"><strong>iOS 26 用户</strong></p>
+                        <p id="q9ca2">在 iOS 26 上，点击"授权访问"会跳转到健康 App，您需要手动前往<strong>共享 → App → WaterKit</strong> 开启权限。返回 WaterKit 后，App 会自动检测到权限变化。</p>
+                        <p id="q9ca3"><strong>iOS 17-25 用户</strong></p>
+                        <p id="q9ca4">点击"授权访问"后会弹出系统授权对话框，请确保勾选了"水"的读取和写入权限。如果之前拒绝了授权，需要前往 iPhone 设置 → 健康 → 数据访问与设备 → WaterKit → 开启相应权限。</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span id="q10">如何清空喝水记录</span>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="alert alert-warning" style="margin-top:0; margin-bottom:12px;">
+                            <h4 id="q10warn">⚠️ 注意</h4>
+                            <p id="q10warnText">此操作不可逆，且可能导致数据丢失或同步异常，请您确认是否不再需要历史数据。</p>
+                        </div>
+                        <p id="q10a1">如果您确实希望将喝水相关的所有记录（包括云端与本地）全部清空，请按以下顺序操作：</p>
+                        <ol>
+                            <li id="q10s1">关闭 WaterKit 的 iCloud 同步<br>iPhone 设置 → 进入 iCloud → 在「已使用 iCloud 的 App」中找到 WaterKit，将同步关闭</li>
+                            <li id="q10s2">删除 WaterKit 的 iCloud 云端数据<br>iPhone 设置 → 进入 iCloud → 管理存储空间 → 找到 WaterKit → 进入 → 点击删除数据</li>
+                            <li id="q10s3">删除 Apple 健康中的喝水记录<br>打开健康 App → 营养摄入 → 水 → 显示所有数据 → 编辑 → 全部删除</li>
+                            <li id="q10s4">卸载并重新安装 WaterKit<br>安装完成后，如需继续使用云同步，请重新开启 WaterKit 的 iCloud 同步</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-category" id="cat-purchase">
+                <h2><span class="cat-icon">💎</span> <span id="catPurchaseTitle">购买与会员</span></h2>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span id="q11">购买失败</span>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p id="q11a1">购买失败一般是网络问题。您可以尝试：</p>
+                        <ul>
+                            <li id="q11s1">关闭 WaterKit（划掉后台），重新打开 App</li>
+                            <li id="q11s2">更换网络，切换 4G/5G 或另一个 Wi-Fi</li>
+                            <li id="q11s3">重启设备</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span id="q12">如何移除广告</span>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p id="q12a1">WaterKit 通过广告收入支持您的免费使用。因此，免费版将会在 App 中显示广告。您可以升级成为订阅会员/购买永久会员，移除所有广告。</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span id="q13">如何恢复会员</span>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p id="q13a1">更换设备或重新下载 App 后，会员状态可能会丢失。请确保当前 App Store 和之前购买高级会员时登录的是同一 Apple ID。打开 <strong>WaterKit App</strong> → <strong>设置</strong> → <strong>点击恢复购买</strong> 即可。</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span id="q14">订阅会员变更永久会员</span>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p id="q14a1">由于 App Store 的规则，订阅无法直接转换为买断。您需要<strong>先手动取消当前订阅</strong>，在订阅结束后，再购买永久会员。</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span id="q15">如何取消订阅</span>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <ol>
+                            <li id="q15s1">打开 iPhone【设置】</li>
+                            <li id="q15s2">点击【Apple ID】（最上面的头像）</li>
+                            <li id="q15s3">进入【订阅】</li>
+                            <li id="q15s4">找到【WaterKit】</li>
+                            <li id="q15s5">点击【取消订阅】</li>
+                        </ol>
+                        <div class="alert alert-warning" style="margin-top:12px;">
+                            <h4 id="q15warn">⚠️ 注意</h4>
+                            <p id="q15warnText">取消后您仍然可以使用高级功能，直到当前订阅周期结束。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span id="q16">和家人共享高级会员</span>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p id="q16a1">WaterKit 支持家庭共享，您只需加入/邀请家庭成员进入家人共享群组，即可一起享受高级会员。</p>
+                        <p id="q16a2"><strong>操作步骤：</strong></p>
+                        <ol>
+                            <li id="q16s1">高级会员设备：设置 → 头像 → 家人共享 → 添加成员 → 邀请家人</li>
+                            <li id="q16s2">添加成功后：下方列表 → 点击购买项目共享 → 开启共享</li>
+                            <li id="q16s3">家人设备：打开 App Store → 右上角头像 → App → 选择高级会员的账号 → 选择 WaterKit App → 下载</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span id="q17">如何申请退款</span>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p id="q17a1">您可以通过 Apple 官方渠道管理退款申请：<a href="https://support.apple.com/zh-cn/HT204084" target="_blank">https://support.apple.com/zh-cn/HT204084</a></p>
+                        <p id="q17a2"><strong>已经向 Apple 官方申请退款，但没有通过？</strong></p>
+                        <p id="q17a3">所有 App Store 应用的退款由 Apple 统一处理，是否符合退款条件由 Apple 判断，第三方开发者没有处理退款申请的权限。</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-category" id="cat-other">
+                <h2><span class="cat-icon">💬</span> <span id="catOtherTitle">其他问题</span></h2>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span id="q18">在其他平台使用 WaterKit</span>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p id="q18a1"><strong>Mac 版</strong></p>
+                        <p id="q18a2">WaterKit macOS 版需要 macOS 13.0 或更高版本，以及搭配 Apple M1 或更高的芯片。</p>
+                        <p id="q18a3"><strong>Android 版</strong></p>
+                        <p id="q18a4">WaterKit 的安卓版还在开发中，敬请期待。</p>
+                        <p id="q18a5">iOS 和 Android 的数据<strong>无法互通</strong>，您可以在 WaterKit App 的设置页面<strong>导出/导入 CSV 文件</strong>来手动迁移所有喝水记录。</p>
+                        <p id="q18a6"><strong>会员权益</strong></p>
+                        <p id="q18a7">不同平台的付费信息不会共享，您更换平台后需重新订阅或购买。</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span id="q19">想要删除账户</span>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p id="q19a1">WaterKit 使用 iCloud 账户进行数据同步，因此不具备账户创建（会员注册）功能。即使您不再使用 WaterKit，也无需删除账户。如果您不再使用 WaterKit，请根据需要将其卸载。非常感谢您使用 WaterKit。</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const translations = {
+            'zh': {
+                'pageTitle': '常见问题 FAQ',
+                'pageSubtitle': '以下是用户最常遇到的问题及解答',
+                'navTitle': '问题分类',
+                'navNotification': '通知与提醒',
+                'navWatch': 'Apple Watch',
+                'navWidget': '小组件',
+                'navUsage': '使用问题',
+                'navSync': '数据与同步',
+                'navPurchase': '购买与会员',
+                'navOther': '其他问题',
+                'btnComplete': '完成',
+
+                'catNotificationTitle': '通知与提醒',
+                'catWatchTitle': 'Apple Watch',
+                'catWidgetTitle': '小组件',
+                'catUsageTitle': '使用问题',
+                'catSyncTitle': '数据与同步',
+                'catPurchaseTitle': '购买与会员',
+                'catOtherTitle': '其他问题',
+
+                'q1': 'iPhone 上无法收到喝水提醒',
+                'q1a1': '<strong>没有开启系统权限</strong>',
+                'q1s1': '打开【设置】',
+                'q1s2': '找到 App → WaterKit',
+                'q1s3': '点击【通知】，确保允许通知已开启',
+                'q1a2': '<strong>长时间未打开 App</strong>',
+                'q1a3': '喝水提醒是通过预埋通知的形式进行发送，iOS 系统每次允许预埋的数量有限，如果数天没有打开 App，将耗尽预埋数量，所以无法产生新的喝水提醒。重新打开 WaterKit 即可恢复。',
+
+                'q2': 'Apple Watch 无法进入 App',
+                'q2a1': '请先检查 iPhone 与 Apple Watch 的系统版本，版本过低会导致 iPhone 与 Apple Watch 无法通信。系统要求：<strong>iOS 17.0</strong> 和 <strong>watchOS 10.0</strong> 或更高版本。',
+                'q2a2': '如果系统符合要求，则是由于 iPhone 和 Apple Watch 两个设备上的 App 版本不一致，请更新到最新版本：',
+                'q2s1': '删除 Apple Watch 上的 WaterKit App',
+                'q2s2': '升级 iPhone 上的 WaterKit App 到最新版本',
+                'q2s3': '重新下载 Apple Watch 上的 WaterKit App',
+                'q2noteTitle': '📌 注意',
+                'q2note1': '如果以上方法仍无法解决，请检查系统版本是否匹配。由于 Apple 的系统要求，iPhone 与 Apple Watch 需要保持对应版本才能正常通过配对同步，例如：',
+                'q2note2': '如果系统版本不匹配，则只能通过 iCloud 进行数据同步。由于 iCloud 同步可能不够稳定，可能会出现同步延迟或不同步的情况。建议将设备系统升级到对应版本后再尝试。',
+
+                'q3': 'Apple Watch 喝水提醒的声音、震动',
+                'q3a1': 'Apple Watch 上的喝水提醒的声音与震动是与系统设置一致的，您需要在 <strong>Apple Watch</strong> → <strong>设置</strong> → <strong>声效与触感反馈</strong> 中进行修改。',
+
+                'q4': 'Apple Watch 表盘刷新不及时',
+                'q4a1': '小组件和复杂功能会在您打开 Apple Watch 上的 App 后立即同步数据。如果未打开 App，为节省电量，它们会每隔 10 至 60 分钟自动更新一次。这是由于系统限制，我们无法干预。',
+                'q4a2': '如果长时间未刷新（如持续半天或一天），建议尝试重启 Apple Watch。',
+
+                'q4b': 'Apple Watch 端是否免费',
+                'q4ba1': '是的，Apple Watch 端<strong>完全免费</strong>使用，无需 Pro 会员。所有功能包括饮品选择、快捷记录、Widget、7 天历史等均可免费使用。',
+                'q4c': 'Apple Watch 端的单位如何切换',
+                'q4ca1': 'Watch 端的单位设置<strong>自动从 iPhone 同步</strong>，无需在 Watch 上单独设置。请在 iPhone 端「设置 → 档案 → 单位」中切换公制（ml）或英制（oz），切换后 Watch 端会自动更新。',
+                'q4ca2': '您也可以在 Watch 端「设置 → 档案」中查看当前同步的单位（只读显示）。',
+                'q4d': 'Apple Watch 端的昵称如何修改',
+                'q4da1': 'Watch 端的昵称<strong>自动从 iPhone 同步</strong>，无法在 Watch 上直接修改。请在 iPhone 端「设置 → 档案 → 用户名」中修改昵称，修改后会自动同步到 Watch 端。',
+
+                'q5': '小组件消失、空白、无法载入',
+                'q5a1': '<strong>重启您的 iPhone</strong>',
+                'q5a2': 'iOS 系统在小组件注册进程时遇到 Bug，重启 iPhone 基本上可以解决小组件空白的问题。',
+                'q5a3': '<strong>重启您的 Apple Watch</strong>',
+                'q5a4': '基本可以解决 Apple Watch 上小组件消失的问题。',
+                'q5a5': '<strong>重启无法解决？</strong>',
+                'q5a6': '移除有问题的小组件，重新添加。',
+
+                'q6': '无法添加小组件',
+                'q6a1': '如果在小组件列表里找不到 WaterKit 小组件，也无法添加小组件，可尝试以下操作，然后再次打开小组件列表，查看问题是否已解决：',
+                'q6s1': '重新打开一次 WaterKit App',
+                'q6s2': '重新启动 iPhone 或 iPad',
+                'q6s3': '卸载 App 后重新安装',
+                'q6s4': '升级到最新系统',
+
+                'q7': '如何知道每次喝了多少',
+                'q7a1': '<strong>观察变化</strong>',
+                'q7a2': '您可以通过观察今日页面视图和今日记录的变化，来查看今天喝了多少。也可以通过习惯查看近 7 日的喝水记录。还可以通过历史页面的日周月年视图查看喝水情况和记录。',
+
+                'q8': '各种饮品中的水分',
+                'q8a1': '各种饮品含有水分，但这不在我们定义的"每日目标"范畴中，并且这类水分含量很少，所以我们没有提供这些饮品选项。您应该多多喝水，通过摄入<strong>饮用水</strong>来达成每日目标。',
+
+                'q8b': '不同饮品的补水效果为什么不同',
+                'q8ba1': '不同饮品对身体的补水效果不同，这是因为咖啡因、酒精、糖分等成分会影响水分的吸收和排出。WaterKit 根据营养学常见值，为每种饮品设置了<strong>补水系数</strong>，实际补水量 = 饮用量 × 补水系数。',
+                'thHydrationLevel': '补水等级',
+                'thHydrationDrink': '饮品',
+                'thHydrationFactor': '补水系数',
+                'tdHydrationHigh': '高补水',
+                'tdHWater': '💧 白水、🥥 椰子水、⚡️ 电解质水',
+                'tdHMilk': '🥛 牛奶、🥛 脱脂牛奶、🍫 巧克力牛奶',
+                'tdHydrationMedHigh': '中高补水',
+                'tdHSparkling': '🫧 气泡水、🥤 碳酸饮料、🍵 茶、🧊 冰茶',
+                'tdHJuice': '🧃 果汁、🥕 蔬菜汁、🍋 柠檬水',
+                'tdHSports': '🏃 运动饮料',
+                'tdHydrationMed': '中等补水',
+                'tdHCoffee': '☕️ 咖啡、🧋 热巧克力',
+                'tdHProtein': '🍹 蛋白奶昔',
+                'tdHSoup': '🍲 汤',
+                'tdHSmoothie': '🍓 奶昔',
+                'tdHydrationLow': '低补水',
+                'tdHEnergy': '🔋 能量饮料、🍺 啤酒',
+                'tdHWine': '🍷 葡萄酒',
+                'tdHLiquor': '🥃 烈酒',
+                'q8bExampleTitle': '💡 举例',
+                'q8bExample': '喝 200ml 白水 → 补水 200ml（200 × 1.0）；喝 200ml 咖啡 → 补水 180ml（200 × 0.9）；喝 200ml 烈酒 → 补水 140ml（200 × 0.7）。',
+
+                'q9': '关于 iCloud 同步',
+                'q9a1': '开启 iCloud 同步可以让您登录于同一 Apple ID 下的多个设备上的数据和设定保持同步，使用该功能需要链接网络，无法连接网络时，同步将在下一次成功连接到网络时自动进行。',
+                'q9a2': 'Apple ID 是 WaterKit 唯一使用的账号，所有数据都将跟随您的 Apple ID，您无需在 App 内进行登录或登出。',
+                'q9a3': '<strong>iCloud 同步的工作原理</strong>',
+                'q9a4': 'WaterKit 使用 SwiftData + CloudKit 自动同步技术，当您在任一设备上添加、修改或删除饮水记录时，数据会自动同步到 iCloud，并在同一 Apple ID 的其他设备上更新。您也可以在 iCloud 同步设置页面手动点击"同步全部数据"或"验证同步"来确认同步状态。',
+                'q9b': 'iCloud 同步显示"不可用"或"未登录"',
+                'q9ba1': 'iCloud 同步需要满足以下条件：',
+                'q9bs1': '已登录 Apple ID（iPhone 设置 → 头像 → 确认已登录）',
+                'q9bs2': '已开启 iCloud Drive（iPhone 设置 → 头像 → iCloud → iCloud Drive → 开启）',
+                'q9bs3': '已连接网络（Wi-Fi 或蜂窝数据）',
+                'q9bs4': '已开通 Pro 会员（iCloud 同步为 Pro 功能）',
+                'q9ba2': '如果以上条件都满足但仍显示不可用，请尝试重启设备后重试。',
+                'q9c': 'Apple Health 授权后仍显示未授权',
+                'q9ca1': '<strong>iOS 26 用户</strong>',
+                'q9ca2': '在 iOS 26 上，点击"授权访问"会跳转到健康 App，您需要手动前往<strong>共享 → App → WaterKit</strong> 开启权限。返回 WaterKit 后，App 会自动检测到权限变化。',
+                'q9ca3': '<strong>iOS 17-25 用户</strong>',
+                'q9ca4': '点击"授权访问"后会弹出系统授权对话框，请确保勾选了"水"的读取和写入权限。如果之前拒绝了授权，需要前往 iPhone 设置 → 健康 → 数据访问与设备 → WaterKit → 开启相应权限。',
+
+                'q10': '如何清空喝水记录',
+                'q10warn': '⚠️ 注意',
+                'q10warnText': '此操作不可逆，且可能导致数据丢失或同步异常，请您确认是否不再需要历史数据。',
+                'q10a1': '如果您确实希望将喝水相关的所有记录（包括云端与本地）全部清空，请按以下顺序操作：',
+                'q10s1': '关闭 WaterKit 的 iCloud 同步<br>iPhone 设置 → 进入 iCloud → 在「已使用 iCloud 的 App」中找到 WaterKit，将同步关闭',
+                'q10s2': '删除 WaterKit 的 iCloud 云端数据<br>iPhone 设置 → 进入 iCloud → 管理存储空间 → 找到 WaterKit → 进入 → 点击删除数据',
+                'q10s3': '删除 Apple 健康中的喝水记录<br>打开健康 App → 营养摄入 → 水 → 显示所有数据 → 编辑 → 全部删除',
+                'q10s4': '卸载并重新安装 WaterKit<br>安装完成后，如需继续使用云同步，请重新开启 WaterKit 的 iCloud 同步',
+
+                'q11': '购买失败',
+                'q11a1': '购买失败一般是网络问题。您可以尝试：',
+                'q11s1': '关闭 WaterKit（划掉后台），重新打开 App',
+                'q11s2': '更换网络，切换 4G/5G 或另一个 Wi-Fi',
+                'q11s3': '重启设备',
+
+                'q12': '如何移除广告',
+                'q12a1': 'WaterKit 通过广告收入支持您的免费使用。因此，免费版将会在 App 中显示广告。您可以升级成为订阅会员/购买永久会员，移除所有广告。',
+
+                'q13': '如何恢复会员',
+                'q13a1': '更换设备或重新下载 App 后，会员状态可能会丢失。请确保当前 App Store 和之前购买高级会员时登录的是同一 Apple ID。打开 <strong>WaterKit App</strong> → <strong>会员购买页面</strong> → <strong>点击恢复购买</strong> 即可。',
+
+                'q14': '订阅会员变更永久会员',
+                'q14a1': '由于 App Store 的规则，订阅无法直接转换为买断。您需要<strong>先手动取消当前订阅</strong>，在订阅结束后，再购买永久会员。',
+
+                'q15': '如何取消订阅',
+                'q15s1': '打开 iPhone【设置】',
+                'q15s2': '点击【Apple ID】（最上面的头像）',
+                'q15s3': '进入【订阅】',
+                'q15s4': '找到【WaterKit】',
+                'q15s5': '点击【取消订阅】',
+                'q15warn': '⚠️ 注意',
+                'q15warnText': '取消后您仍然可以使用高级功能，直到当前订阅周期结束。',
+
+                'q16': '和家人共享高级会员',
+                'q16a1': 'WaterKit 支持家庭共享，您只需加入/邀请家庭成员进入家人共享群组，即可一起享受高级会员。',
+                'q16a2': '<strong>操作步骤：</strong>',
+                'q16s1': '高级会员设备：设置 → 头像 → 家人共享 → 添加成员 → 邀请家人',
+                'q16s2': '添加成功后：下方列表 → 点击购买项目共享 → 开启共享',
+                'q16s3': '家人设备：打开 App Store → 右上角头像 → App → 选择高级会员的账号 → 选择 WaterKit App → 下载',
+
+                'q17': '如何申请退款',
+                'q17a1': '您可以通过 Apple 官方渠道管理退款申请：<a href="https://support.apple.com/zh-cn/HT204084" target="_blank">https://support.apple.com/zh-cn/HT204084</a>',
+                'q17a2': '<strong>已经向 Apple 官方申请退款，但没有通过？</strong>',
+                'q17a3': '所有 App Store 应用的退款由 Apple 统一处理，是否符合退款条件由 Apple 判断，第三方开发者没有处理退款申请的权限。',
+
+                'q18': '在其他平台使用 WaterKit',
+                'q18a1': '<strong>Mac 版</strong>',
+                'q18a2': 'WaterKit macOS 版需要 macOS 13.0 或更高版本，以及搭配 Apple M1 或更高的芯片。',
+                'q18a3': '<strong>Android 版</strong>',
+                'q18a4': 'WaterKit 的安卓版还在开发中，敬请期待。',
+                'q18a5': 'iOS 和 Android 的数据<strong>无法互通</strong>，您可以在 WaterKit App 的设置页面<strong>导出/导入 CSV 文件</strong>来手动迁移所有喝水记录。',
+                'q18a6': '<strong>会员权益</strong>',
+                'q18a7': '不同平台的付费信息不会共享，您更换平台后需重新订阅或购买。',
+
+                'q19': '想要删除账户',
+                'q19a1': 'WaterKit 使用 iCloud 账户进行数据同步，因此不具备账户创建（会员注册）功能。即使您不再使用 WaterKit，也无需删除账户。如果您不再使用 WaterKit，请根据需要将其卸载。非常感谢您使用 WaterKit。'
+            },
+            'en': {
+                'pageTitle': 'FAQ',
+                'pageSubtitle': 'Here are the most common questions and answers from our users',
+                'navTitle': 'Categories',
+                'navNotification': 'Notifications',
+                'navWatch': 'Apple Watch',
+                'navWidget': 'Widgets',
+                'navUsage': 'Usage',
+                'navSync': 'Data & Sync',
+                'navPurchase': 'Purchase & Membership',
+                'navOther': 'Other',
+                'btnComplete': 'Close',
+
+                'catNotificationTitle': 'Notifications & Reminders',
+                'catWatchTitle': 'Apple Watch',
+                'catWidgetTitle': 'Widgets',
+                'catUsageTitle': 'Usage',
+                'catSyncTitle': 'Data & Sync',
+                'catPurchaseTitle': 'Purchase & Membership',
+                'catOtherTitle': 'Other',
+
+                'q1': 'Not receiving drink reminders on iPhone',
+                'q1a1': '<strong>System permission not enabled</strong>',
+                'q1s1': 'Open <strong>Settings</strong>',
+                'q1s2': 'Find App → WaterKit',
+                'q1s3': 'Tap <strong>Notifications</strong> and make sure Allow Notifications is enabled',
+                'q1a2': '<strong>App not opened for a long time</strong>',
+                'q1a3': 'Drink reminders are sent as pre-scheduled notifications. iOS limits the number of pre-scheduled notifications. If you haven\'t opened the app for several days, the quota will be exhausted. Simply reopen WaterKit to restore reminders.',
+
+                'q2': 'Cannot open app on Apple Watch',
+                'q2a1': 'First check the system versions of your iPhone and Apple Watch. Outdated versions may prevent communication. Requirements: <strong>iOS 17.0</strong> and <strong>watchOS 10.0</strong> or later.',
+                'q2a2': 'If system requirements are met, the issue may be due to inconsistent app versions between iPhone and Apple Watch. Please update to the latest version:',
+                'q2s1': 'Delete WaterKit from Apple Watch',
+                'q2s2': 'Update WaterKit on iPhone to the latest version',
+                'q2s3': 'Re-download WaterKit on Apple Watch',
+                'q2noteTitle': '📌 Note',
+                'q2note1': 'If the above doesn\'t help, check if system versions match. Apple requires iPhone and Apple Watch to have corresponding versions for pairing sync, e.g.:',
+                'q2note2': 'If versions don\'t match, iCloud sync is the only option. iCloud sync may be less stable with potential delays. We recommend upgrading both devices to matching versions.',
+
+                'q3': 'Apple Watch reminder sounds and vibration',
+                'q3a1': 'Reminder sounds and vibration on Apple Watch follow system settings. You can change them in <strong>Apple Watch</strong> → <strong>Settings</strong> → <strong>Sounds & Haptics</strong>.',
+
+                'q4': 'Apple Watch face not refreshing',
+                'q4a1': 'Complications sync immediately when you open the app on Apple Watch. Otherwise, they auto-update every 10-60 minutes to save battery. This is a system limitation we cannot override.',
+                'q4a2': 'If not refreshing for an extended period (half a day or more), try restarting your Apple Watch.',
+
+                'q4b': 'Is Apple Watch free to use',
+                'q4ba1': 'Yes, Apple Watch is <strong>completely free</strong> to use, no Pro membership required. All features including drink selection, quick logging, widgets, 7-day history are free.',
+                'q4c': 'How to switch units on Apple Watch',
+                'q4ca1': 'Watch unit settings <strong>sync automatically from iPhone</strong>. Switch between metric (ml) or imperial (oz) in iPhone Settings → Profile → Unit, and Watch updates automatically.',
+                'q4ca2': 'You can also view the current synced unit in Watch Settings → Profile (read-only display).',
+                'q4d': 'How to change nickname on Apple Watch',
+                'q4da1': 'Watch nickname <strong>syncs automatically from iPhone</strong> and cannot be changed on Watch. Modify your nickname in iPhone Settings → Profile → Username, and it will sync to Watch automatically.',
+
+                'q5': 'Widget disappeared, blank, or unable to load',
+                'q5a1': '<strong>Restart your iPhone</strong>',
+                'q5a2': 'iOS sometimes encounters bugs during widget registration. Restarting iPhone usually fixes blank widgets.',
+                'q5a3': '<strong>Restart your Apple Watch</strong>',
+                'q5a4': 'This usually fixes disappearing widgets on Apple Watch.',
+                'q5a5': '<strong>Still not working?</strong>',
+                'q5a6': 'Remove the problematic widget and add it again.',
+
+                'q6': 'Cannot add widget',
+                'q6a1': 'If you can\'t find WaterKit in the widget list or can\'t add widgets, try these steps then check the widget list again:',
+                'q6s1': 'Reopen WaterKit app',
+                'q6s2': 'Restart iPhone or iPad',
+                'q6s3': 'Uninstall and reinstall the app',
+                'q6s4': 'Update to the latest system version',
+
+                'q7': 'How to know how much I\'ve drunk',
+                'q7a1': '<strong>Observe changes</strong>',
+                'q7a2': 'You can check how much you\'ve drunk today by observing changes in the Today page view and today\'s records. You can also view the last 7 days of drinking records through the Habits page. Additionally, you can view drinking status and records through the History page\'s daily, weekly, monthly, and yearly views.',
+
+                'q8': 'Water content in various drinks',
+                'q8a1': 'Various drinks contain water, but this is not within our definition of "daily goal" and the water content is minimal, so we don\'t provide these drink options. You should drink more <strong>plain water</strong> to achieve your daily goal.',
+
+                'q8b': 'Why do different drinks have different hydration effects',
+                'q8ba1': 'Different drinks have varying hydration effects on the body because caffeine, alcohol, sugar, and other components affect water absorption and excretion. WaterKit assigns a <strong>hydration factor</strong> to each drink based on common nutritional values. Effective hydration = Amount consumed × Hydration factor.',
+                'thHydrationLevel': 'Hydration Level',
+                'thHydrationDrink': 'Drink',
+                'thHydrationFactor': 'Factor',
+                'tdHydrationHigh': 'High',
+                'tdHWater': '💧 Water, 🥥 Coconut Water, ⚡️ Electrolyte Water',
+                'tdHMilk': '🥛 Milk, 🥛 Skim Milk, 🍫 Chocolate Milk',
+                'tdHydrationMedHigh': 'Medium-High',
+                'tdHSparkling': '🫧 Sparkling Water, 🥤 Soda, 🍵 Tea, 🧊 Iced Tea',
+                'tdHJuice': '🧃 Juice, 🥕 Vegetable Juice, 🍋 Lemon Water',
+                'tdHSports': '🏃 Sports Drink',
+                'tdHydrationMed': 'Medium',
+                'tdHCoffee': '☕️ Coffee, 🧋 Hot Chocolate',
+                'tdHProtein': '🍹 Protein Shake',
+                'tdHSoup': '🍲 Soup',
+                'tdHSmoothie': '🍓 Smoothie',
+                'tdHydrationLow': 'Low',
+                'tdHEnergy': '🔋 Energy Drink, 🍺 Beer',
+                'tdHWine': '🍷 Wine',
+                'tdHLiquor': '🥃 Liquor',
+                'q8bExampleTitle': '💡 Examples',
+                'q8bExample': '200ml water → 200ml hydration (200 × 1.0); 200ml coffee → 180ml hydration (200 × 0.9); 200ml liquor → 140ml hydration (200 × 0.7).',
+
+                'q9': 'About iCloud sync',
+                'q9a1': 'Enabling iCloud sync keeps data and settings synchronized across devices signed in with the same Apple ID. This feature requires a network connection. If offline, sync will automatically resume when reconnected.',
+                'q9a2': 'Apple ID is the only account used by WaterKit. All data follows your Apple ID. No login or logout is needed within the app.',
+                'q9a3': '<strong>How iCloud sync works</strong>',
+                'q9a4': 'WaterKit uses SwiftData + CloudKit automatic sync technology. When you add, modify, or delete drinking records on any device, data automatically syncs to iCloud and updates on other devices with the same Apple ID. You can also tap "Sync All Data" or "Verify Sync" on the iCloud sync settings page to confirm sync status.',
+                'q9b': 'iCloud sync shows "Unavailable" or "Not Signed In"',
+                'q9ba1': 'iCloud sync requires the following conditions:',
+                'q9bs1': 'Signed in to Apple ID (iPhone Settings → Avatar → Confirm signed in)',
+                'q9bs2': 'iCloud Drive enabled (iPhone Settings → Avatar → iCloud → iCloud Drive → Enable)',
+                'q9bs3': 'Network connected (Wi-Fi or cellular data)',
+                'q9bs4': 'Pro membership activated (iCloud sync is a Pro feature)',
+                'q9ba2': 'If all conditions are met but sync still shows unavailable, try restarting your device.',
+                'q9c': 'Apple Health still shows unauthorized after granting access',
+                'q9ca1': '<strong>iOS 26 Users</strong>',
+                'q9ca2': 'On iOS 26, tapping "Grant Access" redirects you to the Health app. You need to manually go to <strong>Sharing → Apps → WaterKit</strong> to enable permissions. After returning to WaterKit, the app will automatically detect the permission change.',
+                'q9ca3': '<strong>iOS 17-25 Users</strong>',
+                'q9ca4': 'Tapping "Grant Access" shows a system authorization dialog. Make sure to check both read and write permissions for "Water". If you previously denied authorization, go to iPhone Settings → Health → Data Access & Devices → WaterKit → Enable the relevant permissions.',
+
+                'q10': 'How to clear all drinking records',
+                'q10warn': '⚠️ Warning',
+                'q10warnText': 'This action is irreversible and may cause data loss or sync issues. Please confirm you no longer need the historical data.',
+                'q10a1': 'If you want to clear all drinking records (both cloud and local), follow these steps in order:',
+                'q10s1': 'Disable WaterKit iCloud sync<br>iPhone Settings → iCloud → Find WaterKit in "Apps Using iCloud" and turn off sync',
+                'q10s2': 'Delete WaterKit iCloud data<br>iPhone Settings → iCloud → Manage Storage → Find WaterKit → Tap → Delete Data',
+                'q10s3': 'Delete water intake records from Apple Health<br>Open Health app → Nutrition Intake → Water → Show All Data → Edit → Delete All',
+                'q10s4': 'Uninstall and reinstall WaterKit<br>After reinstalling, re-enable iCloud sync if needed',
+
+                'q11': 'Purchase failed',
+                'q11a1': 'Purchase failures are usually network issues. You can try:',
+                'q11s1': 'Close WaterKit (swipe away from background) and reopen',
+                'q11s2': 'Switch network: try 4G/5G or another Wi-Fi',
+                'q11s3': 'Restart your device',
+
+                'q12': 'How to remove ads',
+                'q12a1': 'WaterKit supports free usage through ad revenue. The free version displays ads. You can upgrade to a subscription or lifetime membership to remove all ads.',
+
+                'q13': 'How to restore membership',
+                'q13a1': 'Membership status may be lost after changing devices or reinstalling. Make sure you\'re signed in with the same Apple ID used for the original purchase. Open <strong>WaterKit</strong> → <strong>Membership Purchase Page</strong> → <strong>Tap Restore Purchase</strong>.',
+
+                'q14': 'Change subscription to lifetime membership',
+                'q14a1': 'Due to App Store rules, subscriptions cannot be directly converted to lifetime. You need to <strong>cancel your current subscription first</strong>, then purchase lifetime membership after the subscription period ends.',
+
+                'q15': 'How to cancel subscription',
+                'q15s1': 'Open iPhone <strong>Settings</strong>',
+                'q15s2': 'Tap <strong>Apple ID</strong> (your avatar at the top)',
+                'q15s3': 'Go to <strong>Subscriptions</strong>',
+                'q15s4': 'Find <strong>WaterKit</strong>',
+                'q15s5': 'Tap <strong>Cancel Subscription</strong>',
+                'q15warn': '⚠️ Note',
+                'q15warnText': 'After cancellation, you can still use premium features until the current subscription period ends.',
+
+                'q16': 'Share premium membership with family',
+                'q16a1': 'WaterKit supports Family Sharing. Join or invite family members to a Family Sharing group to enjoy premium membership together.',
+                'q16a2': '<strong>Steps:</strong>',
+                'q16s1': 'On premium member\'s device: Settings → Avatar → Family Sharing → Add Member → Invite',
+                'q16s2': 'After adding: List below → Tap Purchase Sharing → Enable sharing',
+                'q16s3': 'On family member\'s device: Open App Store → Avatar → Apps → Select premium member\'s account → Find WaterKit → Download',
+
+                'q17': 'How to request a refund',
+                'q17a1': 'You can manage refund requests through Apple\'s official channel: <a href="https://support.apple.com/en-us/HT204084" target="_blank">https://support.apple.com/en-us/HT204084</a>',
+                'q17a2': '<strong>Refund request denied by Apple?</strong>',
+                'q17a3': 'All App Store refunds are processed by Apple. Whether a refund qualifies is determined by Apple. Third-party developers do not have the authority to process refund requests.',
+
+                'q18': 'Using WaterKit on other platforms',
+                'q18a1': '<strong>Mac Version</strong>',
+                'q18a2': 'WaterKit for macOS requires macOS 13.0 or later with Apple M1 or higher chip.',
+                'q18a3': '<strong>Android Version</strong>',
+                'q18a4': 'WaterKit for Android is still in development. Stay tuned.',
+                'q18a5': 'iOS and Android data <strong>cannot be synced</strong>. You can manually migrate records by <strong>exporting/importing CSV files</strong> in WaterKit Settings.',
+                'q18a6': '<strong>Membership</strong>',
+                'q18a7': 'Payment info is not shared across platforms. You\'ll need to resubscribe or repurchase after switching platforms.',
+
+                'q19': 'Want to delete account',
+                'q19a1': 'WaterKit uses iCloud accounts for data sync and does not have account creation (registration) functionality. There\'s no need to delete an account even if you stop using the app. Simply uninstall it if you no longer need it. Thank you for using WaterKit.'
+            }
+        };
+
+        let currentLang = 'zh';
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'zh' ? 'en' : 'zh';
+            const label = currentLang === 'zh' ? '中' : 'EN';
+            document.getElementById('languageToggle').textContent = label;
+            document.getElementById('languageToggleDesktop').textContent = label;
+            updateContent();
+            document.documentElement.lang = currentLang;
+        }
+
+        function updateContent() {
+            const lang = translations[currentLang];
+            document.querySelectorAll('[id]').forEach(el => {
+                if (lang[el.id]) {
+                    el.innerHTML = lang[el.id];
+                }
+            });
+            document.title = lang['pageTitle'] || document.title;
+        }
+
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            const icon = newTheme === 'dark' ? '☀️' : '🌙';
+            document.getElementById('themeToggle').textContent = icon;
+            document.getElementById('themeToggleDesktop').textContent = icon;
+            localStorage.setItem('faq-theme', newTheme);
+        }
+
+        function toggleFaq(el) {
+            const item = el.closest('.faq-item');
+            item.classList.toggle('open');
+        }
+
+        function scrollToCategory(catId) {
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById(catId)?.scrollIntoView({ behavior: 'smooth' });
+            closeSidebar();
+        }
+
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+            document.getElementById('sidebarOverlay').classList.toggle('active');
+        }
+
+        function closeSidebar() {
+            document.getElementById('sidebar').classList.remove('open');
+            document.getElementById('sidebarOverlay').classList.remove('active');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('faq-theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            const icon = savedTheme === 'dark' ? '☀️' : '🌙';
+            document.getElementById('themeToggle').textContent = icon;
+            document.getElementById('themeToggleDesktop').textContent = icon;
+        });
+    </script>
+</body>
+</html>

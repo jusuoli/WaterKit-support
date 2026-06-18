@@ -1,0 +1,2090 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WaterKit 操作手册</title>
+    <style>
+        :root {
+            --bg: #f5f7fa;
+            --card-bg: #ffffff;
+            --text-primary: #1a1a2e;
+            --text-secondary: #4a4a68;
+            --text-muted: #8a8ab3;
+            --border: #e0e0eb;
+            --accent: #4a6cf7;
+            --accent-light: #e8edff;
+            --shadow: 0 2px 12px rgba(0,0,0,0.06);
+            --radius: 12px;
+        }
+        [data-theme="dark"] {
+            --bg: #0f0f23;
+            --card-bg: #1a1a2e;
+            --text-primary: #f0f0f8;
+            --text-secondary: #b0b0d3;
+            --text-muted: #6a6a9a;
+            --border: #2a2a4e;
+            --accent: #6a8cff;
+            --accent-light: #1a1a3e;
+            --shadow: 0 4px 24px rgba(0,0,0,0.4);
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: var(--bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        
+        /* Layout */
+        .app {
+            display: flex;
+            max-width: 1200px;
+            margin: 0 auto;
+            min-height: 100vh;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            background: var(--card-bg);
+            border-right: 1px solid var(--border);
+            padding: 24px;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+            flex-shrink: 0;
+        }
+        .sidebar-brand {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--accent);
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .brand-icon { font-size: 1.6rem; }
+        .nav-section { margin-bottom: 24px; }
+        .nav-group-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            letter-spacing: 0.1em;
+            margin-bottom: 8px;
+        }
+        .nav-item {
+            display: block;
+            padding: 7px 12px;
+            border-radius: 8px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.15s;
+            cursor: pointer;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+            font-family: inherit;
+            line-height: 1.4;
+        }
+        .nav-item:hover {
+            background: var(--accent-light);
+            color: var(--accent);
+        }
+        .nav-item.active {
+            background: var(--accent);
+            color: white;
+        }
+        .nav-sub { padding-left: 12px; }
+        .nav-sub .nav-item {
+            font-size: 12px;
+            font-weight: 400;
+            padding: 5px 12px;
+            color: var(--text-muted);
+        }
+        
+        /* Main Content */
+        .main {
+            flex: 1;
+            padding: 40px;
+            max-width: calc(100% - 260px);
+            overflow-y: auto;
+        }
+        .page-section { display: none; }
+        .page-section.active { display: block; }
+        .page-section h1 {
+            margin-top: 0;
+            margin-bottom: 8px;
+            font-size: 2rem;
+            letter-spacing: -0.02em;
+        }
+        .page-section p {
+            color: var(--text-secondary);
+            margin-top: 0;
+            margin-bottom: 24px;
+        }
+        .page-section h2 {
+            font-size: 1.5rem;
+            margin-top: 40px;
+            margin-bottom: 16px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 8px;
+        }
+        .page-section h3 {
+            font-size: 1.1rem;
+            margin-top: 24px;
+            margin-bottom: 8px;
+        }
+        .page-section ul {
+            color: var(--text-secondary);
+            margin: 12px 0 24px 20px;
+            padding: 0;
+        }
+        .page-section li { margin-bottom: 8px; }
+        .alert {
+            background: var(--accent-light);
+            border-left: 4px solid var(--accent);
+            padding: 16px;
+            border-radius: var(--radius);
+            margin: 24px 0;
+        }
+        .alert h4 { margin: 0 0 8px 0; color: var(--accent); }
+        .alert p { margin: 0; }
+        .alert-tip {
+            background: #fff7ed;
+            border-left-color: #f97316;
+        }
+        .alert-tip h4 { color: #c2410c; }
+        
+        .table-wrap {
+            overflow-x: auto;
+            margin: 16px 0;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            background: var(--card-bg);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+        thead { background: var(--accent-light); }
+        th, td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        th { font-weight: 700; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+        code {
+            font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        .tag {
+            display: inline-block;
+            background: var(--accent-light);
+            color: var(--accent);
+            padding: 2px 8px;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: 6px;
+        }
+        .tag-pro {
+            background: #fff7ed;
+            color: #c2410c;
+        }
+        
+        .steps {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin: 24px 0;
+        }
+        .step {
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+        }
+        .step-num {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--accent);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        .step-content { flex: 1; }
+        .step-content h4 { margin: 0 0 4px 0; }
+        .step-content p { margin: 0; }
+        
+        /* Theme & Language Toggles */
+        .mobile-nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .nav-action-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .nav-action-btn:hover { border-color: var(--accent); color: var(--accent); }
+        .sidebar-actions {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-left: auto;
+        }
+        .mobile-nav-actions { display: none; }
+        
+        /* Mobile styles */
+        .mobile-nav {
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            background: var(--card-bg);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 200;
+        }
+        .mobile-menu-btn {
+            border: none;
+            background: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-primary);
+        }
+        .overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.4);
+            z-index: 199;
+        }
+        .overlay.active { display: block; }
+        
+        @media (max-width: 768px) {
+            .app { flex-direction: column; }
+            .sidebar {
+                position: fixed;
+                left: -260px;
+                top: 0;
+                z-index: 201;
+                transition: left 0.3s ease;
+                box-shadow: 2px 0 12px rgba(0,0,0,0.1);
+            }
+            .sidebar.open { left: 0; }
+            .main {
+                max-width: 100%;
+                padding: 20px;
+            }
+            .mobile-nav { display: flex; }
+            .mobile-nav-actions { display: flex; }
+            .sidebar-actions { display: none; }
+            .nav-item { font-size: 12px; padding: 6px 10px; }
+            .nav-sub .nav-item { font-size: 11px; font-weight: 400; }
+        }
+    </style>
+</head>
+<body>
+    <div class="mobile-nav">
+        <button class="mobile-menu-btn" onclick="toggleSidebar()">☰</button>
+        <div class="sidebar-brand">
+            <span class="brand-icon">🐼</span>
+            <span id="brandTitle">WaterKit</span>
+        </div>
+        <div class="mobile-nav-actions">
+            <button class="nav-action-btn" id="languageToggle" onclick="toggleLanguage()">中</button>
+            <button class="nav-action-btn" id="themeToggle" onclick="toggleTheme()">🌙</button>
+        </div>
+    </div>
+    <div class="overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+    <div class="app">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-brand">
+                <span class="brand-icon">🐼</span>
+                <span>WaterKit</span>
+                <div class="sidebar-actions">
+                    <button class="nav-action-btn" id="languageToggleDesktop" onclick="toggleLanguage()">中</button>
+                    <button class="nav-action-btn" id="themeToggleDesktop" onclick="toggleTheme()">🌙</button>
+                </div>
+            </div>
+            
+            <nav class="nav-section">
+                <div class="nav-group-title" id="navTitle">页面导航</div>
+                <button class="nav-item active" onclick="showSection('today')" id="navToday">今日页面</button>
+                <div class="nav-sub">
+                    <button class="nav-item" onclick="scrollToAnchor('today-overview')" id="navTodayOverview">页面概览</button>
+                    <button class="nav-item" onclick="scrollToAnchor('today-hero')" id="navTodayHero">进度展示</button>
+                    <button class="nav-item" onclick="scrollToAnchor('today-quicklog')" id="navTodayQuick">快速记录</button>
+                    <button class="nav-item" onclick="scrollToAnchor('today-logcard')" id="navTodayLog">今日记录</button>
+                    <button class="nav-item" onclick="scrollToAnchor('today-add')" id="navTodayAdd">添加饮水</button>
+                </div>
+                
+                <button class="nav-item" onclick="showSection('stats')" id="navStats">习惯页面</button>
+                <div class="nav-sub">
+                    <button class="nav-item" onclick="scrollToAnchor('stats-features')" id="navStatsFeatures">功能说明</button>
+                    <button class="nav-item" onclick="scrollToAnchor('stats-score')" id="navStatsScore">评分规则</button>
+                </div>
+                
+                <button class="nav-item" onclick="showSection('history')" id="navHistory">历史页面</button>
+                <div class="nav-sub">
+                    <button class="nav-item" onclick="scrollToAnchor('history-features')" id="navHistoryFeatures">功能说明</button>
+                    <button class="nav-item" onclick="scrollToAnchor('history-allrecords')" id="navHistoryRecords">全部记录</button>
+                    <button class="nav-item" onclick="scrollToAnchor('history-tips')" id="navHistoryTips">查看技巧</button>
+                </div>
+                
+                <button class="nav-item" onclick="showSection('achievements')" id="navAchievements">成就页面</button>
+                <div class="nav-sub">
+                    <button class="nav-item" onclick="scrollToAnchor('achv-features')" id="navAchvFeatures">功能说明</button>
+                    <button class="nav-item" onclick="scrollToAnchor('achv-types')" id="navAchvTypes">成就类型</button>
+                </div>
+                
+                <button class="nav-item" onclick="showSection('settings')" id="navSettings">设置页面</button>
+                <div class="nav-sub">
+                    <button class="nav-item" onclick="scrollToAnchor('settings-features')" id="navSettingsFeatures">功能总览</button>
+                    <button class="nav-item" onclick="scrollToAnchor('settings-profile')" id="navSettingsProfile">个人档案</button>
+                    <button class="nav-item" onclick="scrollToAnchor('settings-theme')" id="navSettingsTheme">主题与外观</button>
+                    <button class="nav-item" onclick="scrollToAnchor('settings-reminder')" id="navSettingsReminder">提醒设置</button>
+                    <button class="nav-item" onclick="scrollToAnchor('settings-sync')" id="navSettingsSync">数据同步</button>
+                </div>
+                
+                <button class="nav-item" onclick="showSection('watch')" id="navWatch">Apple Watch</button>
+                <div class="nav-sub">
+                    <button class="nav-item" onclick="scrollToAnchor('watch-overview')" id="navWatchOverview">功能概览</button>
+                    <button class="nav-item" onclick="scrollToAnchor('watch-settings')" id="navWatchSettings">Watch 设置</button>
+                    <button class="nav-item" onclick="scrollToAnchor('watch-sync')" id="navWatchSync">数据同步</button>
+                </div>
+                
+                <button class="nav-item" onclick="showSection('pro')" id="navPro">Pro 会员</button>
+                <div class="nav-sub">
+                    <button class="nav-item" onclick="scrollToAnchor('pro-features')" id="navProFeatures">会员特权</button>
+                </div>
+            </nav>
+            
+            <div style="margin-top: 32px; text-align: center;">
+                <button onclick="window.close()" style="width: 100%; padding: 8px 16px; border-radius: 8px; border: 1px solid var(--border); background: var(--card-bg); color: var(--text-secondary); cursor: pointer; font-weight: 600;" id="btnComplete">完成</button>
+            </div>
+        </aside>
+
+        <main class="main">
+            <div class="page-section active" id="today">
+                <h1 id="h1Today">今日页面</h1>
+                <p id="pToday">今日页面是应用的主入口，展示当日饮水进度、快速记录入口和今日饮水记录。</p>
+                
+                <h2 id="today-overview">页面概览</h2>
+                <div class="table-wrap">
+                    <table>
+                        <thead><tr><th style="width:140px" id="thArea">区域</th><th id="thDesc">说明</th></tr></thead>
+                        <tbody>
+                            <tr><td><strong id="tdTopStatus">顶部状态栏</strong></td><td id="tdTopStatusDesc">显示当前日期、星期，以及实时饮水状态和进度百分比</td></tr>
+                            <tr><td><strong id="tdDrinkProgress">饮水进度</strong></td><td id="tdDrinkProgressDesc">以圆环或角色形式展示今日饮水完成度</td></tr>
+                            <tr><td><strong id="tdRhythmCard">今日节奏卡片</strong></td><td id="tdRhythmCardDesc">显示今日已饮水量和每日目标</td></tr>
+                            <tr><td><strong id="tdReminderCard">提醒卡片</strong></td><td id="tdReminderCardDesc">显示下一次喝水提醒的时间</td></tr>
+                            <tr><td><strong id="tdQuickLogArea">快速记录区</strong></td><td id="tdQuickLogAreaDesc">选择饮品类型，使用快捷量按钮或自定义添加</td></tr>
+                            <tr><td><strong id="tdTodayRecords">今日记录</strong></td><td id="tdTodayRecordsDesc">展示今日所有饮水记录，支持编辑和删除</td></tr>
+                            <tr><td><strong id="tdWeekProgress">本周进度</strong></td><td id="tdWeekProgressDesc">以环形图表展示最近7天的每日饮水完成情况</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <h2 id="today-hero">进度展示</h2>
+                <p id="pDisplayOptions">今日页面提供多种进度展示方式，可在设置中切换：</p>
+                <div class="table-wrap">
+                    <table>
+                        <thead><tr><th style="width:120px" id="thDisplayType">展示类型</th><th id="thDisplayDesc">说明</th></tr></thead>
+                        <tbody>
+                            <tr><td><strong id="tdOpenRing">开口圆环</strong></td><td id="tdOpenRingDesc">底部开口的圆环进度条，带有渐变光效</td></tr>
+                            <tr><td><strong id="tdClosedRing">闭合圆环</strong></td><td id="tdClosedRingDesc">完整的圆环进度条，带刻度装饰</td></tr>
+                            <tr><td><strong id="tdCharacterFill">角色填充</strong></td><td><span id="tdCharacterFillDesc">可爱角色（杯子、熊猫、猫咪、人像、机器人等）的水位填充动画</span> <span class="tag tag-pro">PRO</span></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="alert alert-info">
+                    <h4 id="alertWaterLine">水平衡线</h4>
+                    <p id="alertWaterLineDesc">开启后会在圆环中间显示一条虚线，标记50%进度位置，帮助直观判断饮水进度。</p>
+                </div>
+                
+                <h2 id="today-quicklog">快速记录</h2>
+                <p id="pQuickLog">快速记录区由两部分组成：饮品类型选择和快捷量按钮。</p>
+                
+                <h3 id="h3DrinkTypes">饮品类型</h3>
+                <p id="pDrinkTypes">应用支持多种饮品类型，其中 💧 白水为免费类型，其余类型需要 Pro 会员解锁。</p>
+                <div class="table-wrap">
+                    <table>
+                        <thead><tr><th style="width:120px" id="thType">类型</th><th id="thTypeDesc">说明</th></tr></thead>
+                        <tbody>
+                            <tr><td id="tdDrinkWater">💧 白水</td><td id="tdDrinkWaterDesc">纯净水（免费）</td></tr>
+                            <tr><td id="tdDrinkSparkling">🫧 气泡水</td><td><span id="tdDrinkSparklingDesc">含二氧化碳的饮用水</span> <span class="tag tag-pro">PRO</span></td></tr>
+                            <tr><td id="tdDrinkSoda">🥤 碳酸饮料</td><td><span id="tdDrinkSodaDesc">可乐、雪碧等含糖汽水</span> <span class="tag tag-pro">PRO</span></td></tr>
+                            <tr><td id="tdDrinkCoconut">🥥 椰子水</td><td><span id="tdDrinkCoconutDesc">天然椰子水</span> <span class="tag tag-pro">PRO</span></td></tr>
+                            <tr><td id="tdDrinkElectrolyte">⚡️ 电解质水</td><td><span id="tdDrinkElectrolyteDesc">含电解质的运动补水饮料</span> <span class="tag tag-pro">PRO</span></td></tr>
+                            <tr><td id="tdDrinkTea">🍵 茶</td><td><span id="tdDrinkTeaDesc">绿茶、红茶等各类茶饮</span> <span class="tag tag-pro">PRO</span></td></tr>
+                            <tr><td id="tdDrinkCoffee">☕️ 咖啡</td><td><span id="tdDrinkCoffeeDesc">美式、拿铁等咖啡饮品</span> <span class="tag tag-pro">PRO</span></td></tr>
+                            <tr><td id="tdDrinkIcedTea">🧊 冰茶</td><td><span id="tdDrinkIcedTeaDesc">冰镇茶类饮料</span> <span class="tag tag-pro">PRO</span></td></tr>
+                            <tr><td id="tdDrinkHotChoco">🧋 热巧克力</td><td><span id="tdDrinkHotChocoDesc">可可粉调制的热饮</span> <span class="tag tag-pro">PRO</span></td></tr>
+                            <tr><td id="tdDrinkJuice">🧃 果汁</td><td><span id="tdDrinkJuiceDesc">橙汁、苹果汁等纯果汁</span> <span class="tag tag-pro">PRO</span></td></tr>
+                            <tr><td id="tdDrinkVegJuice">🥕 蔬菜汁</td><td><span id="tdDrinkVegJuiceDesc">胡萝卜汁、番茄汁等</span> <span class="tag tag-pro">PRO</span></td></tr>
+                            <tr><td id="tdDrinkLemon">🍋 柠檬水</td><td><span id="tdDrinkLemonDesc">柠檬调制的清爽饮品</span> <span class="tag tag-pro">PRO</span></td></tr>
+                            <tr><td id="tdDrinkSmoothie">🍓 奶昔</td><td><span id="tdDrinkSmoothieDesc">水果与酸奶/牛奶混合饮品</span> <span class="tag tag-pro">PRO</span></td></tr>
+                            <tr><td id="tdDrinkMilk">🥛 牛奶</td><td><span id="tdDrinkMilkDesc">全脂牛奶</span> <span class="tag tag-pro">PRO</span></td></tr>
+                            <tr><td id="tdDrinkSkimMilk">🥛 脱脂牛奶</td><td><span id="tdDrinkSkimMilkDesc">脱脂牛奶</span> <span class="tag tag-pro">PRO</span></td></tr>
+                            <tr><td id="tdDrinkChocoMilk">🍫 巧克力牛奶</td><td><span id="tdDrinkChocoMilkDesc">巧克力味牛奶饮品</span> <span class="tag tag-pro">PRO</span></td></tr>
+                            <tr><td id="tdDrinkProtein">🍹 蛋白奶昔</td><td><span id="tdDrinkProteinDesc">蛋白质补充饮料</span> <span class="tag tag-pro">PRO</span></td></tr>
+                            <tr><td id="tdDrinkSports">🏃 运动饮料</td><td><span id="tdDrinkSportsDesc">功能性运动补水饮料</span> <span class="tag tag-pro">PRO</span></td></tr>
+                            <tr><td id="tdDrinkEnergy">🔋 能量饮料</td><td><span id="tdDrinkEnergyDesc">含咖啡因的功能饮料</span> <span class="tag tag-pro">PRO</span></td></tr>
+                            <tr><td id="tdDrinkSoup">🍲 汤</td><td><span id="tdDrinkSoupDesc">各类汤品</span> <span class="tag tag-pro">PRO</span></td></tr>
+                            <tr><td id="tdDrinkBeer">🍺 啤酒</td><td><span id="tdDrinkBeerDesc">低度酒精饮品</span> <span class="tag tag-pro">PRO</span></td></tr>
+                            <tr><td id="tdDrinkWine">🍷 葡萄酒</td><td><span id="tdDrinkWineDesc">红酒、白酒等</span> <span class="tag tag-pro">PRO</span></td></tr>
+                            <tr><td id="tdDrinkLiquor">🥃 烈酒</td><td><span id="tdDrinkLiquorDesc">威士忌、伏特加等蒸馏酒</span> <span class="tag tag-pro">PRO</span></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="alert alert-tip">
+                    <h4 id="alertUnlockDrinks">🔒 解锁饮品</h4>
+                    <p id="alertUnlockDrinksDesc">除 💧 白水外，其他所有饮品类型都需要开通 Pro 会员才能选择。在添加饮水页面，只有 💧 白水可免费使用。</p>
+                </div>
+                
+                <h3 id="h3QuickButtons">快捷量按钮</h3>
+                <p id="pQuickButtons">选择饮品后，点击快捷量按钮（如 100ml、200ml、300ml）即可快速记录。点击 + 按钮可自定义饮水量。</p>
+                
+                <h2 id="today-logcard">今日记录</h2>
+                <p id="pTodayLog">今日记录列表展示当天的所有饮水记录，每条记录包含：</p>
+                <ul>
+                    <li id="liDrinkIcon">饮品类型图标和名称</li>
+                    <li id="liDrinkAmount">饮水量（显示原始量和有效量）</li>
+                    <li id="liRecordTime">记录时间</li>
+                    <li id="liProgressPercent">添加时的进度百分比</li>
+                    <li id="liMiniProgress">小进度圆环</li>
+                </ul>
+                
+                <div class="alert alert-info">
+                    <h4 id="alertRecordActions">记录操作</h4>
+                    <p id="alertRecordActionsDesc">长按记录项可呼出菜单，选择编辑修改记录，或选择删除移除记录。删除后今日进度会自动重新计算。</p>
+                </div>
+                
+                <h2 id="today-add">添加饮水</h2>
+                <p id="pAddDrink">点击快捷记录区的 + 按钮或导航栏的加号，进入添加饮水页面：</p>
+                
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-num">1</div>
+                        <div class="step-content">
+                            <h4 id="step1Title">选择饮品类型</h4>
+                            <p id="step1Desc">在网格中选择对应的饮品图标（带皇冠标记的需要 Pro 会员）</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-num">2</div>
+                        <div class="step-content">
+                            <h4 id="step2Title">输入饮水量</h4>
+                            <p id="step2Desc">使用数字键盘输入具体数值，或使用快捷量按钮快速选择</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-num">3</div>
+                        <div class="step-content">
+                            <h4 id="step3Title">调整时间（可选）</h4>
+                            <p id="step3Desc">点击日期/时间芯片，可修改记录的时间（用于补记之前的饮水）</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-num">4</div>
+                        <div class="step-content">
+                            <h4 id="step4Title">确认添加</h4>
+                            <p id="step4Desc">点击确认按钮保存记录，页面自动返回并更新进度</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="alert alert-tip">
+                    <h4 id="alertAddTip">📝 补记功能</h4>
+                    <p id="alertAddTipDesc">添加饮水时可修改日期和时间，方便补记之前的饮水记录。支持补记到过去任意日期。</p>
+                </div>
+            </div>
+            
+            <div class="page-section" id="stats">
+                <h1 id="h1Stats">习惯页面</h1>
+                <p id="pStats">习惯页面提供详细的饮水数据分析和健康评分，帮助用户了解自己的饮水习惯。</p>
+                
+                <h2 id="stats-features">功能说明</h2>
+                <div class="table-wrap">
+                    <table>
+                        <thead><tr><th style="width:140px" id="thStatsFunction">功能</th><th id="thStatsDesc">说明</th></tr></thead>
+                        <tbody>
+                            <tr><td><strong id="tdHealthTips">健康小贴士</strong></td><td id="tdHealthTipsDesc">根据用户饮水数据提供个性化健康建议和改善方向</td></tr>
+                            <tr><td><strong id="tdHabitScore">习惯评分</strong></td><td id="tdHabitScoreDesc">满分100分，综合完成度、一致性、连续打卡三项指标评估</td></tr>
+                            <tr><td><strong id="tdTrendChart">趋势图表</strong></td><td id="tdTrendChartDesc">可视化展示最近7天饮水变化，直观看到进步轨迹</td></tr>
+                            <tr><td><strong id="tdHabitInsights">习惯洞察</strong></td><td id="tdHabitInsightsDesc">最佳饮水时间、峰值时段、连续打卡天数等深度分析</td></tr>
+                            <tr><td><strong id="tdDrinkDistribution">饮品分布</strong></td><td id="tdDrinkDistributionDesc">环形图展示各类饮品的占比情况</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <h2 id="stats-score">评分规则</h2>
+                <div class="table-wrap">
+                    <table>
+                        <thead><tr><th style="width:100px" id="thDimension">维度</th><th style="width:80px" id="thScore">分值</th><th id="thCalculation">计算方式</th></tr></thead>
+                        <tbody>
+                            <tr><td id="tdCompletion">完成度</td><td>40分</td><td id="tdCompletionCalc">近7天达标天数 ÷ 7 × 40</td></tr>
+                            <tr><td id="tdConsistency">一致性</td><td>30分</td><td id="tdConsistencyCalc">近7天日均饮水量 ÷ 每日目标 × 30</td></tr>
+                            <tr><td id="tdStreak">连续打卡</td><td>30分</td><td id="tdStreakCalc">min(当前连续达标天数 ÷ 7, 1.0) × 30</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="alert alert-tip">
+                    <h4 id="alertScoreTip">🎯 提高分数的小窍门</h4>
+                    <ul>
+                        <li id="liScoreTip1">尽量每天都完成目标，完成度占40分比重最大</li>
+                        <li id="liScoreTip2">保持稳定的饮水量，不要一天喝太多一天又不喝</li>
+                        <li id="liScoreTip3">连续打卡7天以上，那30分就稳稳到手</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="page-section" id="history">
+                <h1 id="h1History">历史页面</h1>
+                <p id="pHistory">历史页面提供完整的饮水记录查询和数据分析功能。</p>
+                
+                <h2 id="history-features">功能说明</h2>
+                <div class="table-wrap">
+                    <table>
+                        <thead><tr><th style="width:140px" id="thHistoryFunction">功能</th><th id="thHistoryDesc">说明</th></tr></thead>
+                        <tbody>
+                            <tr><td><strong id="tdTimeFilter">时间筛选</strong></td><td id="tdTimeFilterDesc">支持按日、周、月、年查看历史数据（周/月/年需 Pro）</td></tr>
+                            <tr><td><strong id="tdChartCard">图表卡片</strong></td><td id="tdChartCardDesc">根据所选时间段展示对应的饮水图表</td></tr>
+                            <tr><td><strong id="tdDataAnalysis">数据分析</strong></td><td id="tdDataAnalysisDesc">平均饮水量、总饮水量、达标天数、连续打卡天数等统计</td></tr>
+                            <tr><td><strong id="tdDrinkStats">饮品统计</strong></td><td id="tdDrinkStatsDesc">展示各类饮品的饮用情况</td></tr>
+                            <tr><td><strong id="tdCaffeineStats">咖啡因统计</strong></td><td><span id="tdCaffeineStatsDesc">统计咖啡因摄入量</span> <span class="tag tag-pro">PRO</span></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <h2 id="history-allrecords">全部记录</h2>
+                <p id="pAllRecords">点击"查看全部"进入全部记录页面，支持以下功能：</p>
+                <ul>
+                    <li><strong id="liGroupByDate">按日期分组：</strong>记录按日期分组展示，每天显示总饮水量</li>
+                    <li><strong id="liQuickAdd">快速添加：</strong>页面右上角有 + 按钮，可直接添加新记录</li>
+                </ul>
+                
+                <h2 id="history-tips">查看技巧</h2>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-num">1</div>
+                        <div class="step-content">
+                            <h4 id="stepHistory1">筛选记录</h4>
+                            <p id="stepHistory1Desc">使用顶部筛选器按饮品类型过滤，只查看关心的记录</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-num">2</div>
+                        <div class="step-content">
+                            <h4 id="stepHistory2">切换周期</h4>
+                            <p id="stepHistory2Desc">使用时间段选择器切换日/周/月/年，从不同角度分析</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-num">3</div>
+                        <div class="step-content">
+                            <h4 id="stepHistory3">查看全部</h4>
+                            <p id="stepHistory3Desc">点击"查看全部"查看完整的记录列表</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="page-section" id="achievements">
+                <h1 id="h1Achievements">成就页面</h1>
+                <p id="pAchievements">成就页面展示用户的成就收集进度和奖励积分系统。</p>
+                
+                <h2 id="achv-features">功能说明</h2>
+                <div class="table-wrap">
+                    <table>
+                        <thead><tr><th style="width:140px" id="thAchvFunction">功能</th><th id="thAchvDesc">说明</th></tr></thead>
+                        <tbody>
+                            <tr><td><strong id="tdStatsCard">统计卡片</strong></td><td id="tdStatsCardDesc">显示已解锁成就数量和总积分</td></tr>
+                            <tr><td><strong id="tdCategoryFilter">分类筛选</strong></td><td id="tdCategoryFilterDesc">按成就类型筛选（目标达成、累计饮水、单日挑战、时间成就、饮品多样、季节限定、里程碑）</td></tr>
+                            <tr><td><strong id="tdAchievementGrid">成就网格</strong></td><td id="tdAchievementGridDesc">以网格形式展示所有成就，已解锁显示彩色，未解锁显示灰色</td></tr>
+                            <tr><td><strong id="tdAchievementDetail">成就详情</strong></td><td id="tdAchievementDetailDesc">点击成就查看详细信息、进度和奖励</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <h2 id="achv-types">成就类型</h2>
+                <div class="table-wrap">
+                    <table>
+                        <thead><tr><th style="width:100px" id="thAchvType">类型</th><th id="thAchvTypeDesc">说明</th></tr></thead>
+                        <tbody>
+                            <tr><td><strong id="tdGoalCompletion">🎯 目标达成</strong></td><td id="tdGoalCompletionDesc">完成每日饮水目标相关成就</td></tr>
+                            <tr><td><strong id="tdTotalAmount">💧 累计饮水</strong></td><td id="tdTotalAmountDesc">累计饮水总量相关成就</td></tr>
+                            <tr><td><strong id="tdDailyChallenge">🔥 单日挑战</strong></td><td id="tdDailyChallengeDesc">单日饮水量挑战成就</td></tr>
+                            <tr><td><strong id="tdTimeBased">⏰ 时间成就</strong></td><td id="tdTimeBasedDesc">特定时间段饮水成就</td></tr>
+                            <tr><td><strong id="tdVariety">🍹 饮品多样</strong></td><td id="tdVarietyDesc">尝试不同饮品类型成就</td></tr>
+                            <tr><td><strong id="tdSeasonal">🌿 季节限定</strong></td><td id="tdSeasonalDesc">季节性限时成就</td></tr>
+                            <tr><td><strong id="tdMilestone">🏆 里程碑</strong></td><td id="tdMilestoneDesc">重要里程碑纪念成就</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="alert alert-info">
+                    <h4 id="alertUnlockAchievement">🎉 成就解锁</h4>
+                    <p id="alertUnlockAchievementDesc">解锁成就时会弹出庆祝动画和积分奖励。部分高级成就需要 Pro 会员才能解锁。</p>
+                </div>
+            </div>
+            
+            <div class="page-section" id="settings">
+                <h1 id="h1Settings">设置页面</h1>
+                <p id="pSettings">设置页面包含个人档案、通知、数据、支持和关于等多个功能模块。</p>
+                
+                <h2 id="settings-features">功能总览</h2>
+                <div class="table-wrap">
+                    <table>
+                        <thead><tr><th style="width:140px" id="thSettingsFunction">功能</th><th id="thSettingsDesc">说明</th></tr></thead>
+                        <tbody>
+                            <tr><td><strong id="tdProfile">个人档案</strong></td><td id="tdProfileDesc">设置用户名、头像、性别、体重、活动量、每日目标</td></tr>
+                            <tr><td><strong id="tdUnitSettings">单位设置</strong></td><td id="tdUnitSettingsDesc">公制（ml/L）/ 英制（fl oz/cup）切换，自动同步到 Watch 和 Widget</td></tr>
+                            <tr><td><strong id="tdLanguageSettings">语言设置</strong></td><td id="tdLanguageSettingsDesc">支持多语言切换</td></tr>
+                            <tr><td><strong id="tdHomeScreen">主屏幕</strong></td><td id="tdHomeScreenDesc">主页展示类型、进度显示、记录显示设置</td></tr>
+                            <tr><td><strong id="tdDrinkReminder">饮水提醒</strong></td><td id="tdDrinkReminderDesc">提醒开关、铃声、目标达成后停止、模式、间隔、时间范围、休息日</td></tr>
+                            <tr><td><strong id="tdSoundEffects">喝水音效</strong></td><td id="tdSoundEffectsDesc">开启/关闭喝水时的音效反馈</td></tr>
+                            <tr><td><strong id="tdICloudSync">iCloud 同步</strong></td><td><span id="tdICloudSyncDesc">数据同步到 iCloud</span> <span class="tag tag-pro">PRO</span></td></tr>
+                            <tr><td><strong id="tdAppleHealth">Apple Health</strong></td><td><span id="tdAppleHealthDesc">与 Apple Health 同步饮水数据</span> <span class="tag tag-pro">PRO</span></td></tr>
+                            <tr><td><strong id="tdDataExport">数据导出</strong></td><td><span id="tdDataExportDesc">导出饮水记录为 CSV/JSON</span> <span class="tag tag-pro">PRO</span></td></tr>
+                            <tr><td><strong id="tdHelpFeedback">帮助与反馈</strong></td><td id="tdHelpFeedbackDesc">查看帮助文档和提交反馈</td></tr>
+                            <tr><td><strong id="tdSocialShare">社交分享</strong></td><td id="tdSocialShareDesc">分享应用给好友</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <h2 id="settings-profile">个人档案</h2>
+                <p id="pProfileSettings">点击设置页面的个人档案卡片进入详情页，可设置以下内容：</p>
+                <ul>
+                    <li><strong id="liUsername">用户名：</strong><span id="liUsernameDesc">显示在应用中的用户昵称</span></li>
+                    <li><strong id="liAvatar">头像：</strong><span id="liAvatarDesc">点击头像区域，从系统相册选择照片作为头像；未设置头像时，若已填写用户名则显示姓名首字母，否则显示默认图标</span></li>
+                    <li><strong id="liGender">性别：</strong><span id="liGenderDesc">男 / 女 / 保密</span></li>
+                    <li><strong id="liWeight">体重：</strong><span id="liWeightDesc">用于智能推荐每日饮水目标</span></li>
+                    <li><strong id="liActivity">活动量：</strong><span id="liActivityDesc">久坐 / 轻度活动 / 中度活动 / 活跃 / 非常活跃</span></li>
+                    <li><strong id="liDailyGoal">每日目标：</strong><span id="liDailyGoalDesc">默认 <code>2000ml</code>，可手动调整</span></li>
+                    <li><strong id="liSmartRecommend">智能推荐：</strong><span id="liSmartRecommendDesc">根据体重和活动量自动计算推荐目标</span> <span class="tag tag-pro">PRO</span> </li>
+                </ul>
+                
+                <div class="alert alert-info">
+                    <h4 id="alertSmartTip">💡 智能推荐</h4>
+                    <p id="alertSmartTipDesc">开启智能推荐后，系统会根据你的体重和活动量自动计算每日饮水目标。Pro 会员专享功能。</p>
+                </div>
+                
+                <h2 id="settings-theme">主屏幕设置</h2>
+                <p id="pHomeScreenSettings">点击设置页面的主屏幕选项进入详情页，包含以下设置：</p>
+                
+                <h3 id="h3ViewType">视图类型</h3>
+                <p id="pViewType">选择主页进度展示的外观，横向滑动选择：</p>
+                <div class="table-wrap">
+                    <table>
+                        <thead><tr><th style="width:120px" id="thViewType">类型</th><th id="thViewTypeDesc">说明</th></tr></thead>
+                        <tbody>
+                            <tr><td id="tdViewOpenRing">开口圆环</td><td id="tdViewOpenRingDesc">底部开口的圆环进度条，默认样式</td></tr>
+                            <tr><td id="tdViewClosedRing">闭合圆环</td><td id="tdViewClosedRingDesc">完整的圆环进度条，带刻度装饰</td></tr>
+                            <tr><td id="tdViewCup">可爱杯子</td><td><span id="tdViewCupDesc">杯子形状的角色水位填充</span> <span class="tag tag-pro">PRO</span></td></tr>
+                            <tr><td id="tdViewDrop">水滴</td><td><span id="tdViewDropDesc">水滴形状的角色水位填充</span> <span class="tag tag-pro">PRO</span></td></tr>
+                            <tr><td id="tdViewPanda">熊猫</td><td><span id="tdViewPandaDesc">熊猫形状的角色水位填充</span> <span class="tag tag-pro">PRO</span></td></tr>
+                            <tr><td id="tdViewCat">猫咪</td><td><span id="tdViewCatDesc">猫咪形状的角色水位填充</span> <span class="tag tag-pro">PRO</span></td></tr>
+                            <tr><td id="tdViewDog">狗狗</td><td><span id="tdViewDogDesc">狗狗形状的角色水位填充</span> <span class="tag tag-pro">PRO</span></td></tr>
+                            <tr><td id="tdViewRabbit">兔子</td><td><span id="tdViewRabbitDesc">兔子形状的角色水位填充</span> <span class="tag tag-pro">PRO</span></td></tr>
+                            <tr><td id="tdViewBear">小熊</td><td><span id="tdViewBearDesc">小熊形状的角色水位填充</span> <span class="tag tag-pro">PRO</span></td></tr>
+                            <tr><td id="tdViewPenguin">企鹅</td><td><span id="tdViewPenguinDesc">企鹅形状的角色水位填充</span> <span class="tag tag-pro">PRO</span></td></tr>
+                            <tr><td id="tdViewOctopus">章鱼</td><td><span id="tdViewOctopusDesc">章鱼形状的角色水位填充</span> <span class="tag tag-pro">PRO</span></td></tr>
+                            <tr><td id="tdViewDinosaur">恐龙</td><td><span id="tdViewDinosaurDesc">恐龙形状的角色水位填充</span> <span class="tag tag-pro">PRO</span></td></tr>
+                            <tr><td id="tdViewFrog">青蛙</td><td><span id="tdViewFrogDesc">青蛙形状的角色水位填充</span> <span class="tag tag-pro">PRO</span></td></tr>
+                            <tr><td id="tdViewCloud">云朵</td><td><span id="tdViewCloudDesc">云朵形状的角色水位填充</span> <span class="tag tag-pro">PRO</span></td></tr>
+                            <tr><td id="tdViewStar">星星</td><td><span id="tdViewStarDesc">星星形状的角色水位填充</span> <span class="tag tag-pro">PRO</span></td></tr>
+                            <tr><td id="tdViewHeart">爱心</td><td><span id="tdViewHeartDesc">爱心形状的角色水位填充</span> <span class="tag tag-pro">PRO</span></td></tr>
+                            <tr><td id="tdViewSun">太阳</td><td><span id="tdViewSunDesc">太阳形状的角色水位填充</span> <span class="tag tag-pro">PRO</span></td></tr>
+                            <tr><td id="tdViewPortrait1">👤 人像 1</td><td><span id="tdViewPortrait1Desc">人像形状的角色水位填充</span> <span class="tag tag-pro">PRO</span></td></tr>
+                            <tr><td id="tdViewPortrait2">👩 人像 2</td><td><span id="tdViewPortrait2Desc">人像形状的角色水位填充</span> <span class="tag tag-pro">PRO</span></td></tr>
+                            <tr><td id="tdViewPortrait3">🧑 人像 3</td><td><span id="tdViewPortrait3Desc">人像形状的角色水位填充</span> <span class="tag tag-pro">PRO</span></td></tr>
+                            <tr><td id="tdViewRobot1">🤖 机器人 1</td><td><span id="tdViewRobot1Desc">机器人形状的角色水位填充</span> <span class="tag tag-pro">PRO</span></td></tr>
+                            <tr><td id="tdViewRobot2">🦾 机器人 2</td><td><span id="tdViewRobot2Desc">机器人形状的角色水位填充</span> <span class="tag tag-pro">PRO</span></td></tr>
+                            <tr><td id="tdViewRobot3">🤖 机器人 3</td><td><span id="tdViewRobot3Desc">机器人形状的角色水位填充</span> <span class="tag tag-pro">PRO</span></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <h3 id="h3ProgressSettings">进度设置</h3>
+                <ul>
+                    <li><strong id="liBalanceLine">水平衡线：</strong><span id="liBalanceLineDesc">在圆环中间显示50%进度标记线（开关）</span></li>
+                    <li><strong id="liColorFill">彩色填充：</strong><span id="liColorFillDesc">按饮品类型显示不同颜色分段（开关）</span></li>
+                    <li><strong id="liMergeByDrink">按饮品合并：</strong><span id="liMergeByDrinkDesc">相同类型的记录合并显示（开关）</span></li>
+                </ul>
+                
+                <h3 id="h3RecordSettings">记录设置</h3>
+                <ul>
+                    <li><strong id="liShowTodayRecords">显示今日记录：</strong><span id="liShowTodayRecordsDesc">在主页显示今日饮水记录列表（开关）</span></li>
+                    <li><strong id="liShowWeekProgress">显示本周进度：</strong><span id="liShowWeekProgressDesc">在主页显示本周7天进度图表（开关）</span></li>
+                </ul>
+                
+                <h3 id="h3ThemeSettings">主题风格</h3>
+                <p id="pThemeSettings">选择应用的主题配色方案，共 14 种主题可选：</p>
+                <div class="table-wrap">
+                    <table>
+                        <thead><tr><th style="width:120px" id="thThemeName">主题</th><th id="thThemeDesc">说明</th></tr></thead>
+                        <tbody>
+                            <tr><td id="tdThemeAppleLight">🍎 苹果浅色</td><td id="tdThemeAppleLightDesc">默认主题，iOS 风格浅色（免费）</td></tr>
+                            <tr><td id="tdThemeAppleDark">🍏 苹果深色</td><td id="tdThemeAppleDarkDesc">OLED 纯黑深色（免费）</td></tr>
+                            <tr><td id="tdThemeOcean">🌊 海洋深蓝</td><td id="tdThemeOceanDesc">深邃海洋蓝（免费）</td></tr>
+                            <tr><td id="tdThemeForest">🌲 森林绿意</td><td><span id="tdThemeForestDesc">清新自然绿</span> <span class="tag tag-pro">PRO</span></td></tr>
+                            <tr><td id="tdThemeSunset">🌅 落日橙霞</td><td><span id="tdThemeSunsetDesc">温暖落日橙</span> <span class="tag tag-pro">PRO</span></td></tr>
+                            <tr><td id="tdThemeLavender">💜 薰衣草紫</td><td><span id="tdThemeLavenderDesc">浪漫薰衣草紫</span> <span class="tag tag-pro">PRO</span></td></tr>
+                            <tr><td id="tdThemeCoral">🪸 珊瑚粉色</td><td><span id="tdThemeCoralDesc">柔和珊瑚粉</span> <span class="tag tag-pro">PRO</span></td></tr>
+                            <tr><td id="tdThemeMint">🌿 薄荷清新</td><td><span id="tdThemeMintDesc">清凉薄荷绿</span> <span class="tag tag-pro">PRO</span></td></tr>
+                            <tr><td id="tdThemeStarry">✨ 星空紫梦</td><td><span id="tdThemeStarryDesc">梦幻星空紫</span> <span class="tag tag-pro">PRO</span></td></tr>
+                            <tr><td id="tdThemeSky">☀️ 晴空万里</td><td><span id="tdThemeSkyDesc">明亮天空蓝</span> <span class="tag tag-pro">PRO</span></td></tr>
+                            <tr><td id="tdThemeSunshine">🌞 暖阳高照</td><td><span id="tdThemeSunshineDesc">温暖阳光黄</span> <span class="tag tag-pro">PRO</span></td></tr>
+                            <tr><td id="tdThemeAurora">🌌 极光幻彩</td><td><span id="tdThemeAuroraDesc">神秘极光青绿</span> <span class="tag tag-pro">PRO</span></td></tr>
+                            <tr><td id="tdThemeLemon">🍋 柠檬清新</td><td><span id="tdThemeLemonDesc">活力柠檬黄</span> <span class="tag tag-pro">PRO</span></td></tr>
+                            <tr><td id="tdThemeRose">🌹 玫瑰芬芳</td><td><span id="tdThemeRoseDesc">优雅玫瑰红</span> <span class="tag tag-pro">PRO</span></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <h2 id="settings-reminder">提醒设置</h2>
+                <p id="pReminderSettings">点击设置页面的提醒选项进入详情页，包含以下设置：</p>
+                
+                <h3 id="h3ReminderToggle">提醒总开关</h3>
+                <p id="pReminderToggle">开启/关闭所有喝水提醒。关闭后所有提醒通知将不再发送。</p>
+                
+                <h3 id="h3Ringtone">提醒铃声与目标达成</h3>
+                <ul>
+                    <li><strong id="liRingtone">提醒铃声：</strong><span id="liRingtoneDesc">选择提醒音效，共20种铃声可选。免费用户仅可使用系统默认、闹钟1、闹钟2；Pro 会员可使用全部铃声</span></li>
+                    <li><strong id="liStopAfterGoal">目标达成后不再提醒：</strong><span id="liStopAfterGoalDesc">达到每日目标后自动停止发送提醒（开关）</span></li>
+                </ul>
+                
+                <h3 id="h3ReminderConfig">提醒配置</h3>
+                <ul>
+                    <li><strong id="liPushMessage">推送语：</strong><span id="liPushMessageDesc">选择提醒通知的文案风格（默认/励志/幽默/温馨/科学）</span> <span class="tag tag-pro">PRO</span> </li>
+                    <li><strong id="liSmartScene">智能场景：</strong><span id="liSmartSceneDesc">根据时间、位置等场景智能调整提醒</span> <span class="tag tag-pro">PRO</span> </li>
+                </ul>
+                
+                <h3 id="h3TimeSettings">时间设置</h3>
+                <ul>
+                    <li><strong id="liReminderMode">提醒模式：</strong><span id="liReminderModeDesc">固定间隔 / 智能模式</span> <span class="tag tag-pro">PRO</span> </li>
+                    <li><strong id="liInterval">间隔时长：</strong><span id="liIntervalDesc">30分钟 / 45分钟 / 60分钟 / 90分钟 / 120分钟</span></li>
+                    <li><strong id="liStartTime">开始提醒时间：</strong><span id="liStartTimeDesc">默认 07:00</span></li>
+                    <li><strong id="liEndTime">结束提醒时间：</strong><span id="liEndTimeDesc">默认 22:00</span></li>
+                </ul>
+                
+                <h3 id="h3RestDays">休息日</h3>
+                <p><span id="pRestDays">选择一周中哪些日子不发送提醒。免费用户无法设置休息日，Pro 会员可自由选择</span> <span class="tag tag-pro">PRO</span></p>
+                
+                <h3 id="h3PauseHydration">暂停补水</h3>
+                <p id="pPauseHydration">点击暂停补水按钮可一键关闭所有提醒。</p>
+                
+                <div class="alert alert-tip">
+                    <h4 id="alertReminderCompare">⏰ 免费 vs Pro 提醒功能</h4>
+                    <ul>
+                        <li><strong id="liFreeFeatures">免费：</strong><span id="liFreeFeaturesDesc">固定间隔模式、3种铃声、无休息日</span></li>
+                        <li><strong id="liProFeatures">Pro：</strong><span id="liProFeaturesDesc">智能模式、20种铃声、推送语选择、智能场景、休息日设置</span></li>
+                    </ul>
+                </div>
+                
+                <h2 id="settings-sync">数据设置</h2>
+                
+                <h3><span id="h3ICloudSync">iCloud 同步</span> <span class="tag tag-pro">PRO</span></h3>
+                <p id="pICloudSync">将饮水数据同步到 iCloud，支持多设备共享。包含以下功能：</p>
+                <ul>
+                    <li id="liSyncStatus">查看 iCloud 同步状态（未登录/同步中/已同步/失败/不可用）</li>
+                    <li id="liSyncToggle">开启/关闭 iCloud 同步开关</li>
+                    <li id="liManualSync">手动同步所有数据</li>
+                    <li id="liVerifySync">验证同步状态</li>
+                    <li id="liLastSync">查看上次同步时间和记录总数</li>
+                </ul>
+                
+                <div class="alert alert-tip">
+                    <h4 id="alertICloudTip">☁️ iCloud 同步说明</h4>
+                    <p id="alertICloudTipDesc">iCloud 同步基于 SwiftData + CloudKit 自动同步，需要登录同一 Apple ID 并开启网络。数据会在后台自动同步，也可手动点击"同步全部数据"立即同步。首次使用时，App 会自动将数据推送到 CloudKit。</p>
+                </div>
+                
+                <h3><span id="h3AppleHealth">Apple Health 同步</span> <span class="tag tag-pro">PRO</span></h3>
+                <p id="pAppleHealth">将饮水数据与 Apple Health 双向同步：</p>
+                <ul>
+                    <li id="liAuthorizeHealth">授权 HealthKit 访问（首次使用需点击"授权访问"）</li>
+                    <li id="liSyncWater">水：读写同步（双向）</li>
+                    <li id="liSyncCaffeine">咖啡因：仅写入（从 WaterKit 同步到 Health）</li>
+                    <li id="liSyncEnergy">活动能量：仅读取（从 Health 读取，自动更新活动量）</li>
+                    <li id="liSyncWeight">体重：仅读取（从 Health 读取，自动更新体重）</li>
+                    <li id="liSyncGender">性别：仅读取（从 Health 读取，自动更新性别）</li>
+                    <li id="liAutoSyncHealth">自动同步：开启后自动监听 Health 数据变化并同步</li>
+                    <li id="liSyncProgress">同步进度：同步时显示实时进度条和记录数</li>
+                </ul>
+                
+                <div class="alert alert-tip">
+                    <h4 id="alertHealthAuthTip">🏥 Apple Health 授权说明</h4>
+                    <p id="alertHealthAuthTipDesc">首次使用 Apple Health 同步时，需要点击"授权访问"按钮进行授权。授权后，WaterKit 会自动将饮水记录写入 Health，并从 Health 读取体重、活动量等信息更新到个人档案。</p>
+                </div>
+                
+                <div class="alert alert-info">
+                    <h4 id="alertHealthIOSTip">📱 iOS 26 用户注意</h4>
+                    <p id="alertHealthIOSTipDesc">在 iOS 26 上，由于系统限制，点击"授权访问"后会跳转到健康 App，您需要手动前往「共享 → App → WaterKit」开启权限。返回 WaterKit 后，App 会自动检测到权限变化并开始同步。</p>
+                </div>
+                
+                <h3><span id="h3DataExport">数据导出</span> <span class="tag tag-pro">PRO</span></h3>
+                <p id="pDataExport">将饮水记录导出为文件：</p>
+                <ul>
+                    <li><strong id="liDateRange">日期范围：</strong><span id="liDateRangeDesc">选择导出的起始和结束日期</span></li>
+                    <li><strong id="liExportFormat">导出格式：</strong><span id="liExportFormatDesc">CSV 或 JSON</span></li>
+                    <li><strong id="liContentPreview">内容预览：</strong><span id="liContentPreviewDesc">导出前预览记录数量</span></li>
+                    <li id="liShareFile">通过系统分享面板导出文件</li>
+                </ul>
+            </div>
+            
+            <div class="page-section" id="watch">
+                <h1 id="h1Watch">Apple Watch</h1>
+                <p id="pWatch">WaterKit 的 Apple Watch 端完全免费，提供快捷记录、进度查看和数据同步功能。</p>
+                
+                <h2 id="watch-overview">功能概览</h2>
+                <div class="table-wrap">
+                    <table>
+                        <thead><tr><th style="width:140px" id="thWatchFunction">功能</th><th id="thWatchDesc">说明</th></tr></thead>
+                        <tbody>
+                            <tr><td><strong id="tdWatchRing">圆环界面</strong></td><td id="tdWatchRingDesc">大圆环展示今日饮水进度，下方快捷按钮快速记录</td></tr>
+                            <tr><td><strong id="tdWatchCompact">简洁界面</strong></td><td id="tdWatchCompactDesc">数字进度 + 进度条 + 快捷按钮的紧凑布局</td></tr>
+                            <tr><td><strong id="tdWatchQuickAdd">快捷记录</strong></td><td id="tdWatchQuickAddDesc">100ml / 200ml / 300ml / 400ml / 500ml 一键添加</td></tr>
+                            <tr><td><strong id="tdWatchDrinkType">饮品选择</strong></td><td id="tdWatchDrinkTypeDesc">支持白水、气泡水、咖啡、茶等多种饮品类型</td></tr>
+                            <tr><td><strong id="tdWatchHistory">7 天历史</strong></td><td id="tdWatchHistoryDesc">柱状图展示近 7 天饮水记录</td></tr>
+                            <tr><td><strong id="tdWatchRecords">今日记录</strong></td><td id="tdWatchRecordsDesc">查看和删除今日饮水记录</td></tr>
+                            <tr><td><strong id="tdWatchAchievement">成就</strong></td><td id="tdWatchAchievementDesc">查看已解锁的成就列表</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="alert alert-info">
+                    <h4 id="alertWatchFree">🎉 完全免费</h4>
+                    <p id="alertWatchFreeDesc">Apple Watch 端所有功能完全免费使用，无需 Pro 会员。包括所有饮品类型、Widget 和快捷记录功能。</p>
+                </div>
+                
+                <h2 id="watch-settings">Watch 设置</h2>
+                <p id="pWatchSettings">Watch 端的设置页面提供以下选项：</p>
+                <div class="table-wrap">
+                    <table>
+                        <thead><tr><th style="width:140px" id="thWatchSetting">设置项</th><th id="thWatchSettingDesc">说明</th></tr></thead>
+                        <tbody>
+                            <tr><td><strong id="tdWatchProfile">档案</strong></td><td id="tdWatchProfileDesc">显示从 iPhone 同步的昵称、每日目标、体重、性别、活动量和单位（只读）</td></tr>
+                            <tr><td><strong id="tdWatchNotifications">通知</strong></td><td id="tdWatchNotificationsDesc">提醒开关、间隔、时间范围</td></tr>
+                            <tr><td><strong id="tdWatchHomeScreen">主屏幕</strong></td><td id="tdWatchHomeScreenDesc">选择圆环界面或简洁界面</td></tr>
+                            <tr><td><strong id="tdWatchOtherDrink">其他饮料屏幕</strong></td><td id="tdWatchOtherDrinkDesc">选择快捷记录页显示的饮品类型</td></tr>
+                            <tr><td><strong id="tdWatchResetTime">每日重置时间</strong></td><td id="tdWatchResetTimeDesc">设置每日数据重置的时间点</td></tr>
+                            <tr><td><strong id="tdWatchSound">声音</strong></td><td id="tdWatchSoundDesc">开启/关闭喝水音效</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="alert alert-tip">
+                    <h4 id="alertWatchUnitSync">📏 单位同步</h4>
+                    <p id="alertWatchUnitSyncDesc">Watch 端的单位设置（公制 ml / 英制 oz）自动从 iPhone 端同步，无需在 Watch 上单独设置。在 iPhone 端「设置 → 档案 → 单位」中切换后，Watch 端会自动更新。</p>
+                </div>
+                
+                <h2 id="watch-sync">数据同步</h2>
+                <p id="pWatchSync">Watch 端与 iPhone 端通过以下方式同步数据：</p>
+                <ul>
+                    <li id="liWatchSync1"><strong>实时同步：</strong>当 iPhone 与 Watch 蓝牙连接且 Watch App 可达时，数据实时推送</li>
+                    <li id="liWatchSync2"><strong>后台同步：</strong>Watch 不可达时，通过 Application Context 在下次连接时同步</li>
+                    <li id="liWatchSync3"><strong>Widget 同步：</strong>通过 App Group 共享数据，Widget 自动读取最新数据</li>
+                </ul>
+                
+                <div class="alert alert-info">
+                    <h4 id="alertWatchSyncTip">🔄 同步内容</h4>
+                    <p id="alertWatchSyncTipDesc">iPhone → Watch 同步的内容包括：今日饮水量、每日目标、档案信息（昵称、体重、性别、活动量）、单位设置、提醒设置、7 天历史数据。Watch → iPhone 同步的内容包括：在 Watch 上添加或删除的饮水记录。</p>
+                </div>
+            </div>
+            
+            <div class="page-section" id="pro">
+                <h1 id="h1Pro">Pro 会员</h1>
+                <p id="pPro">开通 Pro 会员解锁更多高级功能，提升使用体验。</p>
+                
+                <h2 id="pro-features">会员特权</h2>
+                <div class="table-wrap">
+                    <table>
+                        <thead><tr><th style="width:160px" id="thPrivilege">特权</th><th id="thPrivilegeDesc">说明</th></tr></thead>
+                        <tbody>
+                            <tr><td><strong id="tdAllDrinkTypes">全部饮品类型</strong></td><td id="tdAllDrinkTypesDesc">解锁除白水外的所有饮品类型（气泡水、咖啡、茶、果汁、酒精等）</td></tr>
+                            <tr><td><strong id="tdCharacterSkins">角色皮肤</strong></td><td id="tdCharacterSkinsDesc">使用杯子、水滴、熊猫、猫咪等22+种可爱角色作为主页展示</td></tr>
+                            <tr><td><strong id="tdThemeColors">14 种主题</strong></td><td id="tdThemeColorsDesc">解锁 3 种免费主题外的 11 种精美主题配色</td></tr>
+                            <tr><td><strong id="tdHistoryPeriod">历史周期筛选</strong></td><td id="tdHistoryPeriodDesc">查看周、月、年维度的历史数据</td></tr>
+                            <tr><td><strong id="tdCaffeineAnalysis">咖啡因统计</strong></td><td id="tdCaffeineAnalysisDesc">在历史页面查看咖啡因摄入分析</td></tr>
+                            <tr><td><strong id="tdDataExportPro">数据导出</strong></td><td id="tdDataExportProDesc">导出完整数据报告</td></tr>
+                            <tr><td><strong id="tdThemeAchievements">主题与成就</strong></td><td id="tdThemeAchievementsDesc">解锁高级主题和成就</td></tr>
+                            <tr><td><strong id="tdSmartReminder">智能提醒</strong></td><td id="tdSmartReminderDesc">使用智能提醒模式和更多铃声选项</td></tr>
+                            <tr><td><strong id="tdWatchWidget">Watch 与 Widget</strong></td><td id="tdWatchWidgetDesc">Apple Watch 和 Widget 功能完全免费，无需 Pro 会员</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="alert alert-info">
+                    <h4 id="alertSubscribePlan">💎 订阅方案</h4>
+                    <p id="alertSubscribePlanDesc">提供月付、年付和永久三种方案。新用户可享受 <strong>3天免费试用</strong>，试用期内可随时取消。</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const translations = {
+            'zh': {
+                'navTitle': '页面导航',
+                'navToday': '今日页面',
+                'navTodayOverview': '页面概览',
+                'navTodayHero': '进度展示',
+                'navTodayQuick': '快速记录',
+                'navTodayLog': '今日记录',
+                'navTodayAdd': '添加饮水',
+                'navStats': '习惯页面',
+                'navStatsFeatures': '功能说明',
+                'navStatsScore': '评分规则',
+                'navHistory': '历史页面',
+                'navHistoryFeatures': '功能说明',
+                'navHistoryRecords': '全部记录',
+                'navHistoryTips': '查看技巧',
+                'navAchievements': '成就页面',
+                'navAchvFeatures': '功能说明',
+                'navAchvTypes': '成就类型',
+                'navSettings': '设置页面',
+                'navSettingsFeatures': '功能总览',
+                'navSettingsProfile': '个人档案',
+                'navSettingsTheme': '主题与外观',
+                'navSettingsReminder': '提醒设置',
+                'navSettingsSync': '数据同步',
+                'navWatch': 'Apple Watch',
+                'navWatchOverview': '功能概览',
+                'navWatchSettings': 'Watch 设置',
+                'navWatchSync': '数据同步',
+                'navPro': 'Pro 会员',
+                'navProFeatures': '会员特权',
+                'btnComplete': '完成',
+
+                'pageTitle': 'WaterKit 操作手册',
+                'today-overview': '页面概览',
+                'today-hero': '进度展示',
+                'today-quicklog': '快速记录',
+                'today-logcard': '今日记录',
+                'today-add': '添加饮水',
+                'stats-features': '功能说明',
+                'stats-score': '评分规则',
+                'history-features': '功能说明',
+                'history-allrecords': '全部记录',
+                'history-tips': '查看技巧',
+                'achv-features': '功能说明',
+                'achv-types': '成就类型',
+                'settings-features': '功能总览',
+                'settings-profile': '个人档案',
+                'settings-theme': '主屏幕设置',
+                'settings-reminder': '提醒设置',
+                'settings-sync': '数据设置',
+                'pro-features': '会员特权',
+                'tdDrinkWater': '💧 白水',
+                'tdDrinkWaterDesc': '纯净水（免费）',
+                'tdDrinkSparkling': '🫧 气泡水',
+                'tdDrinkSparklingDesc': '含二氧化碳的饮用水',
+                'tdDrinkSoda': '🥤 碳酸饮料',
+                'tdDrinkSodaDesc': '可乐、雪碧等含糖汽水',
+                'tdDrinkCoconut': '🥥 椰子水',
+                'tdDrinkCoconutDesc': '天然椰子水',
+                'tdDrinkElectrolyte': '⚡️ 电解质水',
+                'tdDrinkElectrolyteDesc': '含电解质的运动补水饮料',
+                'tdDrinkTea': '🍵 茶',
+                'tdDrinkTeaDesc': '绿茶、红茶等各类茶饮',
+                'tdDrinkCoffee': '☕️ 咖啡',
+                'tdDrinkCoffeeDesc': '美式、拿铁等咖啡饮品',
+                'tdDrinkIcedTea': '🧊 冰茶',
+                'tdDrinkIcedTeaDesc': '冰镇茶类饮料',
+                'tdDrinkHotChoco': '🧋 热巧克力',
+                'tdDrinkHotChocoDesc': '可可粉调制的热饮',
+                'tdDrinkJuice': '🧃 果汁',
+                'tdDrinkJuiceDesc': '橙汁、苹果汁等纯果汁',
+                'tdDrinkVegJuice': '🥕 蔬菜汁',
+                'tdDrinkVegJuiceDesc': '胡萝卜汁、番茄汁等',
+                'tdDrinkLemon': '🍋 柠檬水',
+                'tdDrinkLemonDesc': '柠檬调制的清爽饮品',
+                'tdDrinkSmoothie': '🍓 奶昔',
+                'tdDrinkSmoothieDesc': '水果与酸奶/牛奶混合饮品',
+                'tdDrinkMilk': '🥛 牛奶',
+                'tdDrinkMilkDesc': '全脂牛奶',
+                'tdDrinkSkimMilk': '🥛 脱脂牛奶',
+                'tdDrinkSkimMilkDesc': '脱脂牛奶',
+                'tdDrinkChocoMilk': '🍫 巧克力牛奶',
+                'tdDrinkChocoMilkDesc': '巧克力味牛奶饮品',
+                'tdDrinkProtein': '🍹 蛋白奶昔',
+                'tdDrinkProteinDesc': '蛋白质补充饮料',
+                'tdDrinkSports': '🏃 运动饮料',
+                'tdDrinkSportsDesc': '功能性运动补水饮料',
+                'tdDrinkEnergy': '🔋 能量饮料',
+                'tdDrinkEnergyDesc': '含咖啡因的功能饮料',
+                'tdDrinkSoup': '🍲 汤',
+                'tdDrinkSoupDesc': '各类汤品',
+                'tdDrinkBeer': '🍺 啤酒',
+                'tdDrinkBeerDesc': '低度酒精饮品',
+                'tdDrinkWine': '🍷 葡萄酒',
+                'tdDrinkWineDesc': '红酒、白酒等',
+                'tdDrinkLiquor': '🥃 烈酒',
+                'tdDrinkLiquorDesc': '威士忌、伏特加等蒸馏酒',
+                'tdViewOpenRingDesc': '底部开口的圆环进度条，默认样式',
+                'tdViewClosedRingDesc': '完整的圆环进度条，带刻度装饰',
+                'tdViewCupDesc': '杯子形状的角色水位填充',
+                'tdViewDropDesc': '水滴形状的角色水位填充',
+                'tdViewPandaDesc': '熊猫形状的角色水位填充',
+                'tdViewCatDesc': '猫咪形状的角色水位填充',
+                'tdViewDogDesc': '狗狗形状的角色水位填充',
+                'tdViewRabbitDesc': '兔子形状的角色水位填充',
+                'tdViewBearDesc': '小熊形状的角色水位填充',
+                'tdViewPenguinDesc': '企鹅形状的角色水位填充',
+                'tdViewOctopusDesc': '章鱼形状的角色水位填充',
+                'tdViewDinosaurDesc': '恐龙形状的角色水位填充',
+                'tdViewFrogDesc': '青蛙形状的角色水位填充',
+                'tdViewCloudDesc': '云朵形状的角色水位填充',
+                'tdViewStarDesc': '星星形状的角色水位填充',
+                'tdViewHeartDesc': '爱心形状的角色水位填充',
+                'tdViewSunDesc': '太阳形状的角色水位填充',
+                'tdViewPortrait1': '👤 人像 1',
+                'tdViewPortrait1Desc': '人像形状的角色水位填充',
+                'tdViewPortrait2': '👩 人像 2',
+                'tdViewPortrait2Desc': '人像形状的角色水位填充',
+                'tdViewPortrait3': '🧑 人像 3',
+                'tdViewPortrait3Desc': '人像形状的角色水位填充',
+                'tdViewRobot1': '🤖 机器人 1',
+                'tdViewRobot1Desc': '机器人形状的角色水位填充',
+                'tdViewRobot2': '🦾 机器人 2',
+                'tdViewRobot2Desc': '机器人形状的角色水位填充',
+                'tdViewRobot3': '🤖 机器人 3',
+                'tdViewRobot3Desc': '机器人形状的角色水位填充',
+                'tdICloudSyncDesc': '数据同步到 iCloud',
+                'tdAppleHealthDesc': '与 Apple Health 同步饮水数据',
+                'tdDataExportDesc': '导出饮水记录为 CSV/JSON',
+                'tdCharacterFillDesc': '可爱角色（杯子、熊猫、猫咪、人像、机器人等）的水位填充动画',
+                'tdCaffeineStatsDesc': '统计咖啡因摄入量',
+                'liSmartRecommendDesc': '根据体重和活动量自动计算推荐目标',
+                'liDailyGoalDesc': '默认 <code>2000ml</code>，可手动调整',
+                'liPushMessageDesc': '选择提醒通知的文案风格（默认/励志/幽默/温馨/科学）',
+                'liSmartSceneDesc': '根据时间、位置等场景智能调整提醒',
+                'liReminderModeDesc': '固定间隔 / 智能模式',
+                'pRestDays': '选择一周中哪些日子不发送提醒。免费用户无法设置休息日，Pro 会员可自由选择。',
+                'h3ICloudSync': 'iCloud 同步',
+                'h3AppleHealth': 'Apple Health 同步',
+                'h3DataExport': '数据导出',
+                'alertSubscribePlanDesc': '提供月付、年付和永久三种方案。新用户可享受 <strong>3天免费试用</strong>，试用期内可随时取消。',
+
+                'h1Today': '今日页面',
+                'pToday': '今日页面是应用的主入口，展示当日饮水进度、快速记录入口和今日饮水记录。',
+                'thArea': '区域',
+                'thDesc': '说明',
+                'tdTopStatus': '顶部状态栏',
+                'tdTopStatusDesc': '显示当前日期、星期，以及实时饮水状态和进度百分比',
+                'tdDrinkProgress': '饮水进度',
+                'tdDrinkProgressDesc': '以圆环或角色形式展示今日饮水完成度',
+                'tdRhythmCard': '今日节奏卡片',
+                'tdRhythmCardDesc': '显示今日已饮水量和每日目标',
+                'tdReminderCard': '提醒卡片',
+                'tdReminderCardDesc': '显示下一次喝水提醒的时间',
+                'tdQuickLogArea': '快速记录区',
+                'tdQuickLogAreaDesc': '选择饮品类型，使用快捷量按钮或自定义添加',
+                'tdTodayRecords': '今日记录',
+                'tdTodayRecordsDesc': '展示今日所有饮水记录，支持编辑和删除',
+                'tdWeekProgress': '本周进度',
+                'tdWeekProgressDesc': '以环形图表展示最近7天的每日饮水完成情况',
+                'pDisplayOptions': '今日页面提供多种进度展示方式，可在设置中切换：',
+                'thDisplayType': '展示类型',
+                'thDisplayDesc': '说明',
+                'tdOpenRing': '开口圆环',
+                'tdOpenRingDesc': '底部开口的圆环进度条，带有渐变光效',
+                'tdClosedRing': '闭合圆环',
+                'tdClosedRingDesc': '完整的圆环进度条，带刻度装饰',
+                'tdCharacterFill': '角色填充',
+                
+                'alertWaterLine': '水平衡线',
+                'alertWaterLineDesc': '开启后会在圆环中间显示一条虚线，标记50%进度位置，帮助直观判断饮水进度。',
+                'pQuickLog': '快速记录区由两部分组成：饮品类型选择和快捷量按钮。',
+                'h3DrinkTypes': '饮品类型',
+                'pDrinkTypes': '应用支持多种饮品类型，其中 💧 白水为免费类型，其余类型需要 Pro 会员解锁。',
+                'thType': '类型',
+                'thTypeDesc': '说明',
+                'alertUnlockDrinks': '🔒 解锁饮品',
+                'alertUnlockDrinksDesc': '除 💧 白水外，其他所有饮品类型都需要开通 Pro 会员才能选择。在添加饮水页面，只有 💧 白水可免费使用。',
+                'h3QuickButtons': '快捷量按钮',
+                'pQuickButtons': '选择饮品后，点击快捷量按钮（如 100ml、200ml、300ml）即可快速记录。点击 + 按钮可自定义饮水量。',
+                'pTodayLog': '今日记录列表展示当天的所有饮水记录，每条记录包含：',
+                'liDrinkIcon': '饮品类型图标和名称',
+                'liDrinkAmount': '饮水量（显示原始量和有效量）',
+                'liRecordTime': '记录时间',
+                'liProgressPercent': '添加时的进度百分比',
+                'liMiniProgress': '小进度圆环',
+                'alertRecordActions': '记录操作',
+                'alertRecordActionsDesc': '长按记录项可呼出菜单，选择编辑修改记录，或选择删除移除记录。删除后今日进度会自动重新计算。',
+                'pAddDrink': '点击快捷记录区的 + 按钮或导航栏的加号，进入添加饮水页面：',
+                'step1Title': '选择饮品类型',
+                'step1Desc': '在网格中选择对应的饮品图标（带皇冠标记的需要 Pro 会员）',
+                'step2Title': '输入饮水量',
+                'step2Desc': '使用数字键盘输入具体数值，或使用快捷量按钮快速选择',
+                'step3Title': '调整时间（可选）',
+                'step3Desc': '点击日期/时间芯片，可修改记录的时间（用于补记之前的饮水）',
+                'step4Title': '确认添加',
+                'step4Desc': '点击确认按钮保存记录，页面自动返回并更新进度',
+                'alertAddTip': '📝 补记功能',
+                'alertAddTipDesc': '添加饮水时可修改日期和时间，方便补记之前的饮水记录。支持补记到过去任意日期。',
+                
+                'h1Stats': '习惯页面',
+                'pStats': '习惯页面提供详细的饮水数据分析和健康评分，帮助用户了解自己的饮水习惯。',
+                'thStatsFunction': '功能',
+                'thStatsDesc': '说明',
+                'tdHealthTips': '健康小贴士',
+                'tdHealthTipsDesc': '根据用户饮水数据提供个性化健康建议和改善方向',
+                'tdHabitScore': '习惯评分',
+                'tdHabitScoreDesc': '满分100分，综合完成度、一致性、连续打卡三项指标评估',
+                'tdTrendChart': '趋势图表',
+                'tdTrendChartDesc': '可视化展示最近7天饮水变化，直观看到进步轨迹',
+                'tdHabitInsights': '习惯洞察',
+                'tdHabitInsightsDesc': '最佳饮水时间、峰值时段、连续打卡天数等深度分析',
+                'tdDrinkDistribution': '饮品分布',
+                'tdDrinkDistributionDesc': '环形图展示各类饮品的占比情况',
+                'thDimension': '维度',
+                'thScore': '分值',
+                'thCalculation': '计算方式',
+                'tdCompletion': '完成度',
+                'tdCompletionCalc': '近7天达标天数 ÷ 7 × 40',
+                'tdConsistency': '一致性',
+                'tdConsistencyCalc': '近7天日均饮水量 ÷ 每日目标 × 30',
+                'tdStreak': '连续打卡',
+                'tdStreakCalc': 'min(当前连续达标天数 ÷ 7, 1.0) × 30',
+                'alertScoreTip': '🎯 提高分数的小窍门',
+                'liScoreTip1': '尽量每天都完成目标，完成度占40分比重最大',
+                'liScoreTip2': '保持稳定的饮水量，不要一天喝太多一天又不喝',
+                'liScoreTip3': '连续打卡7天以上，那30分就稳稳到手',
+                
+                'h1History': '历史页面',
+                'pHistory': '历史页面提供完整的饮水记录查询和数据分析功能。',
+                'thHistoryFunction': '功能',
+                'thHistoryDesc': '说明',
+                'tdTimeFilter': '时间筛选',
+                'tdTimeFilterDesc': '支持按日、周、月、年查看历史数据（周/月/年需 Pro）',
+                'tdChartCard': '图表卡片',
+                'tdChartCardDesc': '根据所选时间段展示对应的饮水图表',
+                'tdDataAnalysis': '数据分析',
+                'tdDataAnalysisDesc': '平均饮水量、总饮水量、达标天数、连续打卡天数等统计',
+                'tdDrinkStats': '饮品统计',
+                'tdDrinkStatsDesc': '展示各类饮品的饮用情况',
+                'tdCaffeineStats': '咖啡因统计',
+                
+                'pAllRecords': '点击"查看全部"进入全部记录页面，支持以下功能：',
+                'liGroupByDate': '按日期分组：',
+                'liQuickAdd': '快速添加：',
+                'stepHistory1': '筛选记录',
+                'stepHistory1Desc': '使用顶部筛选器按饮品类型过滤，只查看关心的记录',
+                'stepHistory2': '切换周期',
+                'stepHistory2Desc': '使用时间段选择器切换日/周/月/年，从不同角度分析',
+                'stepHistory3': '查看全部',
+                'stepHistory3Desc': '点击"查看全部"查看完整的记录列表',
+                
+                'h1Achievements': '成就页面',
+                'pAchievements': '成就页面展示用户的成就收集进度和奖励积分系统。',
+                'thAchvFunction': '功能',
+                'thAchvDesc': '说明',
+                'tdStatsCard': '统计卡片',
+                'tdStatsCardDesc': '显示已解锁成就数量和总积分',
+                'tdCategoryFilter': '分类筛选',
+                'tdCategoryFilterDesc': '按成就类型筛选（目标达成、累计饮水、单日挑战、时间成就、饮品多样、季节限定、里程碑）',
+                'tdAchievementGrid': '成就网格',
+                'tdAchievementGridDesc': '以网格形式展示所有成就，已解锁显示彩色，未解锁显示灰色',
+                'tdAchievementDetail': '成就详情',
+                'tdAchievementDetailDesc': '点击成就查看详细信息、进度和奖励',
+                'thAchvType': '类型',
+                'thAchvTypeDesc': '说明',
+                'tdGoalCompletion': '🎯 目标达成',
+                'tdGoalCompletionDesc': '完成每日饮水目标相关成就',
+                'tdTotalAmount': '💧 累计饮水',
+                'tdTotalAmountDesc': '累计饮水总量相关成就',
+                'tdDailyChallenge': '🔥 单日挑战',
+                'tdDailyChallengeDesc': '单日饮水量挑战成就',
+                'tdTimeBased': '⏰ 时间成就',
+                'tdTimeBasedDesc': '特定时间段饮水成就',
+                'tdVariety': '🍹 饮品多样',
+                'tdVarietyDesc': '尝试不同饮品类型成就',
+                'tdSeasonal': '🌿 季节限定',
+                'tdSeasonalDesc': '季节性限时成就',
+                'tdMilestone': '🏆 里程碑',
+                'tdMilestoneDesc': '重要里程碑纪念成就',
+                'alertUnlockAchievement': '🎉 成就解锁',
+                'alertUnlockAchievementDesc': '解锁成就时会弹出庆祝动画和积分奖励。部分高级成就需要 Pro 会员才能解锁。',
+                
+                'h1Settings': '设置页面',
+                'pSettings': '设置页面包含个人档案、通知、数据、支持和关于等多个功能模块。',
+                'thSettingsFunction': '功能',
+                'thSettingsDesc': '说明',
+                'tdProfile': '个人档案',
+                'tdProfileDesc': '设置用户名、头像、性别、体重、活动量、每日目标',
+                'tdUnitSettings': '单位设置',
+                'tdUnitSettingsDesc': '公制（ml/L）/ 英制（fl oz/cup）切换',
+                'tdLanguageSettings': '语言设置',
+                'tdLanguageSettingsDesc': '支持多语言切换',
+                'tdHomeScreen': '主屏幕',
+                'tdHomeScreenDesc': '主页展示类型、进度显示、记录显示设置',
+                'tdDrinkReminder': '饮水提醒',
+                'tdDrinkReminderDesc': '提醒开关、铃声、目标达成后停止、模式、间隔、时间范围、休息日',
+                'tdSoundEffects': '喝水音效',
+                'tdSoundEffectsDesc': '开启/关闭喝水时的音效反馈',
+                'tdICloudSync': 'iCloud 同步',
+                'tdAppleHealth': 'Apple Health',
+                'tdDataExport': '数据导出',
+                'tdHelpFeedback': '帮助与反馈',
+                'tdHelpFeedbackDesc': '查看帮助文档和提交反馈',
+                'tdSocialShare': '社交分享',
+                'tdSocialShareDesc': '分享应用给好友',
+                'pProfileSettings': '点击设置页面的个人档案卡片进入详情页，可设置以下内容：',
+                'liUsername': '用户名：',
+                'liUsernameDesc': '显示在应用中的用户昵称',
+                'liAvatar': '头像：',
+                'liAvatarDesc': '点击头像区域，从系统相册选择照片作为头像；未设置头像时，若已填写用户名则显示姓名首字母，否则显示默认图标',
+                'liGender': '性别：',
+                'liGenderDesc': '男 / 女 / 保密',
+                'liWeight': '体重：',
+                'liWeightDesc': '用于智能推荐每日饮水目标',
+                'liActivity': '活动量：',
+                'liActivityDesc': '久坐 / 轻度活动 / 中度活动 / 活跃 / 非常活跃',
+                'liDailyGoal': '每日目标：',
+                
+                'liSmartRecommend': '智能推荐：',
+                
+                'alertSmartTip': '💡 智能推荐',
+                'alertSmartTipDesc': '开启智能推荐后，系统会根据你的体重和活动量自动计算每日饮水目标。Pro 会员专享功能。',
+                'pHomeScreenSettings': '点击设置页面的主屏幕选项进入详情页，包含以下设置：',
+                'h3ViewType': '视图类型',
+                'pViewType': '选择主页进度展示的外观，横向滑动选择：',
+                'thViewType': '类型',
+                'thViewTypeDesc': '说明',
+                'tdViewOpenRing': '开口圆环',
+                'tdViewClosedRing': '闭合圆环',
+                'tdViewCup': '可爱杯子',
+                'tdViewDrop': '水滴',
+                'tdViewPanda': '熊猫',
+                'tdViewCat': '猫咪',
+                'tdViewDog': '狗狗',
+                'tdViewRabbit': '兔子',
+                'tdViewBear': '小熊',
+                'tdViewPenguin': '企鹅',
+                'tdViewOctopus': '章鱼',
+                'tdViewDinosaur': '恐龙',
+                'tdViewFrog': '青蛙',
+                'tdViewCloud': '云朵',
+                'tdViewStar': '星星',
+                'tdViewHeart': '爱心',
+                'tdViewSun': '太阳',
+                'tdViewPortrait1': '👤 人像 1',
+                'tdViewPortrait2': '👩 人像 2',
+                'tdViewPortrait3': '🧑 人像 3',
+                'tdViewRobot1': '🤖 机器人 1',
+                'tdViewRobot2': '🦾 机器人 2',
+                'tdViewRobot3': '🤖 机器人 3',
+                'h3ProgressSettings': '进度设置',
+                'liBalanceLine': '水平衡线：',
+                'liBalanceLineDesc': '在圆环中间显示50%进度标记线（开关）',
+                'liColorFill': '彩色填充：',
+                'liColorFillDesc': '按饮品类型显示不同颜色分段（开关）',
+                'liMergeByDrink': '按饮品合并：',
+                'liMergeByDrinkDesc': '相同类型的记录合并显示（开关）',
+                'h3RecordSettings': '记录设置',
+                'liShowTodayRecords': '显示今日记录：',
+                'liShowTodayRecordsDesc': '在主页显示今日饮水记录列表（开关）',
+                'liShowWeekProgress': '显示本周进度：',
+                'liShowWeekProgressDesc': '在主页显示本周7天进度图表（开关）',
+                'h3ThemeSettings': '主题风格',
+                'pThemeSettings': '选择应用的主题配色方案，共 14 种主题可选：',
+                'thThemeName': '主题',
+                'thThemeDesc': '说明',
+                'tdThemeOcean': '🌊 海洋深蓝',
+                'tdThemeOceanDesc': '深邃海洋蓝（免费）',
+                'tdThemeAppleLight': '🍎 苹果浅色',
+                'tdThemeAppleLightDesc': '默认主题，iOS 风格浅色（免费）',
+                'tdThemeAppleDark': '🍏 苹果深色',
+                'tdThemeAppleDarkDesc': 'OLED 纯黑深色（免费）',
+                'tdThemeForest': '🌲 森林绿意',
+                'tdThemeForestDesc': '清新自然绿',
+                'tdThemeSunset': '🌅 落日橙霞',
+                'tdThemeSunsetDesc': '温暖落日橙',
+                'tdThemeLavender': '💜 薰衣草紫',
+                'tdThemeLavenderDesc': '浪漫薰衣草紫',
+                'tdThemeCoral': '🪸 珊瑚粉色',
+                'tdThemeCoralDesc': '柔和珊瑚粉',
+                'tdThemeMint': '🌿 薄荷清新',
+                'tdThemeMintDesc': '清凉薄荷绿',
+                'tdThemeStarry': '✨ 星空紫梦',
+                'tdThemeStarryDesc': '梦幻星空紫',
+                'tdThemeSky': '☀️ 晴空万里',
+                'tdThemeSkyDesc': '明亮天空蓝',
+                'tdThemeSunshine': '🌞 暖阳高照',
+                'tdThemeSunshineDesc': '温暖阳光黄',
+                'tdThemeAurora': '🌌 极光幻彩',
+                'tdThemeAuroraDesc': '神秘极光青绿',
+                'tdThemeLemon': '🍋 柠檬清新',
+                'tdThemeLemonDesc': '活力柠檬黄',
+                'tdThemeRose': '🌹 玫瑰芬芳',
+                'tdThemeRoseDesc': '优雅玫瑰红',
+                'pReminderSettings': '点击设置页面的提醒选项进入详情页，包含以下设置：',
+                'h3ReminderToggle': '提醒总开关',
+                'pReminderToggle': '开启/关闭所有喝水提醒。关闭后所有提醒通知将不再发送。',
+                'h3Ringtone': '提醒铃声与目标达成',
+                'liRingtone': '提醒铃声：',
+                'liRingtoneDesc': '选择提醒音效，共20种铃声可选。免费用户仅可使用系统默认、闹钟1、闹钟2；Pro 会员可使用全部铃声',
+                'liStopAfterGoal': '目标达成后不再提醒：',
+                'liStopAfterGoalDesc': '达到每日目标后自动停止发送提醒（开关）',
+                'h3ReminderConfig': '提醒配置',
+                'liPushMessage': '推送语：',
+                
+                'liSmartScene': '智能场景：',
+                
+                'h3TimeSettings': '时间设置',
+                'liReminderMode': '提醒模式：',
+                
+                'liInterval': '间隔时长：',
+                'liIntervalDesc': '30分钟 / 45分钟 / 60分钟 / 90分钟 / 120分钟',
+                'liStartTime': '开始提醒时间：',
+                'liStartTimeDesc': '默认 07:00',
+                'liEndTime': '结束提醒时间：',
+                'liEndTimeDesc': '默认 22:00',
+                'h3RestDays': '休息日',
+                
+                'h3PauseHydration': '暂停补水',
+                'pPauseHydration': '点击暂停补水按钮可一键关闭所有提醒。',
+                'alertReminderCompare': '⏰ 免费 vs Pro 提醒功能',
+                'liFreeFeatures': '免费：',
+                'liFreeFeaturesDesc': '固定间隔模式、3种铃声、无休息日',
+                'liProFeatures': 'Pro：',
+                'liProFeaturesDesc': '智能模式、20种铃声、推送语选择、智能场景、休息日设置',
+                
+                'pICloudSync': '将饮水数据同步到 iCloud，支持多设备共享。包含以下功能：',
+                'liSyncStatus': '查看 iCloud 同步状态（未登录/同步中/已同步/失败/不可用）',
+                'liSyncToggle': '开启/关闭 iCloud 同步开关',
+                'liManualSync': '手动同步所有数据',
+                'liVerifySync': '验证同步状态',
+                'liLastSync': '查看上次同步时间和记录总数',
+                'alertICloudTip': '☁️ iCloud 同步说明',
+                'alertICloudTipDesc': 'iCloud 同步基于 SwiftData + CloudKit 自动同步，需要登录同一 Apple ID 并开启网络。数据会在后台自动同步，也可手动点击"同步全部数据"立即同步。首次使用时，App 会自动将数据推送到 CloudKit。',
+                
+                'pAppleHealth': '将饮水数据与 Apple Health 双向同步：',
+                'liAuthorizeHealth': '授权 HealthKit 访问（首次使用需点击"授权访问"）',
+                'liSyncWater': '水：读写同步（双向）',
+                'liSyncCaffeine': '咖啡因：仅写入（从 WaterKit 同步到 Health）',
+                'liSyncEnergy': '活动能量：仅读取（从 Health 读取，自动更新活动量）',
+                'liSyncWeight': '体重：仅读取（从 Health 读取，自动更新体重）',
+                'liSyncGender': '性别：仅读取（从 Health 读取，自动更新性别）',
+                'liAutoSyncHealth': '自动同步：开启后自动监听 Health 数据变化并同步',
+                'liSyncProgress': '同步进度：同步时显示实时进度条和记录数',
+                'alertHealthAuthTip': '🏥 Apple Health 授权说明',
+                'alertHealthAuthTipDesc': '首次使用 Apple Health 同步时，需要点击"授权访问"按钮进行授权。授权后，WaterKit 会自动将饮水记录写入 Health，并从 Health 读取体重、活动量等信息更新到个人档案。',
+                'alertHealthIOSTip': '📱 iOS 26 用户注意',
+                'alertHealthIOSTipDesc': '在 iOS 26 上，由于系统限制，点击"授权访问"后会跳转到健康 App，您需要手动前往「共享 → App → WaterKit」开启权限。返回 WaterKit 后，App 会自动检测到权限变化并开始同步。',
+                
+                'pDataExport': '将饮水记录导出为文件：',
+                'liDateRange': '日期范围：',
+                'liDateRangeDesc': '选择导出的起始和结束日期',
+                'liExportFormat': '导出格式：',
+                'liExportFormatDesc': 'CSV 或 JSON',
+                'liContentPreview': '内容预览：',
+                'liContentPreviewDesc': '导出前预览记录数量',
+                'liShareFile': '通过系统分享面板导出文件',
+                
+                'h1Pro': 'Pro 会员',
+                'pPro': '开通 Pro 会员解锁更多高级功能，提升使用体验。',
+                'thPrivilege': '特权',
+                'thPrivilegeDesc': '说明',
+                'tdAllDrinkTypes': '全部饮品类型',
+                'tdAllDrinkTypesDesc': '解锁除白水外的所有饮品类型（气泡水、咖啡、茶、果汁、酒精等）',
+                'tdCharacterSkins': '角色皮肤',
+                'tdCharacterSkinsDesc': '使用杯子、水滴、熊猫、猫咪等22+种可爱角色作为主页展示',
+                'tdThemeColors': '14 种主题',
+                'tdThemeColorsDesc': '解锁 3 种免费主题外的 11 种精美主题配色',
+                'tdHistoryPeriod': '历史周期筛选',
+                'tdHistoryPeriodDesc': '查看周、月、年维度的历史数据',
+                'tdCaffeineAnalysis': '咖啡因统计',
+                'tdCaffeineAnalysisDesc': '在历史页面查看咖啡因摄入分析',
+                'tdDataExportPro': '数据导出',
+                'tdDataExportProDesc': '导出完整数据报告',
+                'tdThemeAchievements': '主题与成就',
+                'tdThemeAchievementsDesc': '解锁高级主题和成就',
+                'tdSmartReminder': '智能提醒',
+                'tdSmartReminderDesc': '使用智能提醒模式和更多铃声选项',
+                'alertSubscribePlan': '💎 订阅方案',
+
+                'h1Watch': 'Apple Watch',
+                'pWatch': 'WaterKit 的 Apple Watch 端完全免费，提供快捷记录、进度查看和数据同步功能。',
+                'thWatchFunction': '功能',
+                'thWatchDesc': '说明',
+                'tdWatchRing': '圆环界面',
+                'tdWatchRingDesc': '大圆环展示今日饮水进度，下方快捷按钮快速记录',
+                'tdWatchCompact': '简洁界面',
+                'tdWatchCompactDesc': '数字进度 + 进度条 + 快捷按钮的紧凑布局',
+                'tdWatchQuickAdd': '快捷记录',
+                'tdWatchQuickAddDesc': '100ml / 200ml / 300ml / 400ml / 500ml 一键添加',
+                'tdWatchDrinkType': '饮品选择',
+                'tdWatchDrinkTypeDesc': '支持白水、气泡水、咖啡、茶等多种饮品类型',
+                'tdWatchHistory': '7 天历史',
+                'tdWatchHistoryDesc': '柱状图展示近 7 天饮水记录',
+                'tdWatchRecords': '今日记录',
+                'tdWatchRecordsDesc': '查看和删除今日饮水记录',
+                'tdWatchAchievement': '成就',
+                'tdWatchAchievementDesc': '查看已解锁的成就列表',
+                'alertWatchFree': '🎉 完全免费',
+                'alertWatchFreeDesc': 'Apple Watch 端所有功能完全免费使用，无需 Pro 会员。包括所有饮品类型、Widget 和快捷记录功能。',
+                'pWatchSettings': 'Watch 端的设置页面提供以下选项：',
+                'thWatchSetting': '设置项',
+                'thWatchSettingDesc': '说明',
+                'tdWatchProfile': '档案',
+                'tdWatchProfileDesc': '显示从 iPhone 同步的昵称、每日目标、体重、性别、活动量和单位（只读）',
+                'tdWatchNotifications': '通知',
+                'tdWatchNotificationsDesc': '提醒开关、间隔、时间范围',
+                'tdWatchHomeScreen': '主屏幕',
+                'tdWatchHomeScreenDesc': '选择圆环界面或简洁界面',
+                'tdWatchOtherDrink': '其他饮料屏幕',
+                'tdWatchOtherDrinkDesc': '选择快捷记录页显示的饮品类型',
+                'tdWatchResetTime': '每日重置时间',
+                'tdWatchResetTimeDesc': '设置每日数据重置的时间点',
+                'tdWatchSound': '声音',
+                'tdWatchSoundDesc': '开启/关闭喝水音效',
+                'alertWatchUnitSync': '📏 单位同步',
+                'alertWatchUnitSyncDesc': 'Watch 端的单位设置（公制 ml / 英制 oz）自动从 iPhone 端同步，无需在 Watch 上单独设置。在 iPhone 端「设置 → 档案 → 单位」中切换后，Watch 端会自动更新。',
+                'pWatchSync': 'Watch 端与 iPhone 端通过以下方式同步数据：',
+                'liWatchSync1': '<strong>实时同步：</strong>当 iPhone 与 Watch 蓝牙连接且 Watch App 可达时，数据实时推送',
+                'liWatchSync2': '<strong>后台同步：</strong>Watch 不可达时，通过 Application Context 在下次连接时同步',
+                'liWatchSync3': '<strong>Widget 同步：</strong>通过 App Group 共享数据，Widget 自动读取最新数据',
+                'alertWatchSyncTip': '🔄 同步内容',
+                'alertWatchSyncTipDesc': 'iPhone → Watch 同步的内容包括：今日饮水量、每日目标、档案信息（昵称、体重、性别、活动量）、单位设置、提醒设置、7 天历史数据。Watch → iPhone 同步的内容包括：在 Watch 上添加或删除的饮水记录。',
+                'tdWatchWidget': 'Watch 与 Widget',
+                'tdWatchWidgetDesc': 'Apple Watch 和 Widget 功能完全免费，无需 Pro 会员',
+                'tdUnitSettingsDesc': '公制（ml/L）/ 英制（fl oz/cup）切换，自动同步到 Watch 和 Widget',
+                
+            },
+            'en': {
+                'navTitle': 'Navigation',
+                'navToday': 'Today',
+                'navTodayOverview': 'Overview',
+                'navTodayHero': 'Progress',
+                'navTodayQuick': 'Quick Log',
+                'navTodayLog': 'Today Records',
+                'navTodayAdd': 'Add Drink',
+                'navStats': 'Habits',
+                'navStatsFeatures': 'Features',
+                'navStatsScore': 'Score Rules',
+                'navHistory': 'History',
+                'navHistoryFeatures': 'Features',
+                'navHistoryRecords': 'All Records',
+                'navHistoryTips': 'Tips',
+                'navAchievements': 'Achievements',
+                'navAchvFeatures': 'Features',
+                'navAchvTypes': 'Types',
+                'navSettings': 'Settings',
+                'navSettingsFeatures': 'Overview',
+                'navSettingsProfile': 'Profile',
+                'navSettingsTheme': 'Theme & Appearance',
+                'navSettingsReminder': 'Reminders',
+                'navSettingsSync': 'Data Sync',
+                'navWatch': 'Apple Watch',
+                'navWatchOverview': 'Overview',
+                'navWatchSettings': 'Watch Settings',
+                'navWatchSync': 'Data Sync',
+                'navPro': 'Pro',
+                'navProFeatures': 'Benefits',
+                'btnComplete': 'Close',
+
+                'pageTitle': 'WaterKit Manual',
+                'today-overview': 'Overview',
+                'today-hero': 'Progress Display',
+                'today-quicklog': 'Quick Log',
+                'today-logcard': 'Today Records',
+                'today-add': 'Add Drink',
+                'stats-features': 'Features',
+                'stats-score': 'Score Rules',
+                'history-features': 'Features',
+                'history-allrecords': 'All Records',
+                'history-tips': 'Tips',
+                'achv-features': 'Features',
+                'achv-types': 'Achievement Types',
+                'settings-features': 'Overview',
+                'settings-profile': 'Profile',
+                'settings-theme': 'Home Screen',
+                'settings-reminder': 'Reminders',
+                'settings-sync': 'Data Settings',
+                'pro-features': 'Benefits',
+                'tdDrinkWater': '💧 Plain Water',
+                'tdDrinkWaterDesc': 'Purified water (Free)',
+                'tdDrinkSparkling': '🫧 Sparkling Water',
+                'tdDrinkSparklingDesc': 'Carbonated drinking water',
+                'tdDrinkSoda': '🥤 Soda',
+                'tdDrinkSodaDesc': 'Cola, Sprite and other sugary carbonated drinks',
+                'tdDrinkCoconut': '🥥 Coconut Water',
+                'tdDrinkCoconutDesc': 'Natural coconut water',
+                'tdDrinkElectrolyte': '⚡️ Electrolyte Water',
+                'tdDrinkElectrolyteDesc': 'Sports hydration drink with electrolytes',
+                'tdDrinkTea': '🍵 Tea',
+                'tdDrinkTeaDesc': 'Green tea, black tea and other tea drinks',
+                'tdDrinkCoffee': '☕️ Coffee',
+                'tdDrinkCoffeeDesc': 'Americano, latte and other coffee drinks',
+                'tdDrinkIcedTea': '🧊 Iced Tea',
+                'tdDrinkIcedTeaDesc': 'Chilled tea beverages',
+                'tdDrinkHotChoco': '🧋 Hot Chocolate',
+                'tdDrinkHotChocoDesc': 'Hot drink made from cocoa powder',
+                'tdDrinkJuice': '🧃 Juice',
+                'tdDrinkJuiceDesc': 'Orange juice, apple juice and other pure juices',
+                'tdDrinkVegJuice': '🥕 Vegetable Juice',
+                'tdDrinkVegJuiceDesc': 'Carrot juice, tomato juice, etc.',
+                'tdDrinkLemon': '🍋 Lemon Water',
+                'tdDrinkLemonDesc': 'Refreshing drink made with lemon',
+                'tdDrinkSmoothie': '🍓 Smoothie',
+                'tdDrinkSmoothieDesc': 'Fruit and yogurt/milk blended drink',
+                'tdDrinkMilk': '🥛 Milk',
+                'tdDrinkMilkDesc': 'Whole milk',
+                'tdDrinkSkimMilk': '🥛 Skim Milk',
+                'tdDrinkSkimMilkDesc': 'Skim milk',
+                'tdDrinkChocoMilk': '🍫 Chocolate Milk',
+                'tdDrinkChocoMilkDesc': 'Chocolate flavored milk drink',
+                'tdDrinkProtein': '🍹 Protein Shake',
+                'tdDrinkProteinDesc': 'Protein supplement drink',
+                'tdDrinkSports': '🏃 Sports Drink',
+                'tdDrinkSportsDesc': 'Functional sports hydration drink',
+                'tdDrinkEnergy': '🔋 Energy Drink',
+                'tdDrinkEnergyDesc': 'Caffeinated functional drink',
+                'tdDrinkSoup': '🍲 Soup',
+                'tdDrinkSoupDesc': 'Various soups',
+                'tdDrinkBeer': '🍺 Beer',
+                'tdDrinkBeerDesc': 'Low-alcohol beverage',
+                'tdDrinkWine': '🍷 Wine',
+                'tdDrinkWineDesc': 'Red wine, white wine, etc.',
+                'tdDrinkLiquor': '🥃 Liquor',
+                'tdDrinkLiquorDesc': 'Whiskey, vodka and other distilled spirits',
+                'tdViewOpenRingDesc': 'Bottom-open ring progress bar, default style',
+                'tdViewClosedRingDesc': 'Complete ring progress bar with scale decoration',
+                'tdViewCupDesc': 'Cup-shaped character water level fill',
+                'tdViewDropDesc': 'Drop-shaped character water level fill',
+                'tdViewPandaDesc': 'Panda-shaped character water level fill',
+                'tdViewCatDesc': 'Cat-shaped character water level fill',
+                'tdViewDogDesc': 'Dog-shaped character water level fill',
+                'tdViewRabbitDesc': 'Rabbit-shaped character water level fill',
+                'tdViewBearDesc': 'Bear-shaped character water level fill',
+                'tdViewPenguinDesc': 'Penguin-shaped character water level fill',
+                'tdViewOctopusDesc': 'Octopus-shaped character water level fill',
+                'tdViewDinosaurDesc': 'Dinosaur-shaped character water level fill',
+                'tdViewFrogDesc': 'Frog-shaped character water level fill',
+                'tdViewCloudDesc': 'Cloud-shaped character water level fill',
+                'tdViewStarDesc': 'Star-shaped character water level fill',
+                'tdViewHeartDesc': 'Heart-shaped character water level fill',
+                'tdViewSunDesc': 'Sun-shaped character water level fill',
+                'tdViewPortrait1': '👤 Portrait 1',
+                'tdViewPortrait1Desc': 'Portrait-shaped character water level fill',
+                'tdViewPortrait2': '👩 Portrait 2',
+                'tdViewPortrait2Desc': 'Portrait-shaped character water level fill',
+                'tdViewPortrait3': '🧑 Portrait 3',
+                'tdViewPortrait3Desc': 'Portrait-shaped character water level fill',
+                'tdViewRobot1': '🤖 Robot 1',
+                'tdViewRobot1Desc': 'Robot-shaped character water level fill',
+                'tdViewRobot2': '🦾 Robot 2',
+                'tdViewRobot2Desc': 'Robot-shaped character water level fill',
+                'tdViewRobot3': '🤖 Robot 3',
+                'tdViewRobot3Desc': 'Robot-shaped character water level fill',
+                'tdICloudSyncDesc': 'Sync data to iCloud',
+                'tdAppleHealthDesc': 'Sync drinking data with Apple Health',
+                'tdDataExportDesc': 'Export drinking records as CSV/JSON',
+                'tdCharacterFillDesc': 'Cute character (cup, panda, cat, portrait, robot, etc.) water level filling animation',
+                'tdCaffeineStatsDesc': 'Tracks caffeine intake',
+                'liSmartRecommendDesc': 'Auto calculate recommended target based on weight and activity',
+                'liDailyGoalDesc': 'Default <code>2000ml</code>, adjustable manually',
+                'liPushMessageDesc': 'Select reminder notification style (Default/Motivational/Humorous/Warm/Scientific)',
+                'liSmartSceneDesc': 'Intelligently adjust reminders based on time, location, etc.',
+                'liReminderModeDesc': 'Fixed Interval / Smart Mode',
+                'pRestDays': 'Select which days to skip reminders. Free users cannot set rest days, Pro users can choose freely.',
+                'h3ICloudSync': 'iCloud Sync',
+                'h3AppleHealth': 'Apple Health Sync',
+                'h3DataExport': 'Data Export',
+                'alertSubscribePlanDesc': 'Monthly, yearly, and lifetime plans available. New users enjoy <strong>3-day free trial</strong>, cancel anytime during trial.',
+
+                'h1Today': 'Today Page',
+                'pToday': 'The Today page is the main entry of the app, displaying daily water intake progress, quick log entry, and today\'s drinking records.',
+                'thArea': 'Area',
+                'thDesc': 'Description',
+                'tdTopStatus': 'Top Status Bar',
+                'tdTopStatusDesc': 'Displays current date, day of week, and real-time hydration status with progress percentage',
+                'tdDrinkProgress': 'Hydration Progress',
+                'tdDrinkProgressDesc': 'Displays today\'s water intake completion as a ring or character',
+                'tdRhythmCard': 'Today Rhythm Card',
+                'tdRhythmCardDesc': 'Shows today\'s consumed amount and daily target',
+                'tdReminderCard': 'Reminder Card',
+                'tdReminderCardDesc': 'Shows the time of the next drinking reminder',
+                'tdQuickLogArea': 'Quick Log Area',
+                'tdQuickLogAreaDesc': 'Select drink type, use quick amount buttons or custom add',
+                'tdTodayRecords': 'Today Records',
+                'tdTodayRecordsDesc': 'Displays all today\'s drinking records, supports edit and delete',
+                'tdWeekProgress': 'Week Progress',
+                'tdWeekProgressDesc': 'Ring chart showing daily water intake completion for the last 7 days',
+                'pDisplayOptions': 'Today page offers multiple progress display styles, switchable in Settings:',
+                'thDisplayType': 'Display Type',
+                'thDisplayDesc': 'Description',
+                'tdOpenRing': 'Open Ring',
+                'tdOpenRingDesc': 'Bottom-open ring progress bar with gradient glow effect',
+                'tdClosedRing': 'Closed Ring',
+                'tdClosedRingDesc': 'Complete ring progress bar with scale decoration',
+                'tdCharacterFill': 'Character Fill',
+                
+                'alertWaterLine': 'Water Balance Line',
+                'alertWaterLineDesc': 'When enabled, displays a dashed line at 50% progress position in the ring to help visually judge hydration progress.',
+                'pQuickLog': 'Quick Log area consists of two parts: drink type selection and quick amount buttons.',
+                'h3DrinkTypes': 'Drink Types',
+                'pDrinkTypes': 'The app supports multiple drink types. 💧 Plain water is free, others require Pro membership.',
+                'thType': 'Type',
+                'thTypeDesc': 'Description',
+                'alertUnlockDrinks': '🔒 Unlock Drinks',
+                'alertUnlockDrinksDesc': 'Except 💧 Plain water, all other drink types require Pro membership. Only 💧 Plain water is available for free in the add drink page.',
+                'h3QuickButtons': 'Quick Amount Buttons',
+                'pQuickButtons': 'After selecting a drink type, click quick amount buttons (e.g., 100ml, 200ml, 300ml) to record quickly. Click + button for custom amount.',
+                'pTodayLog': 'Today records list shows all drinking records for the day, each record includes:',
+                'liDrinkIcon': 'Drink type icon and name',
+                'liDrinkAmount': 'Drink amount (shows original and effective amount)',
+                'liRecordTime': 'Record time',
+                'liProgressPercent': 'Progress percentage at time of adding',
+                'liMiniProgress': 'Mini progress ring',
+                'alertRecordActions': 'Record Actions',
+                'alertRecordActionsDesc': 'Long press a record to bring up menu, select edit to modify or delete to remove. Today\'s progress will recalculate automatically after deletion.',
+                'pAddDrink': 'Click + button in quick log area or navigation bar to enter add drink page:',
+                'step1Title': 'Select Drink Type',
+                'step1Desc': 'Select corresponding drink icon in the grid (icons with crown require Pro membership)',
+                'step2Title': 'Enter Drink Amount',
+                'step2Desc': 'Use numeric keypad to enter specific value, or use quick amount buttons',
+                'step3Title': 'Adjust Time (Optional)',
+                'step3Desc': 'Click date/time chip to modify record time (for backdating drinks)',
+                'step4Title': 'Confirm Add',
+                'step4Desc': 'Click confirm button to save record, page returns automatically and updates progress',
+                'alertAddTip': '📝 Backdate Feature',
+                'alertAddTipDesc': 'Modify date and time when adding drinks for backdating previous records. Supports backdating to any past date.',
+                
+                'h1Stats': 'Habits Page',
+                'pStats': 'Habits page provides detailed water intake data analysis and health scoring to help users understand their drinking habits.',
+                'thStatsFunction': 'Feature',
+                'thStatsDesc': 'Description',
+                'tdHealthTips': 'Health Tips',
+                'tdHealthTipsDesc': 'Provides personalized health advice and improvement suggestions based on user\'s drinking data',
+                'tdHabitScore': 'Habit Score',
+                'tdHabitScoreDesc': 'Full score 100, evaluates based on completion rate, consistency, and streak',
+                'tdTrendChart': 'Trend Chart',
+                'tdTrendChartDesc': 'Visual display of drinking changes over the last 7 days, see progress trajectory',
+                'tdHabitInsights': 'Habit Insights',
+                'tdHabitInsightsDesc': 'Best drinking time, peak hours, streak days and other deep analysis',
+                'tdDrinkDistribution': 'Drink Distribution',
+                'tdDrinkDistributionDesc': 'Ring chart showing proportion of each drink type',
+                'thDimension': 'Dimension',
+                'thScore': 'Score',
+                'thCalculation': 'Calculation',
+                'tdCompletion': 'Completion',
+                'tdCompletionCalc': 'Days met goal in last 7 days ÷ 7 × 40',
+                'tdConsistency': 'Consistency',
+                'tdConsistencyCalc': 'Avg daily intake in last 7 days ÷ Daily target × 30',
+                'tdStreak': 'Streak',
+                'tdStreakCalc': 'min(current streak ÷ 7, 1.0) × 30',
+                'alertScoreTip': '🎯 Tips to Improve Score',
+                'liScoreTip1': 'Try to meet daily goal every day, completion accounts for 40 points',
+                'liScoreTip2': 'Maintain stable water intake, avoid extremes',
+                'liScoreTip3': 'Streak 7+ days to get full 30 streak points',
+                
+                'h1History': 'History Page',
+                'pHistory': 'History page provides complete drinking record query and data analysis.',
+                'thHistoryFunction': 'Feature',
+                'thHistoryDesc': 'Description',
+                'tdTimeFilter': 'Time Filter',
+                'tdTimeFilterDesc': 'View history by day/week/month/year (week/month/year require Pro)',
+                'tdChartCard': 'Chart Card',
+                'tdChartCardDesc': 'Displays corresponding drinking chart based on selected period',
+                'tdDataAnalysis': 'Data Analysis',
+                'tdDataAnalysisDesc': 'Avg intake, total intake, days met, streak days and other statistics',
+                'tdDrinkStats': 'Drink Statistics',
+                'tdDrinkStatsDesc': 'Shows consumption of each drink type',
+                'tdCaffeineStats': 'Caffeine Statistics',
+                
+                'pAllRecords': 'Click "View All" to enter all records page with following features:',
+                'liGroupByDate': 'Group by Date:',
+                'liQuickAdd': 'Quick Add:',
+                'stepHistory1': 'Filter Records',
+                'stepHistory1Desc': 'Use top filter to filter by drink type, view only records of interest',
+                'stepHistory2': 'Switch Period',
+                'stepHistory2Desc': 'Use period selector to switch day/week/month/year for different perspectives',
+                'stepHistory3': 'View All',
+                'stepHistory3Desc': 'Click "View All" to see complete records list',
+                
+                'h1Achievements': 'Achievements Page',
+                'pAchievements': 'Achievements page displays user\'s achievement collection progress and reward points system.',
+                'thAchvFunction': 'Feature',
+                'thAchvDesc': 'Description',
+                'tdStatsCard': 'Stats Card',
+                'tdStatsCardDesc': 'Shows unlocked achievements count and total points',
+                'tdCategoryFilter': 'Category Filter',
+                'tdCategoryFilterDesc': 'Filter by achievement type (Goal Completion, Total Amount, Daily Challenge, Time-Based, Variety, Seasonal, Milestone)',
+                'tdAchievementGrid': 'Achievement Grid',
+                'tdAchievementGridDesc': 'Grid display of all achievements, unlocked show color, locked show gray',
+                'tdAchievementDetail': 'Achievement Detail',
+                'tdAchievementDetailDesc': 'Click achievement to view details, progress and rewards',
+                'thAchvType': 'Type',
+                'thAchvTypeDesc': 'Description',
+                'tdGoalCompletion': '🎯 Goal Completion',
+                'tdGoalCompletionDesc': 'Achievements for completing daily water goals',
+                'tdTotalAmount': '💧 Total Amount',
+                'tdTotalAmountDesc': 'Achievements for cumulative water intake',
+                'tdDailyChallenge': '🔥 Daily Challenge',
+                'tdDailyChallengeDesc': 'Single-day water intake challenge achievements',
+                'tdTimeBased': '⏰ Time-Based',
+                'tdTimeBasedDesc': 'Time-specific drinking achievements',
+                'tdVariety': '🍹 Variety',
+                'tdVarietyDesc': 'Achievements for trying different drink types',
+                'tdSeasonal': '🌿 Seasonal',
+                'tdSeasonalDesc': 'Seasonal limited-time achievements',
+                'tdMilestone': '🏆 Milestone',
+                'tdMilestoneDesc': 'Important milestone achievements',
+                'alertUnlockAchievement': '🎉 Achievement Unlocked',
+                'alertUnlockAchievementDesc': 'Celebration animation and point rewards when unlocking achievements. Some advanced achievements require Pro membership.',
+                
+                'h1Settings': 'Settings Page',
+                'pSettings': 'Settings page includes Profile, Notifications, Data, Support and About modules.',
+                'thSettingsFunction': 'Feature',
+                'thSettingsDesc': 'Description',
+                'tdProfile': 'Profile',
+                'tdProfileDesc': 'Set username, avatar, gender, weight, activity level, daily target',
+                'tdUnitSettings': 'Unit Settings',
+                'tdUnitSettingsDesc': 'Metric (ml/L) / Imperial (fl oz/cup) switch',
+                'tdLanguageSettings': 'Language',
+                'tdLanguageSettingsDesc': 'Multi-language support',
+                'tdHomeScreen': 'Home Screen',
+                'tdHomeScreenDesc': 'Home display type, progress display, records display settings',
+                'tdDrinkReminder': 'Drink Reminders',
+                'tdDrinkReminderDesc': 'Reminder toggle, ringtone, stop after goal, mode, interval, time range, rest days',
+                'tdSoundEffects': 'Drinking Sound',
+                'tdSoundEffectsDesc': 'Enable/disable drinking sound feedback',
+                'tdICloudSync': 'iCloud Sync',
+                'tdAppleHealth': 'Apple Health',
+                'tdDataExport': 'Data Export',
+                'tdHelpFeedback': 'Help & Feedback',
+                'tdHelpFeedbackDesc': 'View help documentation and submit feedback',
+                'tdSocialShare': 'Social Share',
+                'tdSocialShareDesc': 'Share app with friends',
+                'pProfileSettings': 'Click profile card in settings to enter detail page, set following:',
+                'liUsername': 'Username:',
+                'liUsernameDesc': 'Display name in the app',
+                'liAvatar': 'Avatar:',
+                'liAvatarDesc': 'Click avatar area to select photo from album; if no avatar set, shows initial of username or default icon',
+                'liGender': 'Gender:',
+                'liGenderDesc': 'Male / Female / Prefer not to say',
+                'liWeight': 'Weight:',
+                'liWeightDesc': 'Used for intelligent daily target recommendation',
+                'liActivity': 'Activity Level:',
+                'liActivityDesc': 'Sedentary / Light / Moderate / Active / Very Active',
+                'liDailyGoal': 'Daily Goal:',
+                
+                'liSmartRecommend': 'Smart Recommend:',
+                
+                'alertSmartTip': '💡 Smart Recommend',
+                'alertSmartTipDesc': 'When enabled, system auto-calculates daily water target based on weight and activity level. Pro exclusive feature.',
+                'pHomeScreenSettings': 'Click Home Screen option in settings to enter detail page:',
+                'h3ViewType': 'View Type',
+                'pViewType': 'Select home progress display appearance, swipe horizontally:',
+                'thViewType': 'Type',
+                'thViewTypeDesc': 'Description',
+                'tdViewOpenRing': 'Open Ring',
+                'tdViewClosedRing': 'Closed Ring',
+                'tdViewCup': 'Cute Cup',
+                'tdViewDrop': 'Water Drop',
+                'tdViewPanda': 'Panda',
+                'tdViewCat': 'Cat',
+                'tdViewDog': 'Dog',
+                'tdViewRabbit': 'Rabbit',
+                'tdViewBear': 'Bear',
+                'tdViewPenguin': 'Penguin',
+                'tdViewOctopus': 'Octopus',
+                'tdViewDinosaur': 'Dinosaur',
+                'tdViewFrog': 'Frog',
+                'tdViewCloud': 'Cloud',
+                'tdViewStar': 'Star',
+                'tdViewHeart': 'Heart',
+                'tdViewSun': 'Sun',
+                'tdViewPortrait1': '👤 Portrait 1',
+                'tdViewPortrait2': '👩 Portrait 2',
+                'tdViewPortrait3': '🧑 Portrait 3',
+                'tdViewRobot1': '🤖 Robot 1',
+                'tdViewRobot2': '🦾 Robot 2',
+                'tdViewRobot3': '🤖 Robot 3',
+                'h3ProgressSettings': 'Progress Settings',
+                'liBalanceLine': 'Water Balance Line:',
+                'liBalanceLineDesc': 'Show 50% progress marker line in ring (toggle)',
+                'liColorFill': 'Color Fill:',
+                'liColorFillDesc': 'Show different color segments by drink type (toggle)',
+                'liMergeByDrink': 'Merge by Drink:',
+                'liMergeByDrinkDesc': 'Merge same type records (toggle)',
+                'h3RecordSettings': 'Record Settings',
+                'liShowTodayRecords': 'Show Today Records:',
+                'liShowTodayRecordsDesc': 'Display today\'s drinking records list on home page (toggle)',
+                'liShowWeekProgress': 'Show Week Progress:',
+                'liShowWeekProgressDesc': 'Display 7-day week progress chart on home page (toggle)',
+                'h3ThemeSettings': 'Theme Style',
+                'pThemeSettings': 'Choose a theme color scheme, 14 themes available:',
+                'thThemeName': 'Theme',
+                'thThemeDesc': 'Description',
+                'tdThemeOcean': '🌊 Ocean Blue',
+                'tdThemeOceanDesc': 'Deep ocean blue (Free)',
+                'tdThemeAppleLight': '🍎 Apple Light',
+                'tdThemeAppleLightDesc': 'Default theme, iOS-style light (Free)',
+                'tdThemeAppleDark': '🍏 Apple Dark',
+                'tdThemeAppleDarkDesc': 'OLED pure black (Free)',
+                'tdThemeForest': '🌲 Forest Green',
+                'tdThemeForestDesc': 'Fresh natural green',
+                'tdThemeSunset': '🌅 Sunset Orange',
+                'tdThemeSunsetDesc': 'Warm sunset orange',
+                'tdThemeLavender': '💜 Lavender Purple',
+                'tdThemeLavenderDesc': 'Romantic lavender purple',
+                'tdThemeCoral': '🪸 Coral Pink',
+                'tdThemeCoralDesc': 'Soft coral pink',
+                'tdThemeMint': '🌿 Mint Fresh',
+                'tdThemeMintDesc': 'Cool mint green',
+                'tdThemeStarry': '✨ Starry Dream',
+                'tdThemeStarryDesc': 'Dreamy starry purple',
+                'tdThemeSky': '☀️ Clear Sky',
+                'tdThemeSkyDesc': 'Bright sky blue',
+                'tdThemeSunshine': '🌞 Sunshine',
+                'tdThemeSunshineDesc': 'Warm sunshine yellow',
+                'tdThemeAurora': '🌌 Aurora',
+                'tdThemeAuroraDesc': 'Mysterious aurora cyan-green',
+                'tdThemeLemon': '🍋 Lemon Fresh',
+                'tdThemeLemonDesc': 'Vibrant lemon yellow',
+                'tdThemeRose': '🌹 Rose',
+                'tdThemeRoseDesc': 'Elegant rose red',
+                'pReminderSettings': 'Click Reminders option in settings to enter detail page:',
+                'h3ReminderToggle': 'Reminder Toggle',
+                'pReminderToggle': 'Enable/disable all drinking reminders. When disabled, no reminder notifications will be sent.',
+                'h3Ringtone': 'Ringtone & Goal Completion',
+                'liRingtone': 'Reminder Ringtone:',
+                'liRingtoneDesc': 'Choose reminder sound, 20 ringtones available. Free users: System Default, Alarm 1, Alarm 2 only; Pro: All ringtones',
+                'liStopAfterGoal': 'Stop After Goal:',
+                'liStopAfterGoalDesc': 'Automatically stop reminders after daily goal reached (toggle)',
+                'h3ReminderConfig': 'Reminder Configuration',
+                'liPushMessage': 'Push Message:',
+                
+                'liSmartScene': 'Smart Scene:',
+                
+                'h3TimeSettings': 'Time Settings',
+                'liReminderMode': 'Reminder Mode:',
+                
+                'liInterval': 'Interval:',
+                'liIntervalDesc': '30 min / 45 min / 60 min / 90 min / 120 min',
+                'liStartTime': 'Start Time:',
+                'liStartTimeDesc': 'Default 07:00',
+                'liEndTime': 'End Time:',
+                'liEndTimeDesc': 'Default 22:00',
+                'h3RestDays': 'Rest Days',
+                
+                'h3PauseHydration': 'Pause Hydration',
+                'pPauseHydration': 'Click pause button to disable all reminders.',
+                'alertReminderCompare': '⏰ Free vs Pro Reminder Features',
+                'liFreeFeatures': 'Free:',
+                'liFreeFeaturesDesc': 'Fixed interval mode, 3 ringtones, no rest days',
+                'liProFeatures': 'Pro:',
+                'liProFeaturesDesc': 'Smart mode, 20 ringtones, push message options, smart scenes, rest days',
+                
+                'pICloudSync': 'Sync drinking data to iCloud for multi-device sharing:',
+                'liSyncStatus': 'View iCloud sync status (Not Signed In / Syncing / Synced / Failed / Unavailable)',
+                'liSyncToggle': 'Enable/disable iCloud sync toggle',
+                'liManualSync': 'Manually sync all data',
+                'liVerifySync': 'Verify sync status',
+                'liLastSync': 'View last sync time and total record count',
+                'alertICloudTip': '☁️ iCloud Sync Info',
+                'alertICloudTipDesc': 'iCloud sync uses SwiftData + CloudKit automatic sync. Requires the same Apple ID and network connection. Data syncs automatically in the background, or you can tap "Sync All Data" to sync immediately. On first use, the app automatically pushes data to CloudKit.',
+                
+                'pAppleHealth': 'Bidirectional sync between drinking data and Apple Health:',
+                'liAuthorizeHealth': 'Authorize HealthKit access (tap "Grant Access" on first use)',
+                'liSyncWater': 'Water: Read & Write sync (bidirectional)',
+                'liSyncCaffeine': 'Caffeine: Write only (sync from WaterKit to Health)',
+                'liSyncEnergy': 'Active Energy: Read only (read from Health, auto-update activity level)',
+                'liSyncWeight': 'Weight: Read only (read from Health, auto-update weight)',
+                'liSyncGender': 'Gender: Read only (read from Health, auto-update gender)',
+                'liAutoSyncHealth': 'Auto Sync: Automatically monitor Health data changes when enabled',
+                'liSyncProgress': 'Sync Progress: Real-time progress bar and record count during sync',
+                'alertHealthAuthTip': '🏥 Apple Health Authorization',
+                'alertHealthAuthTipDesc': 'On first use of Apple Health sync, tap "Grant Access" to authorize. After authorization, WaterKit automatically writes drinking records to Health and reads weight, activity level, etc. from Health to update your profile.',
+                'alertHealthIOSTip': '📱 Note for iOS 26 Users',
+                'alertHealthIOSTipDesc': 'On iOS 26, due to system limitations, tapping "Grant Access" will redirect you to the Health app. You need to manually go to Sharing → Apps → WaterKit to enable permissions. After returning to WaterKit, the app will automatically detect the permission change and start syncing.',
+                
+                'pDataExport': 'Export drinking records as file:',
+                'liDateRange': 'Date Range:',
+                'liDateRangeDesc': 'Select start and end dates for export',
+                'liExportFormat': 'Export Format:',
+                'liExportFormatDesc': 'CSV or JSON',
+                'liContentPreview': 'Content Preview:',
+                'liContentPreviewDesc': 'Preview record count before export',
+                'liShareFile': 'Export file via system share sheet',
+                
+                'h1Pro': 'Pro Membership',
+                'pPro': 'Unlock advanced features with Pro membership for enhanced experience.',
+                'thPrivilege': 'Privilege',
+                'thPrivilegeDesc': 'Description',
+                'tdAllDrinkTypes': 'All Drink Types',
+                'tdAllDrinkTypesDesc': 'Unlock all drink types except plain water (sparkling water, coffee, tea, juice, alcohol, etc.)',
+                'tdCharacterSkins': 'Character Skins',
+                'tdCharacterSkinsDesc': 'Use 22+ cute characters (cup, drop, panda, cat, etc.) as home display',
+                'tdThemeColors': '14 Themes',
+                'tdThemeColorsDesc': 'Unlock 11 beautiful theme colors beyond the 3 free themes',
+                'tdHistoryPeriod': 'History Period Filter',
+                'tdHistoryPeriodDesc': 'View history data by week, month, year',
+                'tdCaffeineAnalysis': 'Caffeine Analysis',
+                'tdCaffeineAnalysisDesc': 'View caffeine intake analysis in history page',
+                'tdDataExportPro': 'Data Export',
+                'tdDataExportProDesc': 'Export complete data reports',
+                'tdThemeAchievements': 'Themes & Achievements',
+                'tdThemeAchievementsDesc': 'Unlock premium themes and achievements',
+                'tdSmartReminder': 'Smart Reminders',
+                'tdSmartReminderDesc': 'Use smart reminder mode and more ringtone options',
+                'alertSubscribePlan': '💎 Subscription Plans',
+
+                'h1Watch': 'Apple Watch',
+                'pWatch': 'WaterKit for Apple Watch is completely free, offering quick logging, progress tracking, and data sync.',
+                'thWatchFunction': 'Feature',
+                'thWatchDesc': 'Description',
+                'tdWatchRing': 'Ring View',
+                'tdWatchRingDesc': 'Large ring showing daily hydration progress with quick add buttons below',
+                'tdWatchCompact': 'Compact View',
+                'tdWatchCompactDesc': 'Digital progress + progress bar + quick add buttons in a compact layout',
+                'tdWatchQuickAdd': 'Quick Add',
+                'tdWatchQuickAddDesc': '100ml / 200ml / 300ml / 400ml / 500ml one-tap add',
+                'tdWatchDrinkType': 'Drink Selection',
+                'tdWatchDrinkTypeDesc': 'Supports water, sparkling water, coffee, tea and more drink types',
+                'tdWatchHistory': '7-Day History',
+                'tdWatchHistoryDesc': 'Bar chart showing last 7 days of drinking records',
+                'tdWatchRecords': 'Today Records',
+                'tdWatchRecordsDesc': 'View and delete today\'s drinking records',
+                'tdWatchAchievement': 'Achievements',
+                'tdWatchAchievementDesc': 'View unlocked achievements list',
+                'alertWatchFree': '🎉 Completely Free',
+                'alertWatchFreeDesc': 'All Apple Watch features are completely free, no Pro membership required. Including all drink types, widgets, and quick logging.',
+                'pWatchSettings': 'Watch settings page offers the following options:',
+                'thWatchSetting': 'Setting',
+                'thWatchSettingDesc': 'Description',
+                'tdWatchProfile': 'Profile',
+                'tdWatchProfileDesc': 'Displays synced nickname, daily goal, weight, gender, activity level and unit from iPhone (read-only)',
+                'tdWatchNotifications': 'Notifications',
+                'tdWatchNotificationsDesc': 'Reminder toggle, interval, time range',
+                'tdWatchHomeScreen': 'Home Screen',
+                'tdWatchHomeScreenDesc': 'Choose between Ring view or Compact view',
+                'tdWatchOtherDrink': 'Other Drinks Screen',
+                'tdWatchOtherDrinkDesc': 'Select drink types shown on quick add page',
+                'tdWatchResetTime': 'Daily Reset Time',
+                'tdWatchResetTimeDesc': 'Set the time for daily data reset',
+                'tdWatchSound': 'Sound',
+                'tdWatchSoundDesc': 'Enable/disable drinking sound effects',
+                'alertWatchUnitSync': '📏 Unit Sync',
+                'alertWatchUnitSyncDesc': 'Watch unit settings (metric ml / imperial oz) sync automatically from iPhone. Change it in iPhone Settings → Profile → Unit, and Watch updates automatically.',
+                'pWatchSync': 'Watch syncs data with iPhone through the following methods:',
+                'liWatchSync1': '<strong>Real-time Sync:</strong> When iPhone and Watch are connected via Bluetooth and Watch app is reachable',
+                'liWatchSync2': '<strong>Background Sync:</strong> When Watch is unreachable, sync via Application Context on next connection',
+                'liWatchSync3': '<strong>Widget Sync:</strong> Widget reads latest data via App Group shared storage',
+                'alertWatchSyncTip': '🔄 Sync Content',
+                'alertWatchSyncTipDesc': 'iPhone → Watch sync includes: today\'s intake, daily goal, profile (nickname, weight, gender, activity), unit settings, reminder settings, 7-day history. Watch → iPhone sync includes: drinking records added or deleted on Watch.',
+                'tdWatchWidget': 'Watch & Widget',
+                'tdWatchWidgetDesc': 'Apple Watch and Widget features are completely free, no Pro membership required',
+                'tdUnitSettingsDesc': 'Metric (ml/L) / Imperial (fl oz/cup) switch, auto-syncs to Watch and Widget',
+                
+            }
+        };
+        
+        let currentLang = 'zh';
+        
+        function toggleLanguage() {
+            currentLang = currentLang === 'zh' ? 'en' : 'zh';
+            const label = currentLang === 'zh' ? '中' : 'EN';
+            document.getElementById('languageToggle').textContent = label;
+            document.getElementById('languageToggleDesktop').textContent = label;
+            updateContent();
+            document.documentElement.lang = currentLang;
+        }
+        
+        function updateContent() {
+            const lang = translations[currentLang];
+            document.querySelectorAll('[id]').forEach(el => {
+                if (lang[el.id]) {
+                    el.innerHTML = lang[el.id];
+                }
+            });
+            document.title = lang['pageTitle'] || document.title;
+        }
+        
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            const icon = newTheme === 'dark' ? '☀️' : '🌙';
+            document.getElementById('themeToggle').textContent = icon;
+            document.getElementById('themeToggleDesktop').textContent = icon;
+            localStorage.setItem('theme', newTheme);
+        }
+        
+        function showSection(sectionId) {
+            document.querySelectorAll('.page-section').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            document.getElementById('nav' + sectionId.charAt(0).toUpperCase() + sectionId.slice(1)).classList.add('active');
+            closeSidebar();
+        }
+        
+        function scrollToAnchor(anchorId) {
+            showSection('today');
+            setTimeout(() => {
+                document.getElementById(anchorId)?.scrollIntoView({ behavior: 'smooth' });
+            }, 100);
+        }
+        
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+            document.getElementById('sidebarOverlay').classList.toggle('active');
+        }
+        
+        function closeSidebar() {
+            document.getElementById('sidebar').classList.remove('open');
+            document.getElementById('sidebarOverlay').classList.remove('active');
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            const icon = savedTheme === 'dark' ? '☀️' : '🌙';
+            document.getElementById('themeToggle').textContent = icon;
+            document.getElementById('themeToggleDesktop').textContent = icon;
+        });
+    </script>
+</body>
+</html>
