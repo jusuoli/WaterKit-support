@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>WaterKit · 技术支持</title>
-  <meta name="description" content="WaterKit 喝水熊猫 — 技术支持、常见问题、隐私政策与联系方式。" />
+  <meta name="description" content="WaterKit — 技术支持、常见问题、隐私政策与联系方式。" />
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap');
 
@@ -138,7 +138,8 @@
       border-color: var(--primary-dim);
       background: var(--bg-card-hov);
     }
-    .contact-card .icon { font-size: 28px; margin-bottom: 12px; display: block; }
+    .contact-card .icon { display: block; margin-bottom: 12px; }
+    .contact-card .icon svg { display: block; color: var(--primary); }
     .contact-card h3 { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
     .contact-card p { font-size: 14px; color: var(--text-2); }
 
@@ -193,7 +194,7 @@
     /* ── Doc Links ─────────────────────────────────── */
     .doc-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      grid-template-columns: repeat(4, 1fr);
       gap: 12px;
     }
     .doc-card {
@@ -214,7 +215,8 @@
       background: var(--bg-card-hov);
       text-decoration: none;
     }
-    .doc-card .icon { font-size: 24px; line-height: 1; }
+    .doc-card .icon { line-height: 1; display: flex; }
+    .doc-card .icon svg { color: var(--primary); }
     .doc-card .info h3 { font-size: 14px; font-weight: 600; }
     .doc-card .info span { font-size: 12px; color: var(--text-3); }
 
@@ -242,7 +244,10 @@
       .hero-icon { width: 72px; height: 72px; }
       .lang-bar { top: auto; bottom: 20px; right: 20px; left: 20px; justify-content: center; }
       .contact-grid { grid-template-columns: 1fr; }
-      .doc-grid { grid-template-columns: 1fr 1fr; }
+      .doc-grid { grid-template-columns: repeat(4, 1fr); gap: 8px; }
+      .doc-card { padding: 14px 12px; }
+      .doc-card .icon svg { width: 20px; height: 20px; }
+      .doc-card .info span { display: none; }
     }
   </style>
 </head>
@@ -257,7 +262,7 @@
   <div class="hero">
     <div class="container hero-inner">
       <div class="hero-icon"><img src="assets/app-icon.png" alt="WaterKit" /></div>
-      <h1>WaterKit 喝水熊猫</h1>
+      <h1>WaterKit</h1>
       <p>温柔提醒你喝水的国风养成 App</p>
     </div>
   </div>
@@ -269,17 +274,17 @@
       <div class="section-label">联系我们</div>
       <div class="contact-grid">
         <div class="contact-card fade-up">
-          <span class="icon">✉️</span>
+          <span class="icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4l-10 8L2 4"/></svg></span>
           <h3>邮件支持</h3>
-          <p><a href="mailto:jusuoli@163.com">jusuoli@163.com</a></p>
+          <p><a href="mailto:jusuoli2006@163.com">jusuoli2006@163.com</a></p>
         </div>
         <div class="contact-card fade-up" style="transition-delay:0.1s">
-          <span class="icon">⏱️</span>
+          <span class="icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
           <h3>响应时间</h3>
           <p>工作日 24 小时内回复</p>
         </div>
         <div class="contact-card fade-up" style="transition-delay:0.2s">
-          <span class="icon">💬</span>
+          <span class="icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></span>
           <h3>反馈渠道</h3>
           <p>App 内「设置 → 反馈」</p>
         </div>
@@ -324,19 +329,19 @@
       <div class="section-label">文档与法律</div>
       <div class="doc-grid">
         <a class="doc-card fade-up" href="manual.html">
-          <span class="icon">📖</span>
+          <span class="icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/><path d="M8 7h8"/><path d="M8 11h6"/></svg></span>
           <div class="info"><h3>操作手册</h3><span>Manual</span></div>
         </a>
         <a class="doc-card fade-up" style="transition-delay:0.07s" href="faq.html">
-          <span class="icon">❓</span>
+          <span class="icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>
           <div class="info"><h3>常见问题</h3><span>FAQ</span></div>
         </a>
         <a class="doc-card fade-up" style="transition-delay:0.14s" href="privacy-policy.html">
-          <span class="icon">🔒</span>
+          <span class="icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></span>
           <div class="info"><h3>隐私政策</h3><span>Privacy Policy</span></div>
         </a>
         <a class="doc-card fade-up" style="transition-delay:0.21s" href="terms.html">
-          <span class="icon">📄</span>
+          <span class="icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span>
           <div class="info"><h3>服务条款</h3><span>Terms of Service</span></div>
         </a>
       </div>
