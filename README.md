@@ -1,6 +1,6 @@
 # WaterKit Support · 技术支持站
 
-WaterKit（喝水熊猫 / DrinkingPanda）的 App Store「技术支持网址」所用静态站。
+WaterKit 的 App Store「技术支持网址」所用静态站。
 纯静态 HTML + CSS，无依赖，托管在 GitHub Pages。
 
 - **线上地址**：<https://jusuoli.github.io/WaterKit-support>
@@ -47,4 +47,4 @@ cp ../DrinkingPanda/Resources/Assets.xcassets/AppIcon.appiconset/icon_1024.png a
 
 ---
 
-© 2026 WaterKit · DrinkingPanda
+© 2026 WaterKit · jusuoli
