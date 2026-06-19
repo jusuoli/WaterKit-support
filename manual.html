@@ -245,7 +245,7 @@
             <span id="brandTitle">WaterKit</span>
         </div>
         <div class="mobile-nav-actions">
-            <button class="nav-action-btn" id="languageToggle" onclick="toggleLanguage()">中</button>
+            <button class="nav-action-btn" id="languageToggle" onclick="toggleLanguage()">EN</button>
             
         </div>
     </div>
@@ -256,7 +256,7 @@
             <div class="sidebar-brand">
             <span>WaterKit</span>
                 <div class="sidebar-actions">
-                    <button class="nav-action-btn" id="languageToggleDesktop" onclick="toggleLanguage()">中</button>
+                    <button class="nav-action-btn" id="languageToggleDesktop" onclick="toggleLanguage()">EN</button>
                     
                 </div>
             </div>
@@ -1946,7 +1946,7 @@
         
         function toggleLanguage() {
             currentLang = currentLang === 'zh' ? 'en' : 'zh';
-            const label = currentLang === 'zh' ? '中' : 'EN';
+            const label = currentLang === 'zh' ? 'EN' : '中';
             document.getElementById('languageToggle').textContent = label;
             document.getElementById('languageToggleDesktop').textContent = label;
             updateContent();
